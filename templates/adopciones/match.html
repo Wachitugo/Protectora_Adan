@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Match de Adopción - Protectora Adán{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-4">
+                <i class="fas fa-magic"></i> MATCH
+            </h1>
+            <p class="lead">Encuentra a tu compañero perfecto respondiendo algunas preguntas sobre tus preferencias.</p>
+        </div>
+    </div>
+    
+    <!-- Formulario de Match -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-search"></i> Dinos qué buscas</h5>
+                </div>
+                <div class="card-body">
+                    {% load crispy_forms_tags %}
+                    <form method="GET" id="match-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_tamano" class="form-label">Tamaño</label>
+                                {{ form.tamano }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_sexo" class="form-label">Sexo</label>
+                                {{ form.sexo }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_color" class="form-label">Color</label>
+                                {{ form.color }}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_edad_min" class="form-label">Edad mínima</label>
+                                {{ form.edad_min }}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_edad_max" class="form-label">Edad máxima</label>
+                                {{ form.edad_max }}
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-heart"></i> Encontrar mi Match
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Resultados del Match -->
+    {% if has_results %}
+    <div class="row">
+        <div class="col-12">
+            {% if perros_match %}
+            <h2 class="text-center mb-4">
+                <i class="fas fa-star text-warning"></i> 
+                ¡Encontramos {{ perros_match|length }} match{{ perros_match|length|pluralize:"es" }} perfecto{{ perros_match|length|pluralize }} para ti!
+            </h2>
+            
+            <div class="row">
+                {% for perro in perros_match %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card dog-card h-100 shadow-sm border-warning">
+                        <div class="position-relative">
+                            {% if perro.imagen %}
+                            <img src="{{ perro.imagen.url }}" class="card-img-top" alt="{{ perro.nombre }}" style="height: 250px; object-fit: cover;">
+                            {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                                <i class="fas fa-dog fa-4x text-muted"></i>
+                            </div>
+                            {% endif %}
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-star"></i> MATCH
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ perro.nombre }}
+                                {% if perro.sexo == 'macho' %}
+                                <i class="fas fa-mars text-primary"></i>
+                                {% else %}
+                                <i class="fas fa-venus text-danger"></i>
+                                {% endif %}
+                            </h5>
+                            
+                            <p class="card-text">{{ perro.descripcion|truncatewords:15 }}</p>
+                            
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted">
+                                        <i class="fas fa-birthday-cake"></i> {{ perro.edad }} año{{ perro.edad|pluralize }}
+                                    </small>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">
+                                        <i class="fas fa-weight"></i> {{ perro.get_tamano_display }}
+                                    </small>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">
+                                        <i class="fas fa-palette"></i> {{ perro.get_color_display }}
+                                    </small>
+                                </div>
+                                <div class="col-6">
+                                    {% if perro.peso %}
+                                    <small class="text-muted">
+                                        <i class="fas fa-weight-hanging"></i> {{ perro.peso }} kg
+                                    </small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Características especiales -->
+                            <div class="mb-3">
+                                {% if perro.vacunado %}
+                                <span class="badge bg-success me-1"><i class="fas fa-syringe"></i></span>
+                                {% endif %}
+                                {% if perro.esterilizado %}
+                                <span class="badge bg-info me-1"><i class="fas fa-cut"></i></span>
+                                {% endif %}
+                                {% if perro.bueno_con_niños %}
+                                <span class="badge bg-warning text-dark me-1"><i class="fas fa-child"></i></span>
+                                {% endif %}
+                                {% if perro.bueno_con_otros_perros %}
+                                <span class="badge bg-secondary me-1"><i class="fas fa-dog"></i></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'adopciones:detalle_perro' perro.id %}" class="btn btn-outline-warning">
+                                    <i class="fas fa-info-circle"></i> Ver Detalles
+                                </a>
+                                <a href="{% url 'adopciones:solicitar_adopcion' perro.id %}" class="btn btn-warning">
+                                    <i class="fas fa-heart"></i> ¡Es mi Match!
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Mensaje de ánimo -->
+            <div class="text-center mt-4">
+                <div class="bg-light rounded p-4">
+                    <h5><i class="fas fa-lightbulb text-warning"></i> ¿No encuentras lo que buscas?</h5>
+                    <p class="mb-3">No te preocupes, constantemente llegan nuevos perros al albergue. ¡Sigue revisando!</p>
+                    <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-primary me-2">
+                        <i class="fas fa-list"></i> Ver Todos los Perros
+                    </a>
+                    <a href="{% url 'core:voluntariado' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-hands-helping"></i> Ser Voluntario
+                    </a>
+                </div>
+            </div>
+            
+            {% else %}
+            <!-- No hay matches -->
+            <div class="text-center py-5">
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h3 class="text-muted">No encontramos matches con tus criterios</h3>
+                <p class="text-muted mb-4">Prueba ajustando algunos filtros o explora todos nuestros perros disponibles.</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-primary">
+                        <i class="fas fa-list"></i> Ver Todos los Perros
+                    </a>
+                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('match-form').reset();">
+                        <i class="fas fa-redo"></i> Reiniciar Búsqueda
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <!-- Información sobre el proceso -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="text-center">
+                <h3 class="mb-4">¿Cómo funciona nuestro sistema de Match?</h3>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card border-0">
+                            <div class="card-body text-center">
+                                <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                                <h5>1. Dinos qué buscas</h5>
+                                <p class="text-muted">Selecciona tus preferencias sobre tamaño, color, edad y sexo.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0">
+                            <div class="card-body text-center">
+                                <i class="fas fa-magic fa-3x text-primary mb-3"></i>
+                                <h5>2. Encontramos matches</h5>
+                                <p class="text-muted">Nuestro sistema buscará los perros que mejor coincidan contigo.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0">
+                            <div class="card-body text-center">
+                                <i class="fas fa-home fa-3x text-success mb-3"></i>
+                                <h5>3. ¡Encuentra tu compañero!</h5>
+                                <p class="text-muted">Conoce a tu match y comienza el proceso de adopción.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-submit form when filters change
+    const selects = document.querySelectorAll('#match-form select, #match-form input');
+    selects.forEach(select => {
+        select.addEventListener('change', function() {
+            // Add visual feedback
+            const submitBtn = document.querySelector('#match-form button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<span class="loading"></span> Buscando...';
+                submitBtn.disabled = true;
+            }
+            // Submit after a short delay
+            setTimeout(() => {
+                document.getElementById('match-form').submit();
+            }, 500);
+        });
+    });
+});
+</script>
+{% endblock %}

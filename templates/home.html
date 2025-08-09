@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Protectora Adán</h1>
+                <p class="lead mb-4">Contribuye al bienestar animal...</p>
+                <p class="mb-4">Rescatamos, cuidamos y encontramos hogares amorosos para perros que necesitan una segunda oportunidad. Únete a nuestra misión.</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-heart"></i> Adoptar
+                    </a>
+                    <a href="{% url 'donaciones:donar' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-donate"></i> Donar
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="{% static 'img/hero-dog.jpg' %}" alt="Perro feliz" class="img-fluid rounded shadow" style="max-height: 400px;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Avisos Importantes -->
+{% if avisos %}
+<section class="py-4 bg-warning">
+    <div class="container">
+        <div id="carouselAvisos" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for aviso in avisos %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="text-center">
+                        <h5><i class="fas fa-exclamation-triangle"></i> {{ aviso.titulo }}</h5>
+                        <p class="mb-0">{{ aviso.contenido|truncatewords:20 }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if avisos|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselAvisos" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselAvisos" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Match Section -->
+<section class="py-5 bg-info text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-center">
+                <i class="fas fa-dog fa-5x mb-3"></i>
+            </div>
+            <div class="col-lg-8">
+                <h2 class="fw-bold mb-3">MATCH</h2>
+                <p class="lead mb-4">Obtén sugerencias de los perritos que mejor coincidan con tus preferencias.</p>
+                <form method="GET" action="{% url 'adopciones:match' %}" class="row g-3">
+                    <div class="col-md-3">
+                        <select name="color" class="form-select">
+                            <option value="">Color</option>
+                            <option value="negro">Negro</option>
+                            <option value="blanco">Blanco</option>
+                            <option value="marron">Marrón</option>
+                            <option value="dorado">Dorado</option>
+                            <option value="gris">Gris</option>
+                            <option value="mixto">Mixto</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="tamano" class="form-select">
+                            <option value="">Tamaño</option>
+                            <option value="pequeño">Pequeño</option>
+                            <option value="mediano">Mediano</option>
+                            <option value="grande">Grande</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="sexo" class="form-select">
+                            <option value="">Sexo</option>
+                            <option value="macho">Macho</option>
+                            <option value="hembra">Hembra</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-light w-100">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Perros Destacados -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Adopciones Recientes</h2>
+        <div class="row">
+            {% for perro in perros_destacados %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if perro.imagen %}
+                    <img src="{{ perro.imagen.url }}" class="card-img-top" alt="{{ perro.nombre }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                        <i class="fas fa-dog fa-3x text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ perro.nombre }}</h5>
+                        <p class="card-text">{{ perro.descripcion|truncatewords:15 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                {{ perro.get_tamano_display }} • {{ perro.get_sexo_display }}
+                            </small>
+                            <span class="badge bg-success">{{ perro.get_estado_display }}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'adopciones:detalle_perro' perro.id %}" class="btn btn-primary w-100">
+                            Ver detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No hay perros disponibles en este momento.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-outline-primary btn-lg">
+                Ver todos los perros disponibles
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Estadísticas -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 mb-4">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body">
+                        <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                        <h3 class="fw-bold">{{ stats.adoptados|default:0 }}</h3>
+                        <p class="text-muted">Perros Adoptados</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body">
+                        <i class="fas fa-home fa-3x text-success mb-3"></i>
+                        <h3 class="fw-bold">{{ stats.disponibles|default:0 }}</h3>
+                        <p class="text-muted">Esperando Hogar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body">
+                        <i class="fas fa-users fa-3x text-info mb-3"></i>
+                        <h3 class="fw-bold">{{ stats.voluntarios|default:0 }}</h3>
+                        <p class="text-muted">Voluntarios Activos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body">
+                        <i class="fas fa-dollar-sign fa-3x text-warning mb-3"></i>
+                        <h3 class="fw-bold">${{ stats.donaciones|default:0|floatformat:0 }}</h3>
+                        <p class="text-muted">CLP Recaudados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonios -->
+{% if testimonios %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Historias de Éxito</h2>
+        <div class="row">
+            {% for testimonio in testimonios %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <blockquote class="blockquote">
+                            <p>"{{ testimonio.contenido|truncatewords:30 }}"</p>
+                            <footer class="blockquote-footer">
+                                {{ testimonio.nombre }}
+                                {% if testimonio.perro_adoptado %}
+                                <cite title="Source Title">- Adoptó a {{ testimonio.perro_adoptado }}</cite>
+                                {% endif %}
+                            </footer>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="mb-4">¿Quieres ayudar?</h2>
+        <p class="lead mb-4">Hay muchas formas de contribuir con nuestra causa</p>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-light w-100">
+                            <i class="fas fa-heart"></i><br>Adoptar
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{% url 'donaciones:donar' %}" class="btn btn-outline-light w-100">
+                            <i class="fas fa-donate"></i><br>Donar
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{% url 'core:voluntariado' %}" class="btn btn-light w-100">
+                            <i class="fas fa-hands-helping"></i><br>Voluntariado
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

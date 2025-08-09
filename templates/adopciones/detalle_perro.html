@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ perro.nombre }} - Adopción - Protectora Adán{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-6">
+            {% if perro.imagen %}
+            <img src="{{ perro.imagen.url }}" class="img-fluid rounded shadow" alt="{{ perro.nombre }}">
+            {% else %}
+            <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 400px;">
+                <i class="fas fa-dog fa-5x text-muted"></i>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="ps-lg-4">
+                <h1 class="display-5 fw-bold mb-3">
+                    {{ perro.nombre }}
+                    {% if perro.sexo == 'macho' %}
+                    <i class="fas fa-mars text-primary"></i>
+                    {% else %}
+                    <i class="fas fa-venus text-danger"></i>
+                    {% endif %}
+                </h1>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-birthday-cake fa-2x text-primary me-3"></i>
+                            <div>
+                                <h6 class="mb-0">Edad</h6>
+                                <span>{{ perro.edad }} año{{ perro.edad|pluralize }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-arrows-alt fa-2x text-success me-3"></i>
+                            <div>
+                                <h6 class="mb-0">Tamaño</h6>
+                                <span>{{ perro.get_tamano_display }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-palette fa-2x text-warning me-3"></i>
+                            <div>
+                                <h6 class="mb-0">Color</h6>
+                                <span>{{ perro.get_color_display }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if perro.peso %}
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-weight-hanging fa-2x text-info me-3"></i>
+                            <div>
+                                <h6 class="mb-0">Peso</h6>
+                                <span>{{ perro.peso }} kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Estado de Salud -->
+                <div class="mb-4">
+                    <h5><i class="fas fa-heartbeat"></i> Estado de Salud</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% if perro.vacunado %}
+                        <span class="badge bg-success fs-6"><i class="fas fa-syringe"></i> Vacunado</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark fs-6"><i class="fas fa-syringe"></i> Pendiente vacunación</span>
+                        {% endif %}
+                        
+                        {% if perro.esterilizado %}
+                        <span class="badge bg-success fs-6"><i class="fas fa-cut"></i> Esterilizado</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark fs-6"><i class="fas fa-cut"></i> Pendiente esterilización</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Comportamiento -->
+                <div class="mb-4">
+                    <h5><i class="fas fa-smile"></i> Comportamiento</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% if perro.bueno_con_niños %}
+                        <span class="badge bg-info fs-6"><i class="fas fa-child"></i> Bueno con niños</span>
+                        {% endif %}
+                        
+                        {% if perro.bueno_con_otros_perros %}
+                        <span class="badge bg-secondary fs-6"><i class="fas fa-dog"></i> Sociable con otros perros</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Botones de Acción -->
+                <div class="d-grid gap-2 d-md-block">
+                    <a href="{% url 'adopciones:solicitar_adopcion' perro.id %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-heart"></i> ¡Quiero Adoptarlo!
+                    </a>
+                    <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-arrow-left"></i> Volver a la Lista
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Descripción Detallada -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-info-circle"></i> Sobre {{ perro.nombre }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ perro.descripcion|linebreaks }}</p>
+                    
+                    {% if perro.raza %}
+                    <p><strong>Raza:</strong> {{ perro.raza }}</p>
+                    {% endif %}
+                    
+                    {% if perro.necesidades_especiales %}
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-medical-alert"></i> Necesidades Especiales</h6>
+                        <p class="mb-0">{{ perro.necesidades_especiales|linebreaks }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h6>Información Adicional</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-calendar-alt text-muted"></i> Ingresó el {{ perro.fecha_ingreso|date:"d/m/Y" }}</li>
+                                <li><i class="fas fa-tag text-muted"></i> Estado: {{ perro.get_estado_display }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="text-center bg-primary text-white rounded p-4">
+                <h3>¿Estás listo para darle un hogar a {{ perro.nombre }}?</h3>
+                <p class="lead">El proceso de adopción es sencillo y nuestro equipo te acompañará en cada paso.</p>
+                <a href="{% url 'adopciones:solicitar_adopcion' perro.id %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-heart"></i> Iniciar Proceso de Adopción
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

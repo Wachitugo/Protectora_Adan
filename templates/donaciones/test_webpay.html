@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Test WebPay Configuration{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="mb-4">🧪 Test WebPay Configuration</h1>
+            
+            {% if error %}
+            <div class="alert alert-danger">
+                <h5><i class="fas fa-exclamation-triangle"></i> Error</h5>
+                <p>{{ error }}</p>
+                <p><strong>Status:</strong> {{ status }}</p>
+            </div>
+            {% else %}
+            <div class="alert alert-success">
+                <h5><i class="fas fa-check-circle"></i> Configuración WebPay</h5>
+                <p><strong>Status:</strong> {{ status }}</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5>Detalles de Configuración</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <td><strong>Commerce Code:</strong></td>
+                            <td>{{ config_info.commerce_code }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>API Key:</strong></td>
+                            <td>{{ config_info.api_key }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modo Producción:</strong></td>
+                            <td>
+                                {% if config_info.production %}
+                                    <span class="badge bg-danger">Producción</span>
+                                {% else %}
+                                    <span class="badge bg-success">Desarrollo/Test</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Base URL:</strong></td>
+                            <td>{{ config_info.base_url }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SDK Transbank:</strong></td>
+                            <td>
+                                {% if transbank_imported %}
+                                    <span class="badge bg-success">Importado correctamente</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Error de importación</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="mt-4">
+                <a href="{% url 'donaciones:donar' %}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Volver a Donaciones
+                </a>
+                <a href="{% url 'admin:index' %}" class="btn btn-secondary">
+                    <i class="fas fa-cog"></i> Admin
+                </a>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5>Información para Testing</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Tarjetas de Prueba:</h6>
+                    <ul>
+                        <li><strong>Visa:</strong> 4051 8856 0000 0008</li>
+                        <li><strong>Mastercard:</strong> 5186 0595 5959 0568</li>
+                        <li><strong>Redcompra:</strong> 4001 0000 0000 0002</li>
+                    </ul>
+                    <p><small class="text-muted">
+                        Estas tarjetas son solo para testing en modo desarrollo.
+                        CVV: cualquier 3 dígitos, Fecha: cualquier fecha futura.
+                    </small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

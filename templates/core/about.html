@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Acerca de Nosotros - Protectora Adán{% endblock %}
+
+{% block extra_css %}
+<style>
+@media (max-width: 991.98px) {
+    .navbar .container {
+        display: flex !important;
+        flex-wrap: inherit !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+    
+    .navbar-toggler {
+        position: relative !important;
+        right: 0 !important;
+        margin-left: auto !important;
+        order: 2 !important;
+    }
+    
+    .navbar-brand {
+        order: 1 !important;
+        margin-right: auto !important;
+    }
+    
+    .navbar-collapse {
+        order: 3 !important;
+        flex-basis: 100% !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-page">
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-4">
+                <i class="fas fa-heart"></i> Acerca de Nosotros
+            </h1>
+            <p class="lead">Conoce nuestra historia, misión y el equipo que hace posible dar una segunda oportunidad a los perros abandonados.</p>
+        </div>
+    </div>
+
+    {% if info_albergue %}
+    <!-- Misión y Visión -->
+    <div class="row mb-5">
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h4><i class="fas fa-bullseye"></i> Nuestra Misión</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ info_albergue.mision|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 border-success">
+                <div class="card-header bg-success text-white">
+                    <h4><i class="fas fa-eye"></i> Nuestra Visión</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ info_albergue.vision|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historia -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-history"></i> Nuestra Historia</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ info_albergue.historia|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información de Contacto -->
+    <div class="row mb-5">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-map-marker-alt"></i> Ubicación y Contacto</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h6><i class="fas fa-home"></i> Dirección</h6>
+                        <p>{{ info_albergue.direccion|linebreaks }}</p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6><i class="fas fa-phone"></i> Teléfono</h6>
+                        <p><a href="tel:{{ info_albergue.telefono }}">{{ info_albergue.telefono }}</a></p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6><i class="fas fa-envelope"></i> Email</h6>
+                        <p><a href="mailto:{{ info_albergue.email }}">{{ info_albergue.email }}</a></p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6><i class="fas fa-clock"></i> Horarios de Visita</h6>
+                        <p>{{ info_albergue.horarios|linebreaks }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-chart-bar"></i> Datos del Albergue</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h6><i class="fas fa-home"></i> Capacidad</h6>
+                        <p>{{ info_albergue.capacidad_perros }} perros</p>
+                    </div>
+                    
+                    {% if info_albergue.numero_cuenta %}
+                    <div class="mb-3">
+                        <h6><i class="fas fa-university"></i> Cuenta para Donaciones</h6>
+                        <p class="font-monospace">{{ info_albergue.numero_cuenta }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <h6><i class="fas fa-share-alt"></i> Síguenos en Redes</h6>
+                        <div class="d-flex gap-3">
+                            {% if info_albergue.facebook_url %}
+                            <a href="{{ info_albergue.facebook_url }}" target="_blank" class="btn btn-outline-primary">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </a>
+                            {% endif %}
+                            
+                            {% if info_albergue.instagram_url %}
+                            <a href="{{ info_albergue.instagram_url }}" target="_blank" class="btn btn-outline-danger">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                            {% endif %}
+                            
+                            {% if info_albergue.twitter_url %}
+                            <a href="{{ info_albergue.twitter_url }}" target="_blank" class="btn btn-outline-info">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </a>
+                            {% endif %}
+                            
+                            {% if info_albergue.whatsapp %}
+                            <a href="https://wa.me/{{ info_albergue.whatsapp }}" target="_blank" class="btn btn-outline-success">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <!-- Información por defecto -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h4><i class="fas fa-info-circle"></i> Protectora Adán</h4>
+                <p>Somos una organización sin fines de lucro dedicada al rescate, cuidado y rehabilitación de perros abandonados. Nuestro objetivo es encontrar hogares amorosos para cada uno de nuestros rescatados.</p>
+                
+                <h5>Nuestra Misión</h5>
+                <p>Rescatar, rehabilitar y reubicar perros abandonados, brindándoles una segunda oportunidad de vida en hogares responsables y amorosos.</p>
+                
+                <h5>Nuestra Visión</h5>
+                <p>Un mundo donde todos los perros tengan un hogar seguro y una familia que los ame incondicionalmente.</p>
+                
+                <hr>
+                <p class="mb-0"><strong>Contacto:</strong> Para más información, visítanos o contáctanos a través de nuestras redes sociales.</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Cómo Ayudar -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center mb-4">¿Cómo Puedes Ayudar?</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="card text-center border-0 bg-light">
+                        <div class="card-body">
+                            <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                            <h5>Adopta</h5>
+                            <p>Dale un hogar a un perro que lo necesita.</p>
+                            <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-danger">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card text-center border-0 bg-light">
+                        <div class="card-body">
+                            <i class="fas fa-donate fa-3x text-success mb-3"></i>
+                            <h5>Dona</h5>
+                            <p>Tu contribución nos ayuda a seguir rescatando.</p>
+                            <a href="{% url 'donaciones:donar' %}" class="btn btn-success">Donar</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card text-center border-0 bg-light">
+                        <div class="card-body">
+                            <i class="fas fa-hands-helping fa-3x text-primary mb-3"></i>
+                            <h5>Voluntario</h5>
+                            <p>Únete a nuestro equipo de voluntarios.</p>
+                            <a href="{% url 'core:voluntariado' %}" class="btn btn-primary">Ser Voluntario</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card text-center border-0 bg-light">
+                        <div class="card-body">
+                            <i class="fas fa-share-alt fa-3x text-info mb-3"></i>
+                            <h5>Comparte</h5>
+                            <p>Ayúdanos difundiendo nuestra labor.</p>
+                            <button class="btn btn-info share-btn" data-url="{{ request.build_absolute_uri }}" data-text="Conoce la Protectora Adán">Compartir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

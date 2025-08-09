@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Voluntariado - Protectora Adán{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-4">
+                <i class="fas fa-hands-helping"></i> Únete Como Voluntario
+            </h1>
+            <p class="lead">Forma parte de nuestro equipo y ayuda a cambiar la vida de perros abandonados. Tu tiempo y dedicación pueden marcar la diferencia.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Información sobre voluntariado -->
+        <div class="col-lg-6 mb-5">
+            <h2 class="mb-4">¿Por qué ser voluntario?</h2>
+            
+            <div class="accordion" id="voluntariadoAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            <i class="fas fa-heart text-danger me-2"></i> Impacto Directo
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#voluntariadoAccordion">
+                        <div class="accordion-body">
+                            Tu trabajo directo con los perros les brinda amor, cuidado y socialización que necesitan para encontrar un hogar permanente.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            <i class="fas fa-users text-primary me-2"></i> Comunidad
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#voluntariadoAccordion">
+                        <div class="accordion-body">
+                            Únete a una comunidad de personas que comparten tu amor por los animales y tu deseo de hacer el bien.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            <i class="fas fa-graduation-cap text-success me-2"></i> Aprendizaje
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#voluntariadoAccordion">
+                        <div class="accordion-body">
+                            Aprende sobre cuidado animal, primeros auxilios para mascotas y desarrolla habilidades valiosas.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                            <i class="fas fa-smile text-warning me-2"></i> Satisfacción Personal
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#voluntariadoAccordion">
+                        <div class="accordion-body">
+                            La satisfacción de saber que estás haciendo una diferencia real en la vida de animales necesitados no tiene precio.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actividades de voluntariado -->
+            <div class="mt-5">
+                <h3 class="mb-3">Actividades que puedes realizar:</h3>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card border-primary">
+                            <div class="card-body text-center">
+                                <i class="fas fa-dog fa-2x text-primary mb-2"></i>
+                                <h6>Cuidado Directo</h6>
+                                <small>Alimentación, limpieza, socialización</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-success">
+                            <div class="card-body text-center">
+                                <i class="fas fa-walking fa-2x text-success mb-2"></i>
+                                <h6>Paseos</h6>
+                                <small>Ejercitar y socializar a los perros</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-info">
+                            <div class="card-body text-center">
+                                <i class="fas fa-camera fa-2x text-info mb-2"></i>
+                                <h6>Fotografía</h6>
+                                <small>Fotos para promocionar adopciones</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-warning">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calendar fa-2x text-warning mb-2"></i>
+                                <h6>Eventos</h6>
+                                <small>Organización de eventos de adopción</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de solicitud -->
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-form"></i> Solicitud de Voluntariado</h4>
+                </div>
+                <div class="card-body">
+                    {% load crispy_forms_tags %}
+                    {% crispy form %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Requisitos -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h5><i class="fas fa-info-circle"></i> Requisitos para ser voluntario:</h5>
+                <ul class="mb-0">
+                    <li>Ser mayor de 16 años (menores de edad requieren autorización de los padres)</li>
+                    <li>Tener disponibilidad de al menos 4 horas semanales</li>
+                    <li>Amor genuino por los animales</li>
+                    <li>Compromiso y responsabilidad</li>
+                    <li>Capacidad para trabajar en equipo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proceso de selección -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3 class="text-center mb-4">Proceso de Selección</h3>
+            <div class="row">
+                <div class="col-md-3 text-center mb-3">
+                    <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center text-white" style="width: 60px; height: 60px;">
+                        <span class="fw-bold">1</span>
+                    </div>
+                    <h6 class="mt-2">Solicitud</h6>
+                    <small class="text-muted">Completa el formulario</small>
+                </div>
+                <div class="col-md-3 text-center mb-3">
+                    <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center text-white" style="width: 60px; height: 60px;">
+                        <span class="fw-bold">2</span>
+                    </div>
+                    <h6 class="mt-2">Entrevista</h6>
+                    <small class="text-muted">Conversación personal</small>
+                </div>
+                <div class="col-md-3 text-center mb-3">
+                    <div class="bg-info rounded-circle d-inline-flex align-items-center justify-content-center text-white" style="width: 60px; height: 60px;">
+                        <span class="fw-bold">3</span>
+                    </div>
+                    <h6 class="mt-2">Capacitación</h6>
+                    <small class="text-muted">Entrenamiento básico</small>
+                </div>
+                <div class="col-md-3 text-center mb-3">
+                    <div class="bg-warning rounded-circle d-inline-flex align-items-center justify-content-center text-white" style="width: 60px; height: 60px;">
+                        <span class="fw-bold">4</span>
+                    </div>
+                    <h6 class="mt-2">¡Comenzamos!</h6>
+                    <small class="text-muted">Inicio como voluntario</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

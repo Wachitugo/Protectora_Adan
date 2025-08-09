@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Perros en Adopción - Protectora Adán{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-5">
+                <i class="fas fa-heart text-danger"></i> 
+                Perros en Busca de Hogar
+            </h1>
+            <p class="text-center lead mb-5">
+                Encuentra a tu compañero perfecto. Todos nuestros perros están listos para ser adoptados 
+                y necesitan una familia que les brinde amor y cuidado.
+            </p>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5><i class="fas fa-filter"></i> Filtrar Perros</h5>
+        </div>
+        <div class="card-body">
+            {% load crispy_forms_tags %}
+            {% crispy form %}
+        </div>
+    </div>
+
+    <!-- Resultados -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <p class="text-muted">
+                Mostrando {{ perros|length }} de {{ total_perros }} perros disponibles
+            </p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <a href="{% url 'adopciones:match' %}" class="btn btn-info">
+                <i class="fas fa-magic"></i> Encontrar mi Match
+            </a>
+        </div>
+    </div>
+
+    <!-- Lista de Perros -->
+    <div class="row">
+        {% for perro in perros %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card dog-card h-100 shadow-sm">
+                {% if perro.imagen %}
+                <img src="{{ perro.imagen.url }}" class="card-img-top" alt="{{ perro.nombre }}" style="height: 250px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                    <i class="fas fa-dog fa-4x text-muted"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h5 class="card-title dog-name">
+                        {{ perro.nombre }}
+                        {% if perro.sexo == 'macho' %}
+                        <i class="fas fa-mars text-primary"></i>
+                        {% else %}
+                        <i class="fas fa-venus text-danger"></i>
+                        {% endif %}
+                    </h5>
+                    
+                    <p class="card-text dog-description">{{ perro.descripcion|truncatewords:20 }}</p>
+                    
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <small class="text-muted">
+                                <i class="fas fa-birthday-cake"></i> {{ perro.edad }} año{{ perro.edad|pluralize }}
+                            </small>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">
+                                <i class="fas fa-weight"></i> {{ perro.get_tamano_display }}
+                            </small>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">
+                                <i class="fas fa-palette"></i> {{ perro.get_color_display }}
+                            </small>
+                        </div>
+                        <div class="col-6">
+                            {% if perro.peso %}
+                            <small class="text-muted">
+                                <i class="fas fa-weight-hanging"></i> {{ perro.peso }} kg
+                            </small>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Características especiales -->
+                    <div class="mb-3">
+                        {% if perro.vacunado %}
+                        <span class="badge bg-success me-1"><i class="fas fa-syringe"></i> Vacunado</span>
+                        {% endif %}
+                        {% if perro.esterilizado %}
+                        <span class="badge bg-info me-1"><i class="fas fa-cut"></i> Esterilizado</span>
+                        {% endif %}
+                        {% if perro.bueno_con_niños %}
+                        <span class="badge bg-warning text-dark me-1"><i class="fas fa-child"></i> Bueno con niños</span>
+                        {% endif %}
+                        {% if perro.bueno_con_otros_perros %}
+                        <span class="badge bg-secondary me-1"><i class="fas fa-dog"></i> Sociable</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="card-footer bg-transparent">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'adopciones:detalle_perro' perro.id %}" class="btn btn-outline-primary">
+                            <i class="fas fa-info-circle"></i> Ver Detalles
+                        </a>
+                        <a href="{% url 'adopciones:solicitar_adopcion' perro.id %}" class="btn btn-primary">
+                            <i class="fas fa-heart"></i> ¡Quiero Adoptarlo!
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">No se encontraron perros</h4>
+            <p class="text-muted">Intenta ajustar los filtros de búsqueda</p>
+            <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-primary">
+                <i class="fas fa-refresh"></i> Ver Todos
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    {% if perros.has_other_pages %}
+    <nav aria-label="Paginación de perros">
+        <ul class="pagination justify-content-center">
+            {% if perros.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ perros.previous_page_number }}">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </a>
+            </li>
+            {% endif %}
+            
+            {% for num in perros.paginator.page_range %}
+                {% if perros.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% elif num > perros.number|add:'-3' and num < perros.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if perros.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ perros.next_page_number }}">
+                    Siguiente <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

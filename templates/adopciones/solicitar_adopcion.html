@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Solicitar Adopción de {{ perro.nombre }} - Protectora Adán{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <!-- Información del perro -->
+            <div class="card sticky-top">
+                {% if perro.imagen %}
+                <img src="{{ perro.imagen.url }}" class="card-img-top" alt="{{ perro.nombre }}">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                    <i class="fas fa-dog fa-4x text-muted"></i>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ perro.nombre }}</h5>
+                    <p class="text-muted">{{ perro.get_tamano_display }} • {{ perro.edad }} año{{ perro.edad|pluralize }}</p>
+                    <p class="card-text">{{ perro.descripcion|truncatewords:20 }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8">
+            <h1 class="mb-4">
+                <i class="fas fa-heart text-danger"></i> 
+                Solicitud de Adopción para {{ perro.nombre }}
+            </h1>
+            
+            <div class="alert alert-info">
+                <h5><i class="fas fa-info-circle"></i> Proceso de Adopción</h5>
+                <p class="mb-0">
+                    Completa este formulario y nuestro equipo evaluará tu solicitud. 
+                    Nos pondremos en contacto contigo en un plazo de 48-72 horas para coordinar una visita.
+                </p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Formulario de Solicitud</h4>
+                </div>
+                <div class="card-body">
+                    {% load crispy_forms_tags %}
+                    {% crispy form %}
+                </div>
+            </div>
+            
+            <!-- Requisitos -->
+            <div class="mt-4">
+                <h4>Requisitos para la Adopción</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Ser mayor de edad</li>
+                            <li><i class="fas fa-check text-success"></i> Vivienda estable</li>
+                            <li><i class="fas fa-check text-success"></i> Compromiso a largo plazo</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Recursos económicos suficientes</li>
+                            <li><i class="fas fa-check text-success"></i> Tiempo para dedicar al animal</li>
+                            <li><i class="fas fa-check text-success"></i> Experiencia con mascotas (preferible)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Qué incluye la adopción -->
+            <div class="mt-4">
+                <h4>¿Qué incluye la adopción?</h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-syringe fa-2x text-success me-3"></i>
+                            <div>
+                                <h6>Vacunas al día</h6>
+                                <small class="text-muted">Todas las vacunas necesarias</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-cut fa-2x text-info me-3"></i>
+                            <div>
+                                <h6>Esterilización</h6>
+                                <small class="text-muted">Procedimiento realizado</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-id-card fa-2x text-primary me-3"></i>
+                            <div>
+                                <h6>Microchip</h6>
+                                <small class="text-muted">Identificación permanente</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-headset fa-2x text-warning me-3"></i>
+                            <div>
+                                <h6>Seguimiento</h6>
+                                <small class="text-muted">Apoyo post-adopción</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
