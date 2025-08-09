@@ -1,6 +1,6 @@
 # 🐕 Protectora Adán - Landing Page
 
-Una landing page completa para el albergue de perros "Protectora Adán", desarrollada con Django y Docker, lista para desplegar en Azure Container Apps.
+Una landing page completa para el albergue de perros "Protectora Adán", desarrollada con Django y Docker, con sistema de donaciones WebPay integrado.
 
 ## 🌟 Características
 
@@ -8,16 +8,23 @@ Una landing page completa para el albergue de perros "Protectora Adán", desarro
 - **🏠 Página de Inicio**: Hero section con información destacada y estadísticas
 - **📋 Sobre Nosotros**: Información detallada del albergue, misión y visión
 - **🐕 Adopciones**: Catálogo de perros disponibles con filtros avanzados
-- **💝 Sistema de Match**: Algoritmo para encontrar el perro perfecto según preferencias
-- **💰 Donaciones**: Sistema de donaciones con diferentes tipos
+- ** Donaciones**: Sistema completo con WebPay de Transbank (pesos chilenos)
 - **📢 Avisos**: Sistema de noticias y avisos importantes
 - **🤝 Voluntariado**: Formulario para solicitar ser voluntario
 - **📱 Redes Sociales**: Integración con redes sociales
 - **📱 Responsive**: Diseño adaptable a todos los dispositivos
 
+### 💳 Sistema de Pagos WebPay
+- **Integración con Transbank**: Procesamiento seguro de pagos
+- **Moneda Chilena**: Donaciones en pesos chilenos (CLP)
+- **Tarjetas Compatibles**: Visa, Mastercard, Redcompra
+- **Estados de Transacción**: Seguimiento completo de pagos
+- **Comprobantes**: Generación automática de recibos
+
 ### Tecnologías Utilizadas
 - **Backend**: Django 4.2.7
-- **Base de Datos**: PostgreSQL (producción) / SQLite (desarrollo)
+- **Pagos**: WebPay de Transbank (transbank-sdk 6.1.0)
+- **Base de Datos**: PostgreSQL / SQLite (desarrollo)
 - **Frontend**: Bootstrap 5, HTML5, CSS3, JavaScript
 - **Formularios**: Django Crispy Forms con Bootstrap 5
 - **Contenedores**: Docker y Docker Compose
@@ -97,13 +104,15 @@ protectora_adan/
 │   └── admin.py           # Configuración del admin
 ├── adopciones/            # Aplicación de adopciones
 │   ├── models.py          # Modelos de perros y solicitudes
-│   ├── views.py           # Vistas de adopción y match
+│   ├── views.py           # Vistas de adopción
 │   ├── forms.py           # Formularios de adopción
 │   └── admin.py           # Admin de adopciones
 ├── donaciones/            # Aplicación de donaciones
-│   ├── models.py          # Modelos de donaciones y avisos
-│   ├── views.py           # Vistas de donaciones
+│   ├── models.py          # Modelos de donaciones con WebPay
+│   ├── views.py           # Vistas de donaciones y WebPay
 │   ├── forms.py           # Formularios de donación
+│   ├── webpay_service.py  # Servicio de integración WebPay
+│   ├── webpay_config.py   # Configuración de WebPay
 │   └── admin.py           # Admin de donaciones
 ├── templates/             # Plantillas HTML
 ├── static/                # Archivos estáticos
@@ -119,13 +128,22 @@ protectora_adan/
 - **Filtros Avanzados**: Por tamaño, sexo, color, edad
 - **Detalles del Perro**: Información completa con fotos
 - **Solicitudes de Adopción**: Formulario detallado
-- **Sistema de Match**: Algoritmo de compatibilidad
 
-### Sistema de Donaciones
+### 💳 Sistema de Donaciones con WebPay
+- **Procesamiento Seguro**: Integración oficial con Transbank
+- **Montos Sugeridos**: $10.000, $25.000, $50.000, $100.000, $200.000 CLP
 - **Tipos de Donación**: Diferentes categorías configurables
-- **Formulario de Donación**: Con información del donante
-- **Donaciones Anónimas**: Opción de anonimato
-- **Seguimiento**: Estado de las donaciones
+- **Estados de Pago**: Pendiente, completado, fallido
+- **Comprobantes**: Con código de autorización y detalles
+- **Modo Desarrollo**: Tarjetas de prueba para testing
+
+### 🧪 Testing de WebPay
+- **Tarjetas de Prueba**:
+  - Visa: `4051 8856 0000 0008`
+  - Mastercard: `5186 0595 5959 0568`
+  - Redcompra: `4001 0000 0000 0002`
+- **CVV**: Cualquier 3 dígitos
+- **Fecha**: Cualquier fecha futura
 
 ### Panel de Administración
 - **Gestión de Perros**: CRUD completo con estados
@@ -134,74 +152,7 @@ protectora_adan/
 - **Avisos**: Publicación de noticias importantes
 - **Voluntarios**: Gestión de solicitudes
 
-## 🐳 Despliegue en Azure Container Apps
-
-### Configuración de Producción
-
-1. **Crear archivo de configuración para Azure**
-```yaml
-# azure-container-app.yaml
-properties:
-  managedEnvironmentId: /subscriptions/{subscription-id}/resourceGroups/{rg}/providers/Microsoft.App/managedEnvironments/{env-name}
-  configuration:
-    ingress:
-      external: true
-      targetPort: 8000
-    secrets:
-      - name: "django-secret-key"
-        value: "tu-clave-secreta-segura"
-      - name: "database-url"
-        value: "postgresql://usuario:password@host:puerto/basedatos"
-  template:
-    containers:
-      - image: tu-registry.azurecr.io/protectora-adan:latest
-        name: protectora-adan
-        env:
-          - name: "SECRET_KEY"
-            secretRef: "django-secret-key"
-          - name: "DATABASE_URL"
-            secretRef: "database-url"
-          - name: "DEBUG"
-            value: "False"
-          - name: "ALLOWED_HOSTS"
-            value: "tu-app.azurecontainerapps.io"
-        resources:
-          cpu: 0.25
-          memory: 0.5Gi
-```
-
-2. **Configurar base de datos PostgreSQL**
-```bash
-# Crear Azure Database for PostgreSQL
-az postgres server create \
-  --name protectora-adan-db \
-  --resource-group tu-grupo \
-  --admin-user admin_user \
-  --admin-password tu_password
-```
-
-3. **Construir y subir imagen**
-```bash
-# Construir imagen
-docker build -t protectora-adan .
-
-# Etiquetar para Azure Container Registry
-docker tag protectora-adan tu-registry.azurecr.io/protectora-adan:latest
-
-# Subir imagen
-docker push tu-registry.azurecr.io/protectora-adan:latest
-```
-
-4. **Desplegar en Azure Container Apps**
-```bash
-az containerapp create \
-  --name protectora-adan \
-  --resource-group tu-grupo \
-  --environment tu-environment \
-  --image tu-registry.azurecr.io/protectora-adan:latest
-```
-
-## 🔧 Configuración
+##  Configuración
 
 ### Variables de Entorno
 
@@ -212,22 +163,28 @@ SECRET_KEY=tu-clave-secreta
 DATABASE_URL=sqlite:///db.sqlite3
 ALLOWED_HOSTS=localhost,127.0.0.1
 
-# Producción
-DEBUG=False
-SECRET_KEY=clave-super-segura-para-produccion
-DATABASE_URL=postgresql://usuario:password@host:puerto/basedatos
-ALLOWED_HOSTS=tu-dominio.azurecontainerapps.io
+# WebPay (Credenciales de prueba)
+BASE_URL=http://localhost:8000
+WEBPAY_PLUS_COMMERCE_CODE=597055555532
+WEBPAY_PLUS_API_KEY=579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C
+WEBPAY_PRODUCTION=False
 ```
 
-### Configuración de Media Files en Azure
-Para archivos de usuario (imágenes), se recomienda usar Azure Blob Storage:
+### 🧪 Probar WebPay Localmente
 
-```python
-# settings.py para producción
-DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
-AZURE_ACCOUNT_NAME = 'tu-storage-account'
-AZURE_ACCOUNT_KEY = 'tu-key'
-AZURE_CONTAINER = 'media'
+1. **Verificar configuración**
+```bash
+python test_webpay.py
+```
+
+2. **Acceder a vista de prueba** (como admin)
+```
+http://localhost:8000/donaciones/webpay/test/
+```
+
+3. **Realizar donación de prueba**
+```
+http://localhost:8000/donaciones/donar/
 ```
 
 ## 📊 Modelos de Datos
@@ -279,7 +236,7 @@ Los colores principales se definen en `static/css/style.css`:
 
 ## 📈 Mejoras Futuras
 
-- [ ] Sistema de pagos en línea (Stripe/PayPal)
+- [ ] Sistema de reservas online
 - [ ] Chat en tiempo real
 - [ ] API REST para móvil
 - [ ] Sistema de notificaciones
@@ -304,7 +261,7 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 
 Para soporte o preguntas:
 - 📧 Email: soporte@protectoraadan.es
-- 📱 WhatsApp: +34 XXX XXX XXX
+- 📱 WhatsApp: +56 9 XXXX XXXX
 - 🐛 Issues: GitHub Issues
 
 ---

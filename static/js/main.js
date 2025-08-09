@@ -74,20 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Match form enhancements
-    const matchForm = document.querySelector('#match-form');
-    if (matchForm) {
-        const selects = matchForm.querySelectorAll('select');
-        selects.forEach(select => {
-            select.addEventListener('change', function() {
-                // Auto-submit cuando se cambia cualquier filtro
-                setTimeout(() => {
-                    matchForm.submit();
-                }, 500);
-            });
-        });
-    }
-
     // Image lazy loading fallback
     const images = document.querySelectorAll('img[data-src]');
     if ('IntersectionObserver' in window) {

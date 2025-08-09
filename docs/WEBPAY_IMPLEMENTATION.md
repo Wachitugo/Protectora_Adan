@@ -1,7 +1,7 @@
-# Implementación de WebPay para Donaciones
+# 💳 Implementación de WebPay para Donaciones
 
-## Descripción
-La aplicación ha sido configurada para procesar donaciones utilizando WebPay de Transbank, el sistema de pago más popular en Chile.
+## 🎯 Descripción
+La aplicación ha sido configurada para procesar donaciones utilizando **WebPay de Transbank**, el sistema de pago más popular en Chile. Los usuarios pueden realizar donaciones seguras en pesos chilenos (CLP) utilizando tarjetas de crédito, débito y Redcompra.
 
 ## 🚀 Inicio Rápido
 
@@ -18,7 +18,7 @@ La aplicación ha sido configurada para procesar donaciones utilizando WebPay de
 4. Usa las tarjetas de prueba para completar el pago
 5. Serás redirigido de vuelta a la página de agradecimiento
 
-## Configuración
+## ⚙️ Configuración
 
 ### Variables de Entorno
 Agregar las siguientes variables a tu archivo `.env`:
@@ -125,7 +125,7 @@ BASE_URL=http://localhost:8000
 ### Obtener Credenciales Reales
 1. Registrarse en Transbank
 2. Completar proceso de certificación
-3. Obtener Commerce Code y API Key de producción
+3. Obtener Commerce Code y API Key
 4. Configurar `WEBPAY_PRODUCTION=True`
 
 ### Certificación

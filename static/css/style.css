@@ -141,11 +141,6 @@ footer a:hover {
     color: var(--info-color) !important;
 }
 
-/* Match Section */
-.bg-info {
-    background: linear-gradient(135deg, var(--info-color) 0%, #0dcaf0 100%) !important;
-}
-
 /* Animations */
 @keyframes fadeInUp {
     from {
