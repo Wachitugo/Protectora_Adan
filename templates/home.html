@@ -3,107 +3,130 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero-section bg-primary text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">Protectora Adán</h1>
-                <p class="lead mb-4">Contribuye al bienestar animal...</p>
-                <p class="mb-4">Rescatamos, cuidamos y encontramos hogares amorosos para perros que necesitan una segunda oportunidad. Únete a nuestra misión.</p>
-                <div class="d-flex gap-3 flex-wrap">
-                    <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-light btn-lg">
-                        <i class="fas fa-heart"></i> Adoptar
+<section class="relative bg-gradient-to-br from-primary-600 via-primary-700 to-blue-800 text-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-y-1"></div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="text-center lg:text-left animate-fade-in-up">
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
+                    <span class="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                        Protectora
+                    </span>
+                    <br>
+                    <span class="text-white">Adán</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-4 text-blue-100 font-medium">
+                    Contribuye al bienestar animal...
+                </p>
+                <p class="text-lg mb-8 text-blue-200 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                    Rescatamos, cuidamos y encontramos hogares amorosos para perros que necesitan una segunda oportunidad. 
+                    Únete a nuestra misión de cambiar vidas, una pata a la vez.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a href="{% url 'adopciones:lista_perros' %}" 
+                       class="group inline-flex items-center justify-center bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-400 hover:to-red-400 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl">
+                        <i class="fas fa-heart mr-3 group-hover:animate-pulse"></i>
+                        Adoptar Ahora
+                        <i class="fas fa-arrow-right ml-3 transform group-hover:translate-x-1 transition-transform duration-300"></i>
                     </a>
-                    <a href="{% url 'donaciones:donar' %}" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-donate"></i> Donar
+                    <a href="{% url 'donaciones:donar' %}" 
+                       class="group inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white border-2 border-white/30 hover:border-white/50 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 backdrop-blur-sm">
+                        <i class="fas fa-donate mr-3 "></i>
+                        Donar
                     </a>
                 </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <img src="{% static 'img/hero-dog.jpg' %}" alt="Perro feliz" class="img-fluid rounded shadow" style="max-height: 400px;">
+            <div class="text-center lg:text-right animate-fade-in-right">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-3xl transform rotate-3 scale-105 opacity-20 animate-pulse-slow"></div>
+                    <img src="{% static 'img/hero-dog.jpg' %}" 
+                         alt="Perro feliz" 
+                         class="relative rounded-3xl shadow-2xl max-w-full h-auto transform hover:scale-105 transition-transform duration-500 hover:shadow-3xl">
+                </div>
+                <!-- Floating Elements -->
+                <div class="absolute top-10 right-10 bg-yellow-400 text-gray-900 p-3 rounded-full shadow-lg animate-float">
+                    <i class="fas fa-paw text-2xl"></i>
+                </div>
+                <div class="absolute bottom-10 left-10 bg-pink-500 text-white p-3 rounded-full shadow-lg animate-float" style="animation-delay: 1s;">
+                    <i class="fas fa-heart text-xl"></i>
+                </div>
             </div>
         </div>
+    </div>
+    
+    <!-- Wave Separator -->
+    <div class="absolute bottom-0 left-0 w-full">
+        <svg class="w-full h-16 text-gray-50" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"></path>
+        </svg>
     </div>
 </section>
 
 <!-- Avisos Importantes -->
 {% if avisos %}
-<section class="py-3 bg-light">
-    <div class="container">
-        <div id="carouselAvisos" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
-            <div class="carousel-inner">
-                {% for aviso in avisos %}
-                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    {% if aviso.tipo == 'urgente' %}
-                    <div class="alert alert-danger mb-0 border-0 shadow-sm" role="alert">
-                    {% elif aviso.tipo == 'importante' %}
-                    <div class="alert alert-warning mb-0 border-0 shadow-sm" role="alert">
-                    {% elif aviso.tipo == 'evento' %}
-                    <div class="alert alert-info mb-0 border-0 shadow-sm" role="alert">
-                    {% else %}
-                    <div class="alert alert-success mb-0 border-0 shadow-sm" role="alert">
-                    {% endif %}
-                        <div class="row align-items-center g-3">
-                            {% if aviso.imagen %}
-                            <div class="col-auto d-none d-md-block">
-                                <img src="{{ aviso.imagen.url }}" alt="{{ aviso.titulo }}" 
-                                     class="rounded shadow-sm" 
-                                     style="width: 80px; height: 80px; object-fit: cover;">
-                            </div>
-                            {% endif %}
-                            
-                            <div class="col">
-                                <div class="d-flex align-items-start">
-                                    <div class="me-3 flex-shrink-0">
-                                        {% if aviso.tipo == 'urgente' %}
-                                        <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
-                                        {% elif aviso.tipo == 'importante' %}
-                                        <i class="fas fa-info-circle fa-2x text-warning"></i>
-                                        {% elif aviso.tipo == 'evento' %}
-                                        <i class="fas fa-calendar-alt fa-2x text-info"></i>
-                                        {% else %}
-                                        <i class="fas fa-bullhorn fa-2x text-success"></i>
-                                        {% endif %}
+<section class="bg-gradient-to-r from-orange-50 to-yellow-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative">
+            <div id="avisos-carousel" class="overflow-hidden">
+                <div id="avisos-track" class="flex transition-transform duration-500 ease-in-out">
+                    {% for aviso in avisos %}
+                    <div class="w-full flex-shrink-0">
+                        <div class="{% if aviso.tipo == 'urgente' %}bg-gradient-to-r from-red-500 to-red-600 text-white{% elif aviso.tipo == 'importante' %}bg-gradient-to-r from-amber-500 to-orange-500 text-white{% elif aviso.tipo == 'evento' %}bg-gradient-to-r from-blue-500 to-indigo-600 text-white{% else %}bg-gradient-to-r from-green-500 to-emerald-600 text-white{% endif %} rounded-2xl shadow-lg p-6 animate-fade-in">
+                            <div class="flex flex-col lg:flex-row items-start lg:items-center gap-6">
+                                {% if aviso.imagen %}
+                                <div class="flex-shrink-0">
+                                    <img src="{{ aviso.imagen.url }}" alt="{{ aviso.titulo }}" 
+                                         class="w-20 h-20 lg:w-24 lg:h-24 rounded-xl object-cover shadow-lg transform hover:scale-105 transition-transform duration-300">
+                                </div>
+                                {% endif %}
+                                
+                                <div class="flex-1">
+                                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                                        <div class="flex items-center">
+                                            {% if aviso.tipo == 'urgente' %}
+                                            <i class="fas fa-exclamation-triangle text-2xl mr-3 animate-pulse"></i>
+                                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold">🚨 URGENTE</span>
+                                            {% elif aviso.tipo == 'importante' %}
+                                            <i class="fas fa-info-circle text-2xl mr-3"></i>
+                                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold">⚠️ IMPORTANTE</span>
+                                            {% elif aviso.tipo == 'evento' %}
+                                            <i class="fas fa-calendar-alt text-2xl mr-3"></i>
+                                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold">📅 EVENTO</span>
+                                            {% else %}
+                                            <i class="fas fa-bullhorn text-2xl mr-3"></i>
+                                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold">ℹ️ INFORMACIÓN</span>
+                                            {% endif %}
+                                        </div>
+                                        <h3 class="text-xl lg:text-2xl font-bold">{{ aviso.titulo }}</h3>
                                     </div>
                                     
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex flex-wrap align-items-center mb-2">
-                                            {% if aviso.tipo == 'urgente' %}
-                                            <span class="badge bg-danger me-2 mb-1">🚨 URGENTE</span>
-                                            {% elif aviso.tipo == 'importante' %}
-                                            <span class="badge bg-warning text-dark me-2 mb-1">⚠️ IMPORTANTE</span>
-                                            {% elif aviso.tipo == 'evento' %}
-                                            <span class="badge bg-info me-2 mb-1">📅 EVENTO</span>
-                                            {% else %}
-                                            <span class="badge bg-success me-2 mb-1">ℹ️ INFORMACIÓN</span>
-                                            {% endif %}
-                                            
-                                            <h5 class="alert-heading mb-0 fw-bold text-dark">{{ aviso.titulo }}</h5>
-                                        </div>
-                                        
-                                        <p class="mb-2 text-dark">{{ aviso.contenido|truncatewords:25 }}</p>
-                                        
-                                        {% if aviso.fecha_vencimiento %}
-                                        <small class="text-muted">
-                                            <i class="fas fa-clock"></i> Válido hasta el {{ aviso.fecha_vencimiento|date:"d/m/Y" }}
-                                        </small>
-                                        {% endif %}
+                                    <p class="text-white/90 text-lg mb-3 leading-relaxed">{{ aviso.contenido|truncatewords:25 }}</p>
+                                    
+                                    {% if aviso.fecha_vencimiento %}
+                                    <div class="flex items-center text-white/80">
+                                        <i class="fas fa-clock mr-2"></i>
+                                        <span class="text-sm">Válido hasta el {{ aviso.fecha_vencimiento|date:"d/m/Y" }}</span>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
             
-            <!-- Indicadores (solo si hay más de un aviso) -->
+            <!-- Indicadores -->
             {% if avisos|length > 1 %}
-            <div class="carousel-indicators position-relative mt-3 mb-0">
+            <div class="flex justify-center mt-6 space-x-2">
                 {% for aviso in avisos %}
-                <button type="button" data-bs-target="#carouselAvisos" data-bs-slide-to="{{ forloop.counter0 }}" 
-                        {% if forloop.first %}class="active"{% endif %} 
-                        aria-label="Aviso {{ forloop.counter }}"></button>
+                <button class="aviso-indicator w-3 h-3 rounded-full transition-all duration-300 {% if forloop.first %}bg-gray-600{% else %}bg-gray-300{% endif %}" 
+                        data-slide="{{ forloop.counter0 }}"></button>
                 {% endfor %}
             </div>
             {% endif %}
@@ -113,90 +136,186 @@
 {% endif %}
 
 <!-- Perros Destacados -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">Adopciones Recientes</h2>
-        <div class="row">
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Adopciones 
+                <span class="bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">Recientes</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Conoce a estos adorables peludos que han encontrado su hogar para siempre gracias a familias generosas como la tuya.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for perro in perros_destacados %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-fade-in-up overflow-hidden" style="animation-delay: {{ forloop.counter0|add:'0' }}00ms;">
+                <div class="relative overflow-hidden">
                     {% if perro.imagen %}
-                    <img src="{{ perro.imagen.url }}" class="card-img-top" alt="{{ perro.nombre }}" style="height: 250px; object-fit: cover;">
+                    <img src="{{ perro.imagen.url }}" 
+                         class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" 
+                         alt="{{ perro.nombre }}">
                     {% else %}
-                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
-                        <i class="fas fa-dog fa-3x text-muted"></i>
+                    <div class="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                        <i class="fas fa-dog text-6xl text-gray-400 "></i>
                     </div>
                     {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ perro.nombre }}</h5>
-                        <p class="card-text">{{ perro.descripcion|truncatewords:15 }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">
-                                {{ perro.get_tamano_display }} • {{ perro.get_sexo_display }}
-                            </small>
-                            <span class="badge bg-success">{{ perro.get_estado_display }}</span>
-                        </div>
+                    
+                    <!-- Status Badge -->
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg animate-pulse">
+                            {{ perro.get_estado_display }}
+                        </span>
                     </div>
-                    <div class="card-footer">
-                        <a href="{% url 'adopciones:detalle_perro' perro.id %}" class="btn btn-primary w-100">
+                    
+                    <!-- Gender Icon -->
+                    <div class="absolute top-4 left-4">
+                        {% if perro.sexo == 'macho' %}
+                        <div class="bg-blue-500 text-white p-2 rounded-full shadow-lg">
+                            <i class="fas fa-mars"></i>
+                        </div>
+                        {% else %}
+                        <div class="bg-pink-500 text-white p-2 rounded-full shadow-lg">
+                            <i class="fas fa-venus"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors duration-300">
+                        {{ perro.nombre }}
+                    </h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">{{ perro.descripcion|truncatewords:15 }}</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-ruler mr-1"></i>{{ perro.get_tamano_display }}
+                        </span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-birthday-cake mr-1"></i>{{ perro.get_sexo_display }}
+                        </span>
+                    </div>
+                    
+                    <div class="pt-4 border-t border-gray-100">
+                        <a href="{% url 'adopciones:detalle_perro' perro.id %}" 
+                           class="w-full inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-blue-600 hover:from-primary-700 hover:to-blue-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform group-hover:scale-105 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-info-circle mr-2"></i>
                             Ver detalles
+                            <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform duration-300"></i>
                         </a>
                     </div>
                 </div>
             </div>
             {% empty %}
-            <div class="col-12 text-center">
-                <p class="text-muted">No hay perros disponibles en este momento.</p>
+            <div class="col-span-full text-center py-16">
+                <div class="bg-gray-100 rounded-full w-32 h-32 mx-auto mb-6 flex items-center justify-center">
+                    <i class="fas fa-search text-4xl text-gray-400"></i>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-600 mb-2">No hay perros disponibles</h3>
+                <p class="text-gray-500 mb-6">En este momento no tenemos perros para mostrar, pero pronto habrá más.</p>
             </div>
             {% endfor %}
         </div>
         
-        <div class="text-center mt-4">
-            <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-outline-primary btn-lg">
+        <div class="text-center mt-12 animate-fade-in-up" style="animation-delay: 600ms;">
+            <a href="{% url 'adopciones:lista_perros' %}" 
+               class="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <i class="fas fa-heart mr-3"></i>
                 Ver todos los perros disponibles
+                <i class="fas fa-arrow-right ml-3"></i>
             </a>
         </div>
     </div>
 </section>
 
 <!-- Estadísticas -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3 mb-4">
-                <div class="card border-0 bg-transparent">
-                    <div class="card-body">
-                        <i class="fas fa-heart fa-3x text-danger mb-3"></i>
-                        <h3 class="fw-bold">{{ stats.adoptados|default:0 }}</h3>
-                        <p class="text-muted">Perros Adoptados</p>
+<section class="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Nuestro 
+                <span class="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">Impacto</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Cada número representa vidas cambiadas y corazones llenos de esperanza gracias a tu apoyo.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Perros Adoptados -->
+            <div class="group text-center animate-fade-in-up" style="animation-delay: 100ms;">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
+                    <div class="bg-gradient-to-br from-red-500 to-pink-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-heart text-3xl text-white animate-pulse"></i>
                     </div>
+                    <h3 class="text-4xl font-bold text-gray-900 mb-2 group-hover:text-red-500 transition-colors duration-300">
+                        {{ stats.adoptados|default:0 }}
+                    </h3>
+                    <p class="text-gray-600 font-medium">Perros Adoptados</p>
+                    <p class="text-sm text-gray-500 mt-2">Nuevas familias felices</p>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
-                <div class="card border-0 bg-transparent">
-                    <div class="card-body">
-                        <i class="fas fa-home fa-3x text-success mb-3"></i>
-                        <h3 class="fw-bold">{{ stats.disponibles|default:0 }}</h3>
-                        <p class="text-muted">Esperando Hogar</p>
+            
+            <!-- Esperando Hogar -->
+            <div class="group text-center animate-fade-in-up" style="animation-delay: 200ms;">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-home text-3xl text-white"></i>
                     </div>
+                    <h3 class="text-4xl font-bold text-gray-900 mb-2 group-hover:text-green-500 transition-colors duration-300">
+                        {{ stats.disponibles|default:0 }}
+                    </h3>
+                    <p class="text-gray-600 font-medium">Esperando Hogar</p>
+                    <p class="text-sm text-gray-500 mt-2">Listos para ser adoptados</p>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
-                <div class="card border-0 bg-transparent">
-                    <div class="card-body">
-                        <i class="fas fa-users fa-3x text-info mb-3"></i>
-                        <h3 class="fw-bold">{{ stats.voluntarios|default:0 }}</h3>
-                        <p class="text-muted">Voluntarios Activos</p>
+            
+            <!-- Voluntarios -->
+            <div class="group text-center animate-fade-in-up" style="animation-delay: 300ms;">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
+                    <div class="bg-gradient-to-br from-blue-500 to-indigo-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-users text-3xl text-white"></i>
                     </div>
+                    <h3 class="text-4xl font-bold text-gray-900 mb-2 group-hover:text-blue-500 transition-colors duration-300">
+                        {{ stats.voluntarios|default:0 }}
+                    </h3>
+                    <p class="text-gray-600 font-medium">Voluntarios Activos</p>
+                    <p class="text-sm text-gray-500 mt-2">Corazones generosos</p>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
-                <div class="card border-0 bg-transparent">
-                    <div class="card-body">
-                        <i class="fas fa-dollar-sign fa-3x text-warning mb-3"></i>
-                        <h3 class="fw-bold">${{ stats.donaciones|default:0|floatformat:0 }}</h3>
-                        <p class="text-muted">CLP Recaudados</p>
+            
+            <!-- Donaciones -->
+            <div class="group text-center animate-fade-in-up" style="animation-delay: 400ms;">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
+                    <div class="bg-gradient-to-br from-yellow-500 to-orange-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-dollar-sign text-3xl text-white "></i>
                     </div>
+                    <h3 class="text-4xl font-bold text-gray-900 mb-2 group-hover:text-yellow-500 transition-colors duration-300">
+                        ${{ stats.donaciones|default:0|floatformat:0 }}
+                    </h3>
+                    <p class="text-gray-600 font-medium">CLP Recaudados</p>
+                    <p class="text-sm text-gray-500 mt-2">Este año</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="mt-16 bg-white rounded-2xl p-8 shadow-lg animate-fade-in-up" style="animation-delay: 500ms;">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Meta del Año 2024</h3>
+                <p class="text-gray-600">Ayudar a 200 perros a encontrar su hogar</p>
+            </div>
+            <div class="relative">
+                <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-500 to-blue-500 h-4 rounded-full transition-all duration-1000 ease-out" 
+                         style="width: {% widthratio stats.adoptados|default:0 200 100 %}%"></div>
+                </div>
+                <div class="flex justify-between mt-2 text-sm text-gray-600">
+                    <span>0</span>
+                    <span class="font-semibold">{{ stats.adoptados|default:0 }} / 200</span>
+                    <span>200</span>
                 </div>
             </div>
         </div>
@@ -205,23 +324,46 @@
 
 <!-- Testimonios -->
 {% if testimonios %}
-<section class="py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">Historias de Éxito</h2>
-        <div class="row">
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Historias de 
+                <span class="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">Éxito</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Las palabras de nuestras familias adoptivas son nuestro mayor tesoro y motivación.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             {% for testimonio in testimonios %}
-            <div class="col-md-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <blockquote class="blockquote">
-                            <p>"{{ testimonio.contenido|truncatewords:30 }}"</p>
-                            <footer class="blockquote-footer">
-                                {{ testimonio.nombre }}
-                                {% if testimonio.perro_adoptado %}
-                                <cite title="Source Title">- Adoptó a {{ testimonio.perro_adoptado }}</cite>
-                                {% endif %}
-                            </footer>
-                        </blockquote>
+            <div class="group animate-fade-in-up" style="animation-delay: {{ forloop.counter0|add:'0' }}00ms;">
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-purple-100">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                                <i class="fas fa-quote-left text-2xl text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <blockquote class="text-gray-800 text-lg leading-relaxed mb-4 italic">
+                                "{{ testimonio.contenido|truncatewords:30 }}"
+                            </blockquote>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-900">{{ testimonio.nombre }}</p>
+                                    {% if testimonio.perro_adoptado %}
+                                    <p class="text-sm text-purple-600 font-medium">
+                                        <i class="fas fa-heart mr-1"></i>Adoptó a {{ testimonio.perro_adoptado }}
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -232,31 +374,134 @@
 {% endif %}
 
 <!-- Call to Action -->
-<section class="py-5 bg-primary text-white">
-    <div class="container text-center">
-        <h2 class="mb-4">¿Quieres ayudar?</h2>
-        <p class="lead mb-4">Hay muchas formas de contribuir con nuestra causa</p>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-light w-100">
-                            <i class="fas fa-heart"></i><br>Adoptar
-                        </a>
+<section class="py-20 bg-gradient-to-br from-primary-600 via-blue-700 to-indigo-800 text-white overflow-hidden relative">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="absolute top-0 left-0 w-full h-full">
+        <div class="absolute top-10 left-10 w-20 h-20 bg-yellow-400/20 rounded-full animate-float"></div>
+        <div class="absolute top-32 right-20 w-16 h-16 bg-pink-400/20 rounded-full animate-float" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-20 left-32 w-24 h-24 bg-green-400/20 rounded-full animate-float" style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-32 right-10 w-12 h-12 bg-orange-400/20 rounded-full animate-float" style="animation-delay: 0.5s;"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="animate-fade-in-up">
+            <h2 class="text-4xl md:text-6xl font-extrabold mb-6">
+                ¿Quieres 
+                <span class="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                    Ayudar?
+                </span>
+            </h2>
+            <p class="text-xl md:text-2xl mb-12 text-blue-100 max-w-4xl mx-auto leading-relaxed">
+                Hay muchas formas de contribuir con nuestra causa y cambiar la vida de estos angelitos que tanto lo necesitan.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Adoptar -->
+            <div class="group animate-fade-in-up" style="animation-delay: 200ms;">
+                <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2 border border-white/20">
+                    <div class="bg-gradient-to-br from-pink-500 to-red-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-heart text-3xl text-white group-hover:animate-pulse"></i>
                     </div>
-                    <div class="col-md-4">
-                        <a href="{% url 'donaciones:donar' %}" class="btn btn-outline-light w-100">
-                            <i class="fas fa-donate"></i><br>Donar
-                        </a>
+                    <h3 class="text-2xl font-bold mb-4">Adoptar</h3>
+                    <p class="text-blue-100 mb-6 leading-relaxed">
+                        Dale un hogar para siempre a un perro que ha esperado tanto por una familia amorosa.
+                    </p>
+                    <a href="{% url 'adopciones:lista_perros' %}" 
+                       class="inline-flex items-center bg-white text-primary-700 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-heart mr-2"></i>
+                        Ver Perros
+                        <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform duration-300"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Donar -->
+            <div class="group animate-fade-in-up" style="animation-delay: 400ms;">
+                <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2 border border-white/20">
+                    <div class="bg-gradient-to-br from-yellow-500 to-orange-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-donate text-3xl text-white "></i>
                     </div>
-                    <div class="col-md-4">
-                        <a href="{% url 'core:voluntariado' %}" class="btn btn-light w-100">
-                            <i class="fas fa-hands-helping"></i><br>Voluntariado
-                        </a>
+                    <h3 class="text-2xl font-bold mb-4">Donar</h3>
+                    <p class="text-blue-100 mb-6 leading-relaxed">
+                        Tu donación nos ayuda a alimentar, cuidar y brindar atención veterinaria a los perros.
+                    </p>
+                    <a href="{% url 'donaciones:donar' %}" 
+                       class="inline-flex items-center bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-gray-900 px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-donate mr-2"></i>
+                        Donar Ahora
+                        <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform duration-300"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Voluntariado -->
+            <div class="group animate-fade-in-up" style="animation-delay: 600ms;">
+                <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2 border border-white/20">
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-hands-helping text-3xl text-white"></i>
                     </div>
+                    <h3 class="text-2xl font-bold mb-4">Voluntariado</h3>
+                    <p class="text-blue-100 mb-6 leading-relaxed">
+                        Únete a nuestro equipo de voluntarios y ayuda directamente en el cuidado de los perros.
+                    </p>
+                    <a href="{% url 'core:voluntariado' %}" 
+                       class="inline-flex items-center bg-white text-primary-700 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-hands-helping mr-2"></i>
+                        Únete
+                        <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform duration-300"></i>
+                    </a>
                 </div>
             </div>
         </div>
+        
+        <!-- Additional CTA -->
+        <div class="mt-16 animate-fade-in-up" style="animation-delay: 800ms;">
+            <p class="text-lg text-blue-200 mb-6">
+                ¿Tienes preguntas? Estamos aquí para ayudarte
+            </p>
+            <a href="#" 
+               class="inline-flex items-center bg-white/10 backdrop-blur-sm border-2 border-white/30 hover:border-white/50 hover:bg-white/20 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300">
+                <i class="fas fa-phone mr-3"></i>
+                Contáctanos
+            </a>
+        </div>
     </div>
 </section>
+
+<script>
+// Avisos Carousel
+document.addEventListener('DOMContentLoaded', function() {
+    const avisosTrack = document.getElementById('avisos-track');
+    const indicators = document.querySelectorAll('.aviso-indicator');
+    
+    if (avisosTrack && indicators.length > 1) {
+        let currentSlide = 0;
+        const totalSlides = indicators.length;
+        
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            const translateX = -slideIndex * 100;
+            avisosTrack.style.transform = `translateX(${translateX}%)`;
+            
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('bg-gray-600', index === slideIndex);
+                indicator.classList.toggle('bg-gray-300', index !== slideIndex);
+            });
+        }
+        
+        // Auto advance
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            goToSlide(currentSlide);
+        }, 6000);
+        
+        // Indicator clicks
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => goToSlide(index));
+        });
+    }
+});
+</script>
 {% endblock %}

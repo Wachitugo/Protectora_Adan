@@ -16,27 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Animaciones al hacer scroll
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
 
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in-up');
-            }
-        });
-    }, observerOptions);
-
-    // Observar elementos para animaciones
-    const animatedElements = document.querySelectorAll('.card, .alert, .btn-lg');
-    animatedElements.forEach(el => observer.observe(el));
-
-    // Auto-hide alerts después de 5 segundos (excepto las del carrusel)
-    const alerts = document.querySelectorAll('.alert:not(.alert-permanent):not(#carouselAvisos .alert)');
-    alerts.forEach(alert => {
+    // Auto-hide Bootstrap alerts después de 5 segundos (excepto las del carrusel y los mensajes de Django)
+    const bootstrapAlerts = document.querySelectorAll('.alert:not(.alert-permanent):not(#carouselAvisos .alert):not([data-auto-hide])');
+    bootstrapAlerts.forEach(alert => {
         setTimeout(() => {
             if (alert.parentNode) {
                 alert.style.transition = 'opacity 0.5s ease';
@@ -149,11 +132,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Loading state for buttons
+    // Loading state for buttons (exclude filter forms and donation forms)
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     submitButtons.forEach(button => {
         button.addEventListener('click', function() {
             const form = this.closest('form');
+            // Skip filter forms - they should submit immediately
+            if (form && form.action && form.action.includes('adopciones')) {
+                return; // Don't interfere with adoption filter forms
+            }
+            // Skip donation forms - they need to redirect to WebPay
+            if (form && form.action && form.action.includes('donaciones')) {
+                return; // Don't interfere with donation forms
+            }
             if (form && form.checkValidity()) {
                 this.disabled = true;
                 this.innerHTML = '<span class="loading"></span> Enviando...';
@@ -295,3 +286,116 @@ window.ProtectoraAdan = {
     showNotification,
     formatCurrency
 };
+
+
+
+
+// Animaciones para formularios
+const initFormAnimations = () => {
+    const formInputs = document.querySelectorAll('input, textarea, select');
+    
+    formInputs.forEach(input => {
+        // Animación al enfocar
+        input.addEventListener('focus', function() {
+            this.parentNode.classList.add('focused');
+        });
+        
+        // Animación al desenfocar
+        input.addEventListener('blur', function() {
+            this.parentNode.classList.remove('focused');
+            if (this.value) {
+                this.parentNode.classList.add('filled');
+            } else {
+                this.parentNode.classList.remove('filled');
+            }
+        });
+        
+        // Estado inicial para campos con valor
+        if (input.value) {
+            input.parentNode.classList.add('filled');
+        }
+    });
+    
+    // Animación para botones de submit
+    const submitButtons = document.querySelectorAll('button[type="submit"], input[type="submit"]');
+    submitButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (!this.disabled) {
+                this.classList.add('btn-loading');
+                
+                // Remover la animación después de 2 segundos
+                setTimeout(() => {
+                    this.classList.remove('btn-loading');
+                }, 2000);
+            }
+        });
+    });
+};
+
+// Animaciones para elementos de navegación
+const initNavAnimations = () => {
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    
+    navLinks.forEach(link => {
+        // Efecto de hover mejorado
+        link.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // Efecto de scroll en la navbar
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+        const navbar = document.querySelector('.navbar');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            // Scrolling up
+            navbar.style.transform = 'translateY(0)';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+};
+
+// Animaciones para cards
+const initCardAnimations = () => {
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        // Efecto de hover con rotación sutil
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px) rotateX(5deg)';
+            this.style.transformStyle = 'preserve-3d';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) rotateX(0deg)';
+        });
+    });
+};
+
+// Inicializar animaciones cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        initFormAnimations();
+        initNavAnimations();
+        initCardAnimations();
+    }, 100);
+});
+
+// Re-inicializar animaciones cuando se carga contenido dinámico
+const reinitAnimations = () => {
+    initFormAnimations();
+    initCardAnimations();
+};
+
+// Exportar función para uso externo
+window.ProtectoraAdan.reinitAnimations = reinitAnimations;

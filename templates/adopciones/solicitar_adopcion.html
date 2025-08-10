@@ -4,108 +4,222 @@
 {% block title %}Solicitar Adopción de {{ perro.nombre }} - Protectora Adán{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row">
-        <div class="col-lg-4 mb-4">
+<div class="min-h-screen bg-gradient-to-br from-pink-50 via-white to-orange-50 py-6">
+    <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-3 gap-8">
             <!-- Información del perro -->
-            <div class="card sticky-top">
-                {% if perro.imagen %}
-                <img src="{{ perro.imagen.url }}" class="card-img-top" alt="{{ perro.nombre }}">
-                {% else %}
-                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
-                    <i class="fas fa-dog fa-4x text-muted"></i>
-                </div>
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ perro.nombre }}</h5>
-                    <p class="text-muted">{{ perro.get_tamano_display }} • {{ perro.edad }} año{{ perro.edad|pluralize }}</p>
-                    <p class="card-text">{{ perro.descripcion|truncatewords:20 }}</p>
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden sticky top-20">
+                    {% if perro.imagen %}
+                    <div class="relative overflow-hidden">
+                        <img src="{{ perro.imagen.url }}" class="w-full h-64 object-cover transition-transform duration-500 hover:scale-110" alt="{{ perro.nombre }}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <h3 class="text-2xl font-bold">{{ perro.nombre }}</h3>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="bg-gradient-to-br from-gray-100 to-gray-200 h-64 flex items-center justify-content-center">
+                        <i class="fas fa-dog text-4xl text-gray-400"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-gray-600 mb-3">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="font-semibold">{{ perro.get_tamano_display }} • {{ perro.edad }} año{{ perro.edad|pluralize }}</span>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">{{ perro.descripcion|truncatewords:20 }}</p>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <div class="flex items-center gap-2 text-green-600">
+                                <i class="fas fa-heart"></i>
+                                <span class="text-sm font-semibold">¡Esperando un hogar lleno de amor!</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="col-lg-8">
-            <h1 class="mb-4">
-                <i class="fas fa-heart text-danger"></i> 
-                Solicitud de Adopción para {{ perro.nombre }}
-            </h1>
             
-            <div class="alert alert-info">
-                <h5><i class="fas fa-info-circle"></i> Proceso de Adopción</h5>
-                <p class="mb-0">
-                    Completa este formulario y nuestro equipo evaluará tu solicitud. 
-                    Nos pondremos en contacto contigo en un plazo de 48-72 horas para coordinar una visita.
-                </p>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">Formulario de Solicitud</h4>
+            <!-- Formulario de adopción -->
+            <div class="lg:col-span-2 space-y-8">
+                <div>
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6 flex items-center gap-4">
+                        <i class="fas fa-heart text-pink-500"></i> 
+                        Solicitud de Adopción para {{ perro.nombre }}
+                    </h1>
                 </div>
-                <div class="card-body">
+                
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-400 p-6 rounded-r-2xl">
+                    <h5 class="text-xl font-bold text-blue-800 mb-3 flex items-center gap-2">
+                        <i class="fas fa-info-circle"></i> Proceso de Adopción
+                    </h5>
+                    <p class="text-blue-700 leading-relaxed">
+                        Completa este formulario y nuestro equipo evaluará tu solicitud. 
+                        Nos pondremos en contacto contigo en un plazo de 48-72 horas para coordinar una visita.
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <h4 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        <i class="fas fa-file-alt text-pink-500"></i>
+                        Formulario de Solicitud
+                    </h4>
                     {% load crispy_forms_tags %}
-                    {% crispy form %}
+                    <div class="adoption-form">
+                        <form method="post" class="space-y-6">
+                            {% csrf_token %}
+                            
+                            <!-- Información Personal -->
+                            <div class="space-y-4">
+                                <h5 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 border-b border-gray-200 pb-2">
+                                    <i class="fas fa-user text-blue-500"></i>
+                                    Información Personal
+                                </h5>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="form-group">
+                                        {{ form.nombre_solicitante.label_tag }}
+                                        {{ form.nombre_solicitante }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form.email.label_tag }}
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="form-group">
+                                        {{ form.telefono.label_tag }}
+                                        {{ form.telefono }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form.vivienda_tipo.label_tag }}
+                                        {{ form.vivienda_tipo }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {{ form.direccion.label_tag }}
+                                    {{ form.direccion }}
+                                </div>
+                            </div>
+
+                            <!-- Información sobre la Mascota -->
+                            <div class="space-y-4 pt-6">
+                                <h5 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 border-b border-gray-200 pb-2">
+                                    <i class="fas fa-paw text-orange-500"></i>
+                                    Información sobre la Mascota
+                                </h5>
+                                <div class="form-group">
+                                    {{ form.patio.label_tag }}
+                                    {{ form.patio }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.experiencia_mascotas.label_tag }}
+                                    {{ form.experiencia_mascotas }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.motivo_adopcion.label_tag }}
+                                    {{ form.motivo_adopcion }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.otros_animales.label_tag }}
+                                    {{ form.otros_animales }}
+                                </div>
+                            </div>
+
+                            <!-- Botón de envío -->
+                            <div class="text-center pt-6">
+                                <button type="submit" class="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                                    <i class="fas fa-heart mr-3"></i>
+                                    Enviar Solicitud de Adopción
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Requisitos -->
-            <div class="mt-4">
-                <h4>Requisitos para la Adopción</h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-check text-success"></i> Ser mayor de edad</li>
-                            <li><i class="fas fa-check text-success"></i> Vivienda estable</li>
-                            <li><i class="fas fa-check text-success"></i> Compromiso a largo plazo</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-check text-success"></i> Recursos económicos suficientes</li>
-                            <li><i class="fas fa-check text-success"></i> Tiempo para dedicar al animal</li>
-                            <li><i class="fas fa-check text-success"></i> Experiencia con mascotas (preferible)</li>
-                        </ul>
+                
+                <!-- Requisitos -->
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <h4 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        <i class="fas fa-clipboard-check text-green-500"></i> Requisitos para la Adopción
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3 p-4 bg-green-50 rounded-xl hover:bg-green-100 transition-colors duration-200">
+                                <i class="fas fa-check text-green-500 text-xl"></i>
+                                <span class="font-semibold text-gray-700">Ser mayor de edad</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 bg-green-50 rounded-xl hover:bg-green-100 transition-colors duration-200">
+                                <i class="fas fa-check text-green-500 text-xl"></i>
+                                <span class="font-semibold text-gray-700">Vivienda estable</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 bg-green-50 rounded-xl hover:bg-green-100 transition-colors duration-200">
+                                <i class="fas fa-check text-green-500 text-xl"></i>
+                                <span class="font-semibold text-gray-700">Compromiso a largo plazo</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3 p-4 bg-green-50 rounded-xl hover:bg-green-100 transition-colors duration-200">
+                                <i class="fas fa-check text-green-500 text-xl"></i>
+                                <span class="font-semibold text-gray-700">Recursos económicos suficientes</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 bg-green-50 rounded-xl hover:bg-green-100 transition-colors duration-200">
+                                <i class="fas fa-check text-green-500 text-xl"></i>
+                                <span class="font-semibold text-gray-700">Tiempo para dedicar al animal</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 bg-green-50 rounded-xl hover:bg-green-100 transition-colors duration-200">
+                                <i class="fas fa-check text-green-500 text-xl"></i>
+                                <span class="font-semibold text-gray-700">Experiencia con mascotas (preferible)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Qué incluye la adopción -->
-            <div class="mt-4">
-                <h4>¿Qué incluye la adopción?</h4>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-syringe fa-2x text-success me-3"></i>
-                            <div>
-                                <h6>Vacunas al día</h6>
-                                <small class="text-muted">Todas las vacunas necesarias</small>
+                
+                <!-- Qué incluye la adopción -->
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <h4 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        <i class="fas fa-gift text-purple-500"></i> ¿Qué incluye la adopción?
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl hover:shadow-lg transition-all duration-300">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-green-500 p-3 rounded-full">
+                                    <i class="fas fa-syringe text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h6 class="font-bold text-gray-800">Vacunas al día</h6>
+                                    <small class="text-gray-600">Todas las vacunas necesarias</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-cut fa-2x text-info me-3"></i>
-                            <div>
-                                <h6>Esterilización</h6>
-                                <small class="text-muted">Procedimiento realizado</small>
+                        <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl hover:shadow-lg transition-all duration-300">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-blue-500 p-3 rounded-full">
+                                    <i class="fas fa-cut text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h6 class="font-bold text-gray-800">Esterilización</h6>
+                                    <small class="text-gray-600">Procedimiento realizado</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-id-card fa-2x text-primary me-3"></i>
-                            <div>
-                                <h6>Microchip</h6>
-                                <small class="text-muted">Identificación permanente</small>
+                        <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl hover:shadow-lg transition-all duration-300">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-purple-500 p-3 rounded-full">
+                                    <i class="fas fa-id-card text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h6 class="font-bold text-gray-800">Microchip</h6>
+                                    <small class="text-gray-600">Identificación permanente</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-headset fa-2x text-warning me-3"></i>
-                            <div>
-                                <h6>Seguimiento</h6>
-                                <small class="text-muted">Apoyo post-adopción</small>
+                        <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 p-6 rounded-xl hover:shadow-lg transition-all duration-300">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-yellow-500 p-3 rounded-full">
+                                    <i class="fas fa-headset text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h6 class="font-bold text-gray-800">Seguimiento</h6>
+                                    <small class="text-gray-600">Apoyo post-adopción</small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,4 +228,119 @@
         </div>
     </div>
 </div>
+
+<style>
+/* Estilos personalizados para el formulario de adopción */
+.adoption-form .form-group {
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.adoption-form label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 0.95rem;
+    width: 100%;
+}
+
+.adoption-form input,
+.adoption-form textarea,
+.adoption-form select {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: white;
+    font-family: inherit;
+    line-height: 1.5;
+    min-height: 48px;
+    box-sizing: border-box;
+    display: block;
+}
+
+/* Asegurar que los divs contenedores también tengan ancho completo */
+.adoption-form .form-group,
+.adoption-form .controls,
+.adoption-form .field-wrapper {
+    width: 100% !important;
+    max-width: 100%;
+}
+
+/* Eliminar cualquier columna de Bootstrap que pueda estar afectando */
+.adoption-form .col-md-6,
+.adoption-form .col-sm-6,
+.adoption-form [class*="col-"] {
+    width: 100% !important;
+    flex: none !important;
+    max-width: 100% !important;
+}
+
+.adoption-form input:focus,
+.adoption-form textarea:focus,
+.adoption-form select:focus {
+    outline: none;
+    border-color: #f59e0b;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.adoption-form textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+.adoption-form select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+/* Estilos para campos de tipo específico */
+.adoption-form input[type="email"],
+.adoption-form input[type="tel"],
+.adoption-form input[type="text"] {
+    height: 48px;
+}
+
+.adoption-form input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    min-height: auto;
+    margin-right: 0.5rem;
+    transform: scale(1.2);
+}
+
+/* Mejoras para elementos de error */
+.adoption-form .errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+}
+
+.adoption-form .errorlist li {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Estilos para campos requeridos */
+.adoption-form label[for] {
+    position: relative;
+}
+
+.adoption-form .required label::after {
+    content: ' *';
+    color: #ef4444;
+    font-weight: bold;
+}
+</style>
 {% endblock %}

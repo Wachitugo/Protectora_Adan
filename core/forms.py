@@ -33,20 +33,14 @@ class VoluntarioForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Row(
-                Column('nombre', css_class='form-group col-md-6 mb-3'),
-                Column('apellidos', css_class='form-group col-md-6 mb-3'),
-            ),
-            Row(
-                Column('email', css_class='form-group col-md-6 mb-3'),
-                Column('telefono', css_class='form-group col-md-6 mb-3'),
-            ),
-            Row(
-                Column('fecha_nacimiento', css_class='form-group col-md-6 mb-3'),
-                Column('direccion', css_class='form-group col-md-6 mb-3'),
-            ),
+            'nombre',
+            'apellidos', 
+            'email',
+            'telefono',
+            'fecha_nacimiento',
+            'direccion',
             'experiencia',
             'disponibilidad',
             'motivacion',
-            Submit('submit', 'Enviar Solicitud', css_class='btn btn-primary')
+            Submit('submit', 'Enviar Solicitud', css_class='btn btn-primary w-full')
         )

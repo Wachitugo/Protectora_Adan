@@ -61,7 +61,7 @@ class SolicitudAdopcion(models.Model):
         ('rechazada', 'Rechazada'),
     ]
     
-    perro = models.ForeignKey(Perro, on_delete=models.CASCADE)
+    perro = models.ForeignKey(Perro, on_delete=models.CASCADE, related_name='solicitudes')
     nombre_solicitante = models.CharField(max_length=100)
     email = models.EmailField()
     telefono = models.CharField(max_length=20)
@@ -70,7 +70,7 @@ class SolicitudAdopcion(models.Model):
     motivo_adopcion = models.TextField()
     vivienda_tipo = models.CharField(max_length=100)
     patio = models.BooleanField(default=False)
-    otros_animales = models.TextField(blank=True)
+    otros_animales = models.BooleanField(default=False, help_text="¿Tiene otros animales en casa?")
     estado = models.CharField(max_length=15, choices=ESTADO_SOLICITUD_CHOICES, default='pendiente')
     fecha_solicitud = models.DateTimeField(auto_now_add=True)
     notas_admin = models.TextField(blank=True)

@@ -1,0 +1,116 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | Protectora Adán Admin{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* Personalización básica del admin */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #10b981;
+    --accent-color: #f59e0b;
+    --danger-color: #ef4444;
+}
+
+#header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1d4ed8 100%) !important;
+    border-bottom: none !important;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: white !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+}
+
+#branding h1:before {
+    content: "🐕 ";
+    font-size: 28px;
+}
+
+#user-tools a {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-decoration: none !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+}
+
+#user-tools a:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+}
+
+.module h2, .module caption {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #059669 100%) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 12px 16px !important;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1d4ed8 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+}
+
+.addlink {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #059669 100%) !important;
+}
+
+.deletelink {
+    background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%) !important;
+}
+
+#result_list thead th {
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+#result_list tbody tr:hover {
+    background-color: #f9fafb !important;
+}
+
+.messagelist .success {
+    background-color: #dcfce7 !important;
+    color: #166534 !important;
+    border: 1px solid #bbf7d0 !important;
+    padding: 12px 16px !important;
+    border-radius: 6px !important;
+}
+
+.messagelist .error {
+    background-color: #fef2f2 !important;
+    color: #991b1b !important;
+    border: 1px solid #fecaca !important;
+    padding: 12px 16px !important;
+    border-radius: 6px !important;
+}
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        Protectora Adán - Administración
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

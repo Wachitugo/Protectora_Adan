@@ -21,9 +21,10 @@ class Donacion(models.Model):
         ('completada', 'Completada'),
         ('cancelada', 'Cancelada'),
         ('rechazada', 'Rechazada'),
+        ('fallida', 'Fallida'),
     ]
     
-    tipo_donacion = models.ForeignKey(TipoDonacion, on_delete=models.CASCADE)
+    tipo_donacion = models.ForeignKey(TipoDonacion, on_delete=models.CASCADE, related_name='donaciones')
     nombre_donante = models.CharField(max_length=100)
     email_donante = models.EmailField()
     telefono_donante = models.CharField(max_length=20, blank=True)

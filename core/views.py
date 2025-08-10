@@ -9,7 +9,7 @@ from .forms import VoluntarioForm
 def home(request):
     """Vista principal del sitio"""
     # Obtener perros destacados (disponibles)
-    perros_destacados = Perro.objects.filter(estado='disponible')[:6]
+    perros_destacados = Perro.objects.filter(estado='disponible')[:3]
     
     # Obtener avisos activos
     avisos = Aviso.objects.filter(activo=True)[:3]

@@ -18,8 +18,12 @@ def donar(request):
     tipos_donacion = TipoDonacion.objects.filter(activo=True)
     
     if request.method == 'POST':
+        logger.info("=== INICIO PROCESO DONACIÓN ===")
+        logger.info(f"POST data: {request.POST}")
+        
         form = DonacionForm(request.POST)
         if form.is_valid():
+            logger.info("Formulario válido, procesando donación...")
             try:
                 donacion = form.save(commit=False)
                 donacion.estado = 'pendiente'
@@ -32,6 +36,7 @@ def donar(request):
                 
                 # Crear transacción WebPay
                 result = webpay_service.create_transaction(donacion)
+                logger.info(f"Resultado WebPay: {result}")
                 
                 if result['success']:
                     # Redirigir a WebPay
@@ -48,12 +53,15 @@ def donar(request):
                     donacion.delete()  # Eliminar donación fallida
             except Exception as e:
                 logger.error(f"Error en proceso de donación: {str(e)}")
+                import traceback
+                logger.error(f"Traceback: {traceback.format_exc()}")
                 messages.error(
                     request, 
                     'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.'
                 )
         else:
-            logger.warning(f"Formulario de donación inválido: {form.errors}")
+            logger.error(f"Formulario de donación inválido: {form.errors}")
+            messages.error(request, f"Error en el formulario: {form.errors}")
     else:
         form = DonacionForm()
     

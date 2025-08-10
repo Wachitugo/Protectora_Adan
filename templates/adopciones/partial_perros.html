@@ -1,0 +1,141 @@
+<!-- Resultados -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 animate-fade-in-up" style="animation-delay: 300ms;">
+    <div class="bg-white rounded-lg px-4 py-2 shadow-md">
+        <p class="text-gray-600 font-medium">
+            <i class="fas fa-search mr-2 text-blue-500"></i>
+            Mostrando <span class="font-bold text-blue-600" id="perros-count">{{ perros|length }}</span> de 
+            <span class="font-bold text-blue-600" id="total-perros">{{ total_perros }}</span> perros disponibles
+        </p>
+    </div>
+</div>
+
+<!-- Lista de Perros -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="perros-container">
+    {% for perro in perros %}
+    <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-fade-in-up overflow-hidden" style="animation-delay: {{ forloop.counter0|add:'0' }}00ms;">
+        <div class="relative overflow-hidden">
+            {% if perro.imagen %}
+            <img src="{{ perro.imagen.url }}" 
+                 class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" 
+                 alt="{{ perro.nombre }}">
+            {% else %}
+            <div class="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                <i class="fas fa-dog text-6xl text-gray-400"></i>
+            </div>
+            {% endif %}
+            
+            <!-- Gender Badge -->
+            <div class="absolute top-4 left-4">
+                {% if perro.sexo == 'macho' %}
+                <div class="bg-blue-500 text-white p-2 rounded-full shadow-lg backdrop-blur-sm">
+                    <i class="fas fa-mars"></i>
+                </div>
+                {% else %}
+                <div class="bg-pink-500 text-white p-2 rounded-full shadow-lg backdrop-blur-sm">
+                    <i class="fas fa-venus"></i>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Status Badge -->
+            <div class="absolute top-4 right-4">
+                <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm animate-pulse">
+                    Disponible
+                </span>
+            </div>
+            
+            <!-- Favorite Button -->
+            <div class="absolute bottom-4 right-4">
+                <button class="bg-white/90 backdrop-blur-sm text-red-500 p-3 rounded-full shadow-lg hover:bg-red-500 hover:text-white transition-all duration-300 transform hover:scale-110">
+                    <i class="fas fa-heart"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                {{ perro.nombre }}
+            </h3>
+            <p class="text-gray-600 mb-4 leading-relaxed">{{ perro.descripcion|truncatewords:20 }}</p>
+            
+            <!-- Info Grid -->
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="flex items-center text-sm text-gray-600">
+                    <i class="fas fa-birthday-cake text-purple-500 mr-2"></i>
+                    <span>{{ perro.edad }} año{{ perro.edad|pluralize }}</span>
+                </div>
+                <div class="flex items-center text-sm text-gray-600">
+                    <i class="fas fa-ruler text-green-500 mr-2"></i>
+                    <span>{{ perro.get_tamano_display }}</span>
+                </div>
+                <div class="flex items-center text-sm text-gray-600">
+                    <i class="fas fa-palette text-pink-500 mr-2"></i>
+                    <span>{{ perro.get_color_display }}</span>
+                </div>
+                {% if perro.peso %}
+                <div class="flex items-center text-sm text-gray-600">
+                    <i class="fas fa-weight-hanging text-blue-500 mr-2"></i>
+                    <span>{{ perro.peso }} kg</span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Características especiales -->
+            <div class="flex flex-wrap gap-2 mb-6">
+                {% if perro.vacunado %}
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    <i class="fas fa-syringe mr-1"></i>Vacunado
+                </span>
+                {% endif %}
+                {% if perro.esterilizado %}
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    <i class="fas fa-cut mr-1"></i>Esterilizado
+                </span>
+                {% endif %}
+                {% if perro.bueno_con_niños %}
+                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    <i class="fas fa-child mr-1"></i>Bueno con niños
+                </span>
+                {% endif %}
+                {% if perro.bueno_con_otros_perros %}
+                <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    <i class="fas fa-dog mr-1"></i>Sociable
+                </span>
+                {% endif %}
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <a href="{% url 'adopciones:detalle_perro' perro.id %}" 
+                   class="w-full inline-flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform group-hover:scale-105 shadow-lg">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    Ver Detalles
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform duration-300"></i>
+                </a>
+                <a href="{% url 'adopciones:solicitar_adopcion' perro.id %}" 
+                   class="w-full inline-flex items-center justify-center bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-heart mr-2 animate-pulse"></i>
+                    ¡Quiero Adoptarlo!
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full text-center py-16">
+        <div class="bg-gray-100 rounded-full w-32 h-32 mx-auto mb-6 flex items-center justify-center">
+            <i class="fas fa-search text-4xl text-gray-400"></i>
+        </div>
+        <h3 class="text-3xl font-semibold text-gray-600 mb-4">No se encontraron perros</h3>
+        <p class="text-lg text-gray-500 mb-8">Intenta ajustar los filtros de búsqueda para encontrar más opciones</p>
+        <a href="{% url 'adopciones:lista_perros' %}" 
+           class="inline-flex items-center bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <i class="fas fa-refresh mr-3"></i>
+            Ver Todos los Perros
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+

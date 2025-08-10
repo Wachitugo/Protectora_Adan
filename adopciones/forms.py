@@ -33,20 +33,16 @@ class SolicitudAdopcionForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Row(
-                Column('nombre_solicitante', css_class='form-group col-md-6 mb-3'),
-                Column('email', css_class='form-group col-md-6 mb-3'),
-            ),
-            Row(
-                Column('telefono', css_class='form-group col-md-6 mb-3'),
-                Column('vivienda_tipo', css_class='form-group col-md-6 mb-3'),
-            ),
+            'nombre_solicitante',
+            'email',
+            'telefono',
+            'vivienda_tipo',
             'direccion',
             'patio',
             'experiencia_mascotas',
             'motivo_adopcion',
             'otros_animales',
-            Submit('submit', 'Enviar Solicitud', css_class='btn btn-primary')
+            Submit('submit', 'Enviar Solicitud', css_class='btn btn-primary w-full')
         )
 
 class FiltroPerrosForm(forms.Form):
@@ -54,16 +50,41 @@ class FiltroPerrosForm(forms.Form):
     SEXO_CHOICES = [('', 'Todos')] + Perro.SEXO_CHOICES
     COLOR_CHOICES = [('', 'Todos')] + Perro.COLOR_CHOICES
     
-    tamano = forms.ChoiceField(choices=TAMANO_CHOICES, required=False)
-    sexo = forms.ChoiceField(choices=SEXO_CHOICES, required=False)
-    color = forms.ChoiceField(choices=COLOR_CHOICES, required=False)
-    edad_min = forms.IntegerField(min_value=0, max_value=20, required=False, label='Edad mínima')
-    edad_max = forms.IntegerField(min_value=0, max_value=20, required=False, label='Edad máxima')
+    tamano = forms.ChoiceField(
+        choices=TAMANO_CHOICES, 
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    sexo = forms.ChoiceField(
+        choices=SEXO_CHOICES, 
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    color = forms.ChoiceField(
+        choices=COLOR_CHOICES, 
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    edad_min = forms.IntegerField(
+        min_value=0, 
+        max_value=20, 
+        required=False, 
+        label='Edad mínima',
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 1'})
+    )
+    edad_max = forms.IntegerField(
+        min_value=0, 
+        max_value=20, 
+        required=False, 
+        label='Edad máxima',
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 5'})
+    )
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'GET'
+        self.helper.form_action = ''
         self.helper.layout = Layout(
             Row(
                 Column('tamano', css_class='form-group col-md-2 mb-3'),

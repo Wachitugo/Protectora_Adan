@@ -3,251 +3,255 @@
 
 {% block title %}Acerca de Nosotros - Protectora Adán{% endblock %}
 
-{% block extra_css %}
-<style>
-@media (max-width: 991.98px) {
-    .navbar .container {
-        display: flex !important;
-        flex-wrap: inherit !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-    }
-    
-    .navbar-toggler {
-        position: relative !important;
-        right: 0 !important;
-        margin-left: auto !important;
-        order: 2 !important;
-    }
-    
-    .navbar-brand {
-        order: 1 !important;
-        margin-right: auto !important;
-    }
-    
-    .navbar-collapse {
-        order: 3 !important;
-        flex-basis: 100% !important;
-    }
-}
-
-/* Mejorar botones de redes sociales en pantallas pequeñas */
-@media (max-width: 576px) {
-    .d-flex.flex-wrap.gap-2 {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-    }
-    
-    .d-flex.flex-wrap.gap-2 .btn {
-        width: 100% !important;
-        margin-bottom: 0.5rem !important;
-        justify-content: flex-start !important;
-    }
-}
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="about-page">
-<div class="container py-5">
-    <!-- Hero Section -->
-    <div class="row mb-5">
-        <div class="col-12 text-center">
-            <h1 class="display-4 fw-bold text-primary mb-4">
-                <i class="fas fa-heart"></i> Acerca de Nosotros
+<div class="min-h-screen bg-gray-50 py-6">
+    <div class="container mx-auto px-4">
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-6">
+                <i class="fas fa-heart animate-pulse"></i> Acerca de Nosotros
             </h1>
-            <p class="lead">Conoce nuestra historia, misión y el equipo que hace posible dar una segunda oportunidad a los perros abandonados.</p>
+            <p class="text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Conoce nuestra historia, misión y el equipo que hace posible dar una segunda oportunidad a los perros abandonados.
+            </p>
         </div>
-    </div>
 
-    {% if info_albergue %}
-    <!-- Misión y Visión -->
-    <div class="row mb-5">
-        <div class="col-lg-6 mb-4">
-            <div class="card h-100 border-primary">
-                <div class="card-header bg-primary text-white">
-                    <h4><i class="fas fa-bullseye"></i> Nuestra Misión</h4>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">{{ info_albergue.mision|linebreaks }}</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-6 mb-4">
-            <div class="card h-100 border-success">
-                <div class="card-header bg-success text-white">
-                    <h4><i class="fas fa-eye"></i> Nuestra Visión</h4>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">{{ info_albergue.vision|linebreaks }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Historia -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4><i class="fas fa-history"></i> Nuestra Historia</h4>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">{{ info_albergue.historia|linebreaks }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Información de Contacto -->
-    <div class="row mb-5">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h4><i class="fas fa-map-marker-alt"></i> Ubicación y Contacto</h4>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <h6><i class="fas fa-home"></i> Dirección</h6>
-                        <p>{{ info_albergue.direccion|linebreaks }}</p>
+        {% if info_albergue %}
+        <!-- Misión y Visión -->
+        <div class="grid lg:grid-cols-2 gap-8 mb-16">
+            <div>
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full">
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 p-6">
+                        <h4 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <i class="fas fa-bullseye"></i> Nuestra Misión
+                        </h4>
                     </div>
-                    
-                    <div class="mb-3">
-                        <h6><i class="fas fa-phone"></i> Teléfono</h6>
-                        <p><a href="tel:{{ info_albergue.telefono }}">{{ info_albergue.telefono }}</a></p>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <h6><i class="fas fa-envelope"></i> Email</h6>
-                        <p><a href="mailto:{{ info_albergue.email }}">{{ info_albergue.email }}</a></p>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <h6><i class="fas fa-clock"></i> Horarios de Visita</h6>
-                        <p>{{ info_albergue.horarios|linebreaks }}</p>
+                    <div class="p-8">
+                        <p class="text-gray-700 leading-relaxed text-lg">{{ info_albergue.mision|linebreaks }}</p>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h4><i class="fas fa-chart-bar"></i> Datos del Albergue</h4>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <h6><i class="fas fa-home"></i> Capacidad</h6>
-                        <p>{{ info_albergue.capacidad_perros }} perros</p>
-                    </div>
-                    
-                    {% if info_albergue.numero_cuenta %}
-                    <div class="mb-3">
-                        <h6><i class="fas fa-university"></i> Cuenta para Donaciones</h6>
-                        <p class="font-monospace">{{ info_albergue.numero_cuenta }}</p>
-                    </div>
-                    {% endif %}
-                    
-                    <div class="mb-3">
-                        <h6><i class="fas fa-share-alt"></i> Síguenos en Redes</h6>
-                        <div class="d-flex flex-wrap gap-2">
-                            {% if info_albergue.facebook_url %}
-                            <a href="{{ info_albergue.facebook_url }}" target="_blank" class="btn btn-outline-primary btn-sm">
-                                <i class="fab fa-facebook"></i> Facebook
-                            </a>
-                            {% endif %}
-                            
-                            {% if info_albergue.instagram_url %}
-                            <a href="{{ info_albergue.instagram_url }}" target="_blank" class="btn btn-outline-danger btn-sm">
-                                <i class="fab fa-instagram"></i> Instagram
-                            </a>
-                            {% endif %}
-                            
-                            {% if info_albergue.whatsapp %}
-                            <a href="https://wa.me/{{ info_albergue.whatsapp }}" target="_blank" class="btn btn-outline-success btn-sm">
-                                <i class="fab fa-whatsapp"></i> WhatsApp
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% else %}
-    <!-- Información por defecto -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="alert alert-info">
-                <h4><i class="fas fa-info-circle"></i> Protectora Adán</h4>
-                <p>Somos una organización sin fines de lucro dedicada al rescate, cuidado y rehabilitación de perros abandonados. Nuestro objetivo es encontrar hogares amorosos para cada uno de nuestros rescatados.</p>
-                
-                <h5>Nuestra Misión</h5>
-                <p>Rescatar, rehabilitar y reubicar perros abandonados, brindándoles una segunda oportunidad de vida en hogares responsables y amorosos.</p>
-                
-                <h5>Nuestra Visión</h5>
-                <p>Un mundo donde todos los perros tengan un hogar seguro y una familia que los ame incondicionalmente.</p>
-                
-                <hr>
-                <p class="mb-0"><strong>Contacto:</strong> Para más información, visítanos o contáctanos a través de nuestras redes sociales.</p>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- Cómo Ayudar -->
-    <div class="row">
-        <div class="col-12">
-            <h2 class="text-center mb-4">¿Cómo Puedes Ayudar?</h2>
             
-            <div class="row g-4">
-                <div class="col-md-3">
-                    <div class="card text-center border-0 bg-light">
-                        <div class="card-body">
-                            <i class="fas fa-heart fa-3x text-danger mb-3"></i>
-                            <h5>Adopta</h5>
-                            <p>Dale un hogar a un perro que lo necesita.</p>
-                            <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-danger">Adoptar</a>
+            <div>
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full">
+                    <div class="bg-gradient-to-r from-green-500 to-teal-500 p-6">
+                        <h4 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <i class="fas fa-eye"></i> Nuestra Visión
+                        </h4>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-gray-700 leading-relaxed text-lg">{{ info_albergue.vision|linebreaks }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historia -->
+        <div class="mb-16">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-500 to-red-500 p-6">
+                    <h4 class="text-2xl font-bold text-white flex items-center gap-3">
+                        <i class="fas fa-history"></i> Nuestra Historia
+                    </h4>
+                </div>
+                <div class="p-8">
+                    <div class="prose prose-lg max-w-none">
+                        <p class="text-gray-700 leading-relaxed text-lg">{{ info_albergue.historia|linebreaks }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información de Contacto -->
+        <div class="grid lg:grid-cols-2 gap-8 mb-16">
+            <div>
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full">
+                    <div class="bg-gradient-to-r from-indigo-500 to-purple-500 p-6">
+                        <h4 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <i class="fas fa-map-marker-alt"></i> Ubicación y Contacto
+                        </h4>
+                    </div>
+                    <div class="p-8 space-y-6">
+                        <div>
+                            <h6 class="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
+                                <i class="fas fa-home text-indigo-500"></i> Dirección
+                            </h6>
+                            <p class="text-gray-700 leading-relaxed">{{ info_albergue.direccion|linebreaks }}</p>
+                        </div>
+                        
+                        <div>
+                            <h6 class="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
+                                <i class="fas fa-phone text-green-500"></i> Teléfono
+                            </h6>
+                            <p>
+                                <a href="tel:{{ info_albergue.telefono }}" class="text-green-600 hover:text-green-800 font-semibold transition-colors duration-200">
+                                    {{ info_albergue.telefono }}
+                                </a>
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <h6 class="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
+                                <i class="fas fa-envelope text-blue-500"></i> Email
+                            </h6>
+                            <p>
+                                <a href="mailto:{{ info_albergue.email }}" class="text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-200">
+                                    {{ info_albergue.email }}
+                                </a>
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <h6 class="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
+                                <i class="fas fa-clock text-orange-500"></i> Horarios de Visita
+                            </h6>
+                            <p class="text-gray-700 leading-relaxed">{{ info_albergue.horarios|linebreaks }}</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-md-3">
-                    <div class="card text-center border-0 bg-light">
-                        <div class="card-body">
-                            <i class="fas fa-donate fa-3x text-success mb-3"></i>
-                            <h5>Dona</h5>
-                            <p>Tu contribución nos ayuda a seguir rescatando.</p>
-                            <a href="{% url 'donaciones:donar' %}" class="btn btn-success">Donar</a>
-                        </div>
+            </div>
+            
+            <div>
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full">
+                    <div class="bg-gradient-to-r from-pink-500 to-rose-500 p-6">
+                        <h4 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <i class="fas fa-chart-bar"></i> Datos del Albergue
+                        </h4>
                     </div>
-                </div>
-                
-                <div class="col-md-3">
-                    <div class="card text-center border-0 bg-light">
-                        <div class="card-body">
-                            <i class="fas fa-hands-helping fa-3x text-primary mb-3"></i>
-                            <h5>Voluntario</h5>
-                            <p>Únete a nuestro equipo de voluntarios.</p>
-                            <a href="{% url 'core:voluntariado' %}" class="btn btn-primary">Ser Voluntario</a>
+                    <div class="p-8 space-y-6">
+                        <div>
+                            <h6 class="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
+                                <i class="fas fa-home text-pink-500"></i> Capacidad
+                            </h6>
+                            <p class="text-2xl font-bold text-pink-600">{{ info_albergue.capacidad_perros }} perros</p>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-3">
-                    <div class="card text-center border-0 bg-light">
-                        <div class="card-body">
-                            <i class="fas fa-share-alt fa-3x text-info mb-3"></i>
-                            <h5>Comparte</h5>
-                            <p>Ayúdanos difundiendo nuestra labor.</p>
-                            <button class="btn btn-info share-btn" data-url="{{ request.build_absolute_uri }}" data-text="Conoce la Protectora Adán">Compartir</button>
+                        
+                        {% if info_albergue.numero_cuenta %}
+                        <div>
+                            <h6 class="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
+                                <i class="fas fa-university text-purple-500"></i> Cuenta para Donaciones
+                            </h6>
+                            <p class="font-mono text-lg bg-gray-100 p-3 rounded-lg">{{ info_albergue.numero_cuenta }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        <div>
+                            <h6 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <i class="fas fa-share-alt text-blue-500"></i> Síguenos en Redes
+                            </h6>
+                            <div class="flex flex-col gap-3">
+                                {% if info_albergue.facebook_url %}
+                                <a href="{{ info_albergue.facebook_url }}" target="_blank" class="inline-flex items-center gap-3 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105">
+                                    <i class="fab fa-facebook text-xl"></i> Facebook
+                                </a>
+                                {% endif %}
+                                
+                                {% if info_albergue.instagram_url %}
+                                <a href="{{ info_albergue.instagram_url }}" target="_blank" class="inline-flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg transition-all duration-300 transform hover:scale-105">
+                                    <i class="fab fa-instagram text-xl"></i> Instagram
+                                </a>
+                                {% endif %}
+                                
+                                {% if info_albergue.whatsapp %}
+                                <a href="https://wa.me/{{ info_albergue.whatsapp }}" target="_blank" class="inline-flex items-center gap-3 px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all duration-300 transform hover:scale-105">
+                                    <i class="fab fa-whatsapp text-xl"></i> WhatsApp
+                                </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        {% else %}
+        <!-- Información por defecto -->
+        <div class="mb-16">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-400 p-8 rounded-r-2xl">
+                <h4 class="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fas fa-info-circle"></i> Protectora Adán
+                </h4>
+                <p class="text-blue-700 leading-relaxed mb-6">
+                    Somos una organización sin fines de lucro dedicada al rescate, cuidado y rehabilitación de perros abandonados. 
+                    Nuestro objetivo es encontrar hogares amorosos para cada uno de nuestros rescatados.
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div class="bg-white p-6 rounded-xl">
+                        <h5 class="text-xl font-bold text-gray-800 mb-3">Nuestra Misión</h5>
+                        <p class="text-gray-700">Rescatar, rehabilitar y reubicar perros abandonados, brindándoles una segunda oportunidad de vida en hogares responsables y amorosos.</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl">
+                        <h5 class="text-xl font-bold text-gray-800 mb-3">Nuestra Visión</h5>
+                        <p class="text-gray-700">Un mundo donde todos los perros tengan un hogar seguro y una familia que los ame incondicionalmente.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl mt-6">
+                    <p class="text-gray-700"><strong>Contacto:</strong> Para más información, visítanos o contáctanos a través de nuestras redes sociales.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Cómo Ayudar -->
+        <div class="pb-8">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">¿Cómo Puedes Ayudar?</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="group">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
+                        <div class="bg-gradient-to-r from-red-400 to-pink-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-heart text-3xl text-white"></i>
+                        </div>
+                        <h5 class="text-xl font-bold text-gray-800 mb-4">Adopta</h5>
+                        <p class="text-gray-600 mb-6 flex-grow">Dale un hogar a un perro que lo necesita.</p>
+                        <a href="{% url 'adopciones:lista_perros' %}" class="inline-block bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+                            Adoptar
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="group">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
+                        <div class="bg-gradient-to-r from-green-400 to-emerald-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-donate text-3xl text-white"></i>
+                        </div>
+                        <h5 class="text-xl font-bold text-gray-800 mb-4">Dona</h5>
+                        <p class="text-gray-600 mb-6 flex-grow">Tu contribución nos ayuda a seguir rescatando.</p>
+                        <a href="{% url 'donaciones:donar' %}" class="inline-block bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+                            Donar
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="group">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
+                        <div class="bg-gradient-to-r from-blue-400 to-indigo-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-hands-helping text-3xl text-white"></i>
+                        </div>
+                        <h5 class="text-xl font-bold text-gray-800 mb-4">Voluntario</h5>
+                        <p class="text-gray-600 mb-6 flex-grow">Únete a nuestro equipo de voluntarios.</p>
+                        <a href="{% url 'core:voluntariado' %}" class="inline-block bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+                            Ser Voluntario
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="group">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
+                        <div class="bg-gradient-to-r from-cyan-400 to-blue-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-share-alt text-3xl text-white"></i>
+                        </div>
+                        <h5 class="text-xl font-bold text-gray-800 mb-4">Comparte</h5>
+                        <p class="text-gray-600 mb-6 flex-grow">Ayúdanos difundiendo nuestra labor.</p>
+                        <button class="share-btn inline-block bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105" data-url="{{ request.build_absolute_uri }}" data-text="Conoce la Protectora Adán">
+                            Compartir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

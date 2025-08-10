@@ -7,21 +7,42 @@ from .forms import SolicitudAdopcionForm, FiltroPerrosForm
 
 def lista_perros(request):
     """Vista para mostrar la lista de perros disponibles"""
+    # Inicializar el formulario con los datos GET
     form = FiltroPerrosForm(request.GET)
     perros = Perro.objects.filter(estado='disponible')
     
-    # Aplicar filtros
-    if form.is_valid():
-        if form.cleaned_data.get('tamano'):
-            perros = perros.filter(tamano=form.cleaned_data['tamano'])
-        if form.cleaned_data.get('sexo'):
-            perros = perros.filter(sexo=form.cleaned_data['sexo'])
-        if form.cleaned_data.get('color'):
-            perros = perros.filter(color=form.cleaned_data['color'])
-        if form.cleaned_data.get('edad_min'):
-            perros = perros.filter(edad__gte=form.cleaned_data['edad_min'])
-        if form.cleaned_data.get('edad_max'):
-            perros = perros.filter(edad__lte=form.cleaned_data['edad_max'])
+    
+    # Aplicar filtros si hay datos en el formulario
+    if form.is_bound and form.data:
+        # Validar el formulario para obtener cleaned_data
+        if form.is_valid():
+            
+            # Filtrar por tamaño
+            tamano = form.cleaned_data.get('tamano')
+            if tamano:
+                perros = perros.filter(tamano=tamano)
+            
+            # Filtrar por sexo
+            sexo = form.cleaned_data.get('sexo')
+            if sexo:
+                perros = perros.filter(sexo=sexo)
+            
+            # Filtrar por color
+            color = form.cleaned_data.get('color')
+            if color:
+                perros = perros.filter(color=color)
+            
+            # Filtrar por edad mínima
+            edad_min = form.cleaned_data.get('edad_min')
+            if edad_min is not None:
+                perros = perros.filter(edad__gte=edad_min)
+            
+            # Filtrar por edad máxima
+            edad_max = form.cleaned_data.get('edad_max')
+            if edad_max is not None:
+                perros = perros.filter(edad__lte=edad_max)
+        else:
+            messages.error(request, 'Por favor, corrija los errores en el formulario.')
     
     # Paginación
     paginator = Paginator(perros, 12)
@@ -33,6 +54,10 @@ def lista_perros(request):
         'form': form,
         'total_perros': perros.count(),
     }
+    
+    # Si es una petición AJAX, devolver solo el contenido necesario
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return render(request, 'adopciones/partial_perros.html', context)
     
     return render(request, 'adopciones/lista_perros.html', context)
 

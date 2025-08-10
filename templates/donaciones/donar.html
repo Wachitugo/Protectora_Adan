@@ -4,210 +4,448 @@
 {% block title %}Donar - Protectora Adán{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <!-- Hero Section -->
-    <div class="row mb-5">
-        <div class="col-12 text-center">
-            <h1 class="display-4 fw-bold text-success mb-4">
-                <i class="fas fa-heart"></i> Realiza una Donación
+<div class="min-h-screen bg-gray-50 py-6">
+    <div class="container mx-auto px-4">
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 mb-6">
+                <i class="fas fa-heart text-red-500 animate-pulse"></i> Realiza una Donación
             </h1>
-            <p class="lead">Tu generosidad hace posible que sigamos rescatando y cuidando perros abandonados. Cada donación, sin importar la cantidad, marca la diferencia.</p>
+            <p class="text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Tu generosidad hace posible que sigamos rescatando y cuidando perros abandonados. 
+                Cada donación, sin importar la cantidad, marca la diferencia en la vida de estos angelitos.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+            <!-- Tipos de donación -->
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl mr-4">
+                        <i class="fas fa-hand-holding-heart text-white text-xl"></i>
+                    </div>
+                    Formas de Ayudar
+                </h2>
+                
+                <div class="space-y-6">
+                    {% for tipo in tipos_donacion %}
+                    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-green-100 overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">{{ tipo.nombre }}</h3>
+                                    <p class="text-gray-600 mb-3 leading-relaxed">{{ tipo.descripcion }}</p>
+                                    {% if tipo.precio_sugerido %}
+                                    <div class="inline-flex items-center bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                        <i class="fas fa-tag mr-2"></i>
+                                        Precio sugerido: ${{ tipo.precio_sugerido|floatformat:0 }} CLP
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-shrink-0 ml-6">
+                                    {% if tipo.imagen %}
+                                    <img src="{{ tipo.imagen.url }}" class="w-20 h-20 rounded-xl object-cover shadow-lg transform hover:scale-105 transition-transform duration-300" alt="{{ tipo.nombre }}">
+                                    {% else %}
+                                    <div class="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg">
+                                        <i class="fas fa-gift text-3xl text-white"></i>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200">
+                        <div class="flex items-start">
+                            <div class="bg-blue-500 p-3 rounded-xl">
+                                <i class="fas fa-info-circle text-white text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-xl font-bold text-blue-900 mb-4">Tipos de Donación</h3>
+                                <ul class="space-y-3 text-blue-800">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-circle text-xs text-blue-500 mt-2 mr-3"></i>
+                                        <div>
+                                            <strong>Donación General:</strong> Ayuda para gastos operativos del albergue
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-circle text-xs text-blue-500 mt-2 mr-3"></i>
+                                        <div>
+                                            <strong>Alimentación:</strong> Comida y suplementos para los perros
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-circle text-xs text-blue-500 mt-2 mr-3"></i>
+                                        <div>
+                                            <strong>Medicina:</strong> Vacunas, tratamientos y atención veterinaria
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-circle text-xs text-blue-500 mt-2 mr-3"></i>
+                                        <div>
+                                            <strong>Materiales:</strong> Camas, juguetes, correas y otros materiales
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Información adicional -->
+                <div class="mt-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">¿En qué se utiliza tu donación?</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-yellow-100">
+                            <div class="bg-gradient-to-br from-yellow-400 to-orange-500 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-utensils text-2xl text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-900 mb-1">Alimentación</h4>
+                            <p class="text-3xl font-bold text-yellow-600 mb-1">40%</p>
+                            <p class="text-sm text-gray-600">Comida y nutrición</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-red-100">
+                            <div class="bg-gradient-to-br from-red-400 to-pink-500 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-stethoscope text-2xl text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-900 mb-1">Veterinario</h4>
+                            <p class="text-3xl font-bold text-red-600 mb-1">35%</p>
+                            <p class="text-sm text-gray-600">Atención médica</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-100">
+                            <div class="bg-gradient-to-br from-blue-400 to-indigo-500 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-home text-2xl text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-900 mb-1">Mantenimiento</h4>
+                            <p class="text-3xl font-bold text-blue-600 mb-1">15%</p>
+                            <p class="text-sm text-gray-600">Instalaciones</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+                            <div class="bg-gradient-to-br from-gray-400 to-gray-500 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-tools text-2xl text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-900 mb-1">Materiales</h4>
+                            <p class="text-3xl font-bold text-gray-600 mb-1">10%</p>
+                            <p class="text-sm text-gray-600">Equipamiento</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de donación -->
+            <div>
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-500 to-emerald-500 p-6">
+                        <h2 class="text-2xl font-bold text-white flex items-center">
+                            <i class="fas fa-donate mr-3"></i>
+                            Formulario de Donación
+                        </h2>
+                    </div>
+                    <div class="p-8">
+                        <!-- Cantidades sugeridas -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Cantidades sugeridas:</h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                <button type="button" class="donation-amount bg-gradient-to-r from-green-100 to-emerald-100 hover:from-green-200 hover:to-emerald-200 text-green-800 border-2 border-green-200 hover:border-green-300 py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105" data-amount="10000">
+                                    $10.000
+                                </button>
+                                <button type="button" class="donation-amount bg-gradient-to-r from-green-100 to-emerald-100 hover:from-green-200 hover:to-emerald-200 text-green-800 border-2 border-green-200 hover:border-green-300 py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105" data-amount="25000">
+                                    $25.000
+                                </button>
+                                <button type="button" class="donation-amount bg-gradient-to-r from-green-100 to-emerald-100 hover:from-green-200 hover:to-emerald-200 text-green-800 border-2 border-green-200 hover:border-green-300 py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105" data-amount="50000">
+                                    $50.000
+                                </button>
+                                <button type="button" class="donation-amount bg-gradient-to-r from-green-100 to-emerald-100 hover:from-green-200 hover:to-emerald-200 text-green-800 border-2 border-green-200 hover:border-green-300 py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105" data-amount="100000">
+                                    $100.000
+                                </button>
+                                <button type="button" class="donation-amount bg-gradient-to-r from-green-100 to-emerald-100 hover:from-green-200 hover:to-emerald-200 text-green-800 border-2 border-green-200 hover:border-green-300 py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105" data-amount="200000">
+                                    $200.000
+                                </button>
+                                <button type="button" class="donation-amount bg-gradient-to-r from-green-100 to-emerald-100 hover:from-green-200 hover:to-emerald-200 text-green-800 border-2 border-green-200 hover:border-green-300 py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105" data-amount="custom">
+                                    Otro monto
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="donation-form">
+                            <form method="post" action="{% url 'donaciones:donar' %}" class="space-y-6">
+                                {% csrf_token %}
+                                
+                                <!-- Tipo de donación -->
+                                <div class="space-y-2">
+                                    <label for="{{ form.tipo_donacion.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                        <i class="fas fa-heart mr-2 text-green-500"></i>
+                                        {{ form.tipo_donacion.label }}
+                                    </label>
+                                    <select name="{{ form.tipo_donacion.name }}" id="{{ form.tipo_donacion.id_for_label }}" 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white shadow-sm transition-all duration-200 hover:border-green-400"
+                                            required>
+                                        <option value="">Selecciona un tipo de donación</option>
+                                        {% for choice in form.tipo_donacion.field.queryset %}
+                                            <option value="{{ choice.id }}" {% if form.tipo_donacion.value == choice.id %}selected{% endif %}>{{ choice.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if form.tipo_donacion.errors %}
+                                        <div class="text-red-500 text-sm">{{ form.tipo_donacion.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Nombre y Email -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="space-y-2">
+                                        <label for="{{ form.nombre_donante.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                            <i class="fas fa-user mr-2 text-blue-500"></i>
+                                            {{ form.nombre_donante.label }}
+                                        </label>
+                                        <input type="text" name="{{ form.nombre_donante.name }}" id="{{ form.nombre_donante.id_for_label }}" 
+                                               value="{{ form.nombre_donante.value|default:'' }}"
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white shadow-sm transition-all duration-200 hover:border-green-400"
+                                               placeholder="Tu nombre completo" required>
+                                        {% if form.nombre_donante.errors %}
+                                            <div class="text-red-500 text-sm">{{ form.nombre_donante.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="space-y-2">
+                                        <label for="{{ form.email_donante.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                            <i class="fas fa-envelope mr-2 text-purple-500"></i>
+                                            {{ form.email_donante.label }}
+                                        </label>
+                                        <input type="email" name="{{ form.email_donante.name }}" id="{{ form.email_donante.id_for_label }}" 
+                                               value="{{ form.email_donante.value|default:'' }}"
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white shadow-sm transition-all duration-200 hover:border-green-400"
+                                               placeholder="tucorreo@ejemplo.com" required>
+                                        {% if form.email_donante.errors %}
+                                            <div class="text-red-500 text-sm">{{ form.email_donante.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Teléfono y Cantidad -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="space-y-2">
+                                        <label for="{{ form.telefono_donante.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                            <i class="fas fa-phone mr-2 text-yellow-500"></i>
+                                            {{ form.telefono_donante.label }}
+                                        </label>
+                                        <input type="tel" name="{{ form.telefono_donante.name }}" id="{{ form.telefono_donante.id_for_label }}" 
+                                               value="{{ form.telefono_donante.value|default:'' }}"
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white shadow-sm transition-all duration-200 hover:border-green-400"
+                                               placeholder="+56 9 1234 5678">
+                                        {% if form.telefono_donante.errors %}
+                                            <div class="text-red-500 text-sm">{{ form.telefono_donante.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="space-y-2">
+                                        <label for="{{ form.cantidad.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                            <i class="fas fa-dollar-sign mr-2 text-green-500"></i>
+                                            {{ form.cantidad.label }}
+                                        </label>
+                                        <input type="number" name="{{ form.cantidad.name }}" id="{{ form.cantidad.id_for_label }}" 
+                                               value="{{ form.cantidad.value|default:'' }}" min="1000" step="1"
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white shadow-sm transition-all duration-200 hover:border-green-400"
+                                               placeholder="10000" required>
+                                        {% if form.cantidad.errors %}
+                                            <div class="text-red-500 text-sm">{{ form.cantidad.errors.0 }}</div>
+                                        {% endif %}
+                                        <p class="text-xs text-gray-500">Monto mínimo: $1.000 CLP</p>
+                                    </div>
+                                </div>
+
+                                <!-- Mensaje -->
+                                <div class="space-y-2">
+                                    <label for="{{ form.mensaje.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                        <i class="fas fa-comment-alt mr-2 text-indigo-500"></i>
+                                        {{ form.mensaje.label }}
+                                    </label>
+                                    <textarea name="{{ form.mensaje.name }}" id="{{ form.mensaje.id_for_label }}" rows="4"
+                                              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white shadow-sm transition-all duration-200 hover:border-green-400 resize-none"
+                                              placeholder="Escribe un mensaje de apoyo (opcional)">{{ form.mensaje.value|default:'' }}</textarea>
+                                    {% if form.mensaje.errors %}
+                                        <div class="text-red-500 text-sm">{{ form.mensaje.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Donación anónima -->
+                                <div class="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl">
+                                    <input type="checkbox" name="{{ form.anonimo.name }}" id="{{ form.anonimo.id_for_label }}" 
+                                           {% if form.anonimo.value %}checked{% endif %}
+                                           class="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2">
+                                    <label for="{{ form.anonimo.id_for_label }}" class="text-sm font-medium text-gray-700 cursor-pointer">
+                                        <i class="fas fa-user-secret mr-2 text-gray-500"></i>
+                                        {{ form.anonimo.label }}
+                                    </label>
+                                    {% if form.anonimo.errors %}
+                                        <div class="text-red-500 text-sm">{{ form.anonimo.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Botón de envío -->
+                                <div class="pt-4">
+                                    <button type="submit" 
+                                            class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-lg">
+                                        <i class="fas fa-heart mr-3"></i>
+                                        Realizar Donación Segura
+                                        <i class="fas fa-shield-alt ml-3"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información de seguridad -->
+                <div class="mt-8 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200">
+                    <div class="flex items-start">
+                        <div class="bg-blue-500 p-3 rounded-xl">
+                            <i class="fas fa-shield-alt text-white text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold text-blue-900 mb-4">Pago Seguro con WebPay</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center text-blue-800">
+                                    <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                    <span>Procesamos tu donación de forma segura a través de <strong>WebPay de Transbank</strong></span>
+                                </div>
+                                <div class="flex items-center text-blue-800">
+                                    <i class="fas fa-credit-card text-blue-500 mr-3"></i>
+                                    <span>Acepta tarjetas de crédito y débito de todos los bancos chilenos</span>
+                                </div>
+                                <div class="flex items-center text-blue-800">
+                                    <i class="fas fa-receipt text-yellow-500 mr-3"></i>
+                                    <span>Recibirás un comprobante de pago y un recibo de donación por email</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <!-- Tipos de donación -->
-        <div class="col-lg-6 mb-5">
-            <h2 class="mb-4">Formas de Ayudar</h2>
-            
-            {% for tipo in tipos_donacion %}
-            <div class="card mb-3 border-success">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h5 class="card-title">{{ tipo.nombre }}</h5>
-                            <p class="card-text">{{ tipo.descripcion }}</p>
-                            {% if tipo.precio_sugerido %}
-                            <small class="text-muted">Precio sugerido: ${{ tipo.precio_sugerido|floatformat:0 }} CLP</small>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-4 text-center">
-                            {% if tipo.imagen %}
-                            <img src="{{ tipo.imagen.url }}" class="img-fluid rounded" alt="{{ tipo.nombre }}" style="max-height: 80px;">
-                            {% else %}
-                            <i class="fas fa-gift fa-3x text-success"></i>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="alert alert-info">
-                <h5><i class="fas fa-info-circle"></i> Tipos de Donación</h5>
-                <ul class="mb-0">
-                    <li><strong>Donación General:</strong> Ayuda para gastos operativos del albergue</li>
-                    <li><strong>Alimentación:</strong> Comida y suplementos para los perros</li>
-                    <li><strong>Medicina:</strong> Vacunas, tratamientos y atención veterinaria</li>
-                    <li><strong>Materiales:</strong> Camas, juguetes, correas y otros materiales</li>
-                </ul>
-            </div>
-            {% endfor %}
-
-            <!-- Información adicional -->
-            <div class="mt-4">
-                <h3 class="mb-3">¿En qué se utiliza tu donación?</h3>
-                <div class="row g-3">
-                    <div class="col-6">
-                        <div class="card text-center bg-light border-0">
-                            <div class="card-body">
-                                <i class="fas fa-utensils fa-2x text-warning mb-2"></i>
-                                <h6>Alimentación</h6>
-                                <small>40%</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card text-center bg-light border-0">
-                            <div class="card-body">
-                                <i class="fas fa-stethoscope fa-2x text-danger mb-2"></i>
-                                <h6>Veterinario</h6>
-                                <small>35%</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card text-center bg-light border-0">
-                            <div class="card-body">
-                                <i class="fas fa-home fa-2x text-info mb-2"></i>
-                                <h6>Mantenimiento</h6>
-                                <small>15%</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card text-center bg-light border-0">
-                            <div class="card-body">
-                                <i class="fas fa-tools fa-2x text-secondary mb-2"></i>
-                                <h6>Materiales</h6>
-                                <small>10%</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Formulario de donación -->
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0"><i class="fas fa-donate"></i> Formulario de Donación</h4>
-                </div>
-                <div class="card-body">
-                    <!-- Cantidades sugeridas -->
-                    <div class="mb-4">
-                        <h6>Cantidades sugeridas:</h6>
-                        <div class="d-flex flex-wrap gap-2">
-                            <button type="button" class="btn btn-outline-success donation-amount" data-amount="10000">$10.000</button>
-                            <button type="button" class="btn btn-outline-success donation-amount" data-amount="25000">$25.000</button>
-                            <button type="button" class="btn btn-outline-success donation-amount" data-amount="50000">$50.000</button>
-                            <button type="button" class="btn btn-outline-success donation-amount" data-amount="100000">$100.000</button>
-                            <button type="button" class="btn btn-outline-success donation-amount" data-amount="200000">$200.000</button>
-                        </div>
-                    </div>
-
-                    {% load crispy_forms_tags %}
-                    {% crispy form %}
-                </div>
-            </div>
-
-            <!-- Información de seguridad -->
-            <div class="alert alert-info mt-4">
-                <h6><i class="fas fa-shield-alt"></i> Pago Seguro con WebPay</h6>
-                <p class="mb-2 small">
-                    <i class="fas fa-check-circle text-success"></i> 
-                    Procesamos tu donación de forma segura a través de <strong>WebPay de Transbank</strong>
-                </p>
-                <p class="mb-2 small">
-                    <i class="fas fa-credit-card text-info"></i> 
-                    Acepta tarjetas de crédito y débito de todos los bancos chilenos
-                </p>
-                <p class="mb-0 small">
-                    <i class="fas fa-receipt text-warning"></i> 
-                    Recibirás un comprobante de pago y un recibo de donación por email
-                </p>
-            </div>
-        </div>
+    <!-- Separador visual -->
+    <div class="my-12">
+        <div class="border-t border-gray-200"></div>
     </div>
 
     <!-- Otras formas de ayudar -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <h2 class="text-center mb-4">Otras Formas de Ayudar</h2>
-            <div class="row g-4">
-                <div class="col-md-3">
-                    <div class="card text-center border-0 bg-light h-100">
-                        <div class="card-body">
-                            <i class="fas fa-box fa-3x text-primary mb-3"></i>
-                            <h5>Donaciones en Especie</h5>
-                            <p>Comida, medicinas, mantas, juguetes</p>
-                            <small class="text-muted">Contacta para coordinar entrega</small>
-                        </div>
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                Otras Formas de 
+                <span class="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">Ayudar</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Existen muchas maneras de contribuir con nuestra causa más allá de las donaciones monetarias.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-16">
+            <div class="group text-center">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-blue-100">
+                    <div class="bg-gradient-to-br from-blue-500 to-indigo-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-box text-3xl text-white"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Donaciones en Especie</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">Comida, medicinas, mantas, juguetes</p>
+                    <p class="text-sm text-gray-500">Contacta para coordinar entrega</p>
                 </div>
-                
-                <div class="col-md-3">
-                    <div class="card text-center border-0 bg-light h-100">
-                        <div class="card-body">
-                            <i class="fas fa-calendar fa-3x text-warning mb-3"></i>
-                            <h5>Donación Mensual</h5>
-                            <p>Conviértete en socio colaborador</p>
-                            <small class="text-muted">Ayuda continua y predecible</small>
-                        </div>
+            </div>
+            
+            <div class="group text-center">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-yellow-100">
+                    <div class="bg-gradient-to-br from-yellow-500 to-orange-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-calendar text-3xl text-white"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Donación Mensual</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">Conviértete en socio colaborador</p>
+                    <p class="text-sm text-gray-500">Ayuda continua y predecible</p>
                 </div>
-                
-                <div class="col-md-3">
-                    <div class="card text-center border-0 bg-light h-100">
-                        <div class="card-body">
-                            <i class="fas fa-store fa-3x text-info mb-3"></i>
-                            <h5>Compras Solidarias</h5>
-                            <p>Productos de empresas colaboradoras</p>
-                            <small class="text-muted">Un % va para el albergue</small>
-                        </div>
+            </div>
+            
+            <div class="group text-center">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-green-100">
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-store text-3xl text-white"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Compras Solidarias</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">Productos de empresas colaboradoras</p>
+                    <p class="text-sm text-gray-500">Un % va para el albergue</p>
                 </div>
-                
-                <div class="col-md-3">
-                    <div class="card text-center border-0 bg-light h-100">
-                        <div class="card-body">
-                            <i class="fas fa-birthday-cake fa-3x text-danger mb-3"></i>
-                            <h5>Eventos Especiales</h5>
-                            <p>Celebra donando en ocasiones especiales</p>
-                            <small class="text-muted">Cumpleaños, aniversarios, etc.</small>
-                        </div>
+            </div>
+            
+            <div class="group text-center">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-red-100">
+                    <div class="bg-gradient-to-br from-red-500 to-pink-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-birthday-cake text-3xl text-white"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Eventos Especiales</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">Celebra donando en ocasiones especiales</p>
+                    <p class="text-sm text-gray-500">Cumpleaños, aniversarios, etc.</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Separador visual -->
+    <div class="my-8">
+        <div class="border-t border-gray-200"></div>
+    </div>
+
     <!-- Testimonios de donantes -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <h2 class="text-center mb-4">Lo que dicen nuestros donantes</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <blockquote class="blockquote text-center">
-                        <p>"Saber que mi donación ayuda a que estos angelitos tengan una mejor vida me llena el corazón."</p>
-                        <footer class="blockquote-footer">María González</footer>
-                    </blockquote>
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                Lo que dicen nuestros 
+                <span class="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">Donantes</span>
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 shadow-lg border border-green-100">
+                <div class="flex items-start">
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-600 w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-quote-left text-2xl text-white"></i>
+                    </div>
+                    <div class="ml-4">
+                        <blockquote class="text-lg text-gray-800 italic mb-4 leading-relaxed">
+                            "Saber que mi donación ayuda a que estos angelitos tengan una mejor vida me llena el corazón."
+                        </blockquote>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-900">María González</p>
+                                <p class="text-sm text-gray-600">Donante mensual</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <blockquote class="blockquote text-center">
-                        <p>"Es increíble ver el trabajo que hacen. Mi aporte mensual me hace sentir parte de esta gran familia."</p>
-                        <footer class="blockquote-footer">Carlos Ruiz</footer>
-                    </blockquote>
+            </div>
+            
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 shadow-lg border border-blue-100">
+                <div class="flex items-start">
+                    <div class="bg-gradient-to-br from-blue-500 to-indigo-600 w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-quote-left text-2xl text-white"></i>
+                    </div>
+                    <div class="ml-4">
+                        <blockquote class="text-lg text-gray-800 italic mb-4 leading-relaxed">
+                            "Es increíble ver el trabajo que hacen. Mi aporte mensual me hace sentir parte de esta gran familia."
+                        </blockquote>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-900">Carlos Ruiz</p>
+                                <p class="text-sm text-gray-600">Socio colaborador</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -223,12 +461,21 @@ document.addEventListener('DOMContentLoaded', function() {
     donationButtons.forEach(button => {
         button.addEventListener('click', function() {
             const amount = this.dataset.amount;
-            if (amountInput) {
+            
+            // Remover clase active de todos los botones
+            donationButtons.forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-green-600', 'to-emerald-700', 'text-white', 'border-green-700');
+                btn.classList.add('bg-gradient-to-r', 'from-green-100', 'to-emerald-100', 'text-green-800', 'border-green-200');
+            });
+            
+            // Agregar clase active al botón clickeado
+            this.classList.remove('bg-gradient-to-r', 'from-green-100', 'to-emerald-100', 'text-green-800', 'border-green-200');
+            this.classList.add('bg-gradient-to-r', 'from-green-600', 'to-emerald-700', 'text-white', 'border-green-700');
+            
+            if (amountInput && amount !== 'custom') {
                 amountInput.value = amount;
-                // Remover clase active de todos los botones
-                donationButtons.forEach(btn => btn.classList.remove('active'));
-                // Agregar clase active al botón clickeado
-                this.classList.add('active');
+            } else if (amountInput && amount === 'custom') {
+                amountInput.focus();
             }
         });
     });

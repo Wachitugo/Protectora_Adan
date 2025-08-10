@@ -4,199 +4,319 @@
 {% block title %}Gracias por tu Donación - Protectora Adán{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 text-center">
-            <!-- Mensaje de agradecimiento -->
-            <div class="mb-5">
-                <i class="fas fa-heart fa-5x text-success mb-4"></i>
-                <h1 class="display-4 fw-bold text-success mb-4">¡Gracias!</h1>
-                <p class="lead">Tu donación de <strong>${{ donacion.cantidad|floatformat:0 }} CLP</strong> ha sido procesada.</p>
+<div class="min-h-screen bg-gray-50 py-6">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Hero de agradecimiento -->
+        <div class="text-center mb-12">
+            <div class="mb-8">
                 {% if donacion.estado == 'completada' %}
-                    <div class="alert alert-success">
-                        <i class="fas fa-check-circle"></i> <strong>¡Pago Confirmado!</strong> 
-                        Tu donación se procesó exitosamente.
+                    <div class="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse shadow-2xl">
+                        <i class="fas fa-heart text-4xl text-white"></i>
                     </div>
                 {% elif donacion.estado == 'fallida' %}
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-circle"></i> <strong>Pago No Procesado</strong> 
-                        Hubo un problema con el procesamiento del pago.
+                    <div class="w-24 h-24 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse shadow-2xl">
+                        <i class="fas fa-exclamation-triangle text-4xl text-white"></i>
                     </div>
                 {% else %}
-                    <div class="alert alert-warning">
-                        <i class="fas fa-clock"></i> <strong>Pago Pendiente</strong> 
-                        Tu donación está siendo procesada.
+                    <div class="w-24 h-24 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse shadow-2xl">
+                        <i class="fas fa-clock text-4xl text-white"></i>
                     </div>
                 {% endif %}
-                <p class="text-muted">Gracias a tu generosidad, podemos seguir rescatando y cuidando perros abandonados.</p>
-            </div>
-
-            <!-- Detalles de la donación -->
-            <div class="card mb-5">
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0"><i class="fas fa-receipt"></i> Detalles de tu Donación</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6 text-start">
-                            <p><strong>Tipo de donación:</strong> {{ donacion.tipo_donacion.nombre }}</p>
-                            <p><strong>Cantidad:</strong> ${{ donacion.cantidad|floatformat:0 }} CLP</p>
-                            <p><strong>Fecha:</strong> {{ donacion.fecha_donacion|date:"d/m/Y H:i" }}</p>
-                            {% if donacion.authorization_code %}
-                            <p><strong>Código de autorización:</strong> {{ donacion.authorization_code }}</p>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-6 text-start">
-                            {% if not donacion.anonimo %}
-                            <p><strong>Donante:</strong> {{ donacion.nombre_donante }}</p>
-                            {% else %}
-                            <p><strong>Donante:</strong> Anónimo</p>
-                            {% endif %}
-                            <p><strong>Estado:</strong> 
-                                {% if donacion.estado == 'completada' %}
-                                    <span class="badge bg-success">{{ donacion.get_estado_display }}</span>
-                                {% elif donacion.estado == 'fallida' %}
-                                    <span class="badge bg-danger">{{ donacion.get_estado_display }}</span>
-                                {% else %}
-                                    <span class="badge bg-warning">{{ donacion.get_estado_display }}</span>
-                                {% endif %}
-                            </p>
-                            {% if donacion.buy_order %}
-                            <p><strong>Orden de compra:</strong> {{ donacion.buy_order }}</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                    
-                    {% if donacion.mensaje %}
-                    <div class="mt-3">
-                        <p><strong>Tu mensaje:</strong></p>
-                        <p class="fst-italic">"{{ donacion.mensaje }}"</p>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Qué pasa ahora -->
-            <div class="row mb-5">
-                <div class="col-12">
-                    <h3 class="mb-4">¿Qué pasa ahora?</h3>
-                    <div class="row g-4">
-                        <div class="col-md-4">
-                            <div class="card border-0 bg-light h-100">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-envelope fa-3x text-primary mb-3"></i>
-                                    <h5>Confirmación por Email</h5>
-                                    <p class="text-muted">Recibirás un recibo detallado en tu correo electrónico.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 bg-light h-100">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-credit-card fa-3x text-success mb-3"></i>
-                                    <h5>Procesamiento</h5>
-                                    <p class="text-muted">Tu donación será procesada en las próximas 24-48 horas.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 bg-light h-100">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-dog fa-3x text-warning mb-3"></i>
-                                    <h5>Ayuda Directa</h5>
-                                    <p class="text-muted">Tu contribución se utilizará inmediatamente para el cuidado de nuestros perros.</p>
-                                </div>
+                {% if donacion.estado == 'completada' %}
+                    <h1 class="text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 mb-6">
+                        ¡Gracias!
+                    </h1>
+                    <p class="text-2xl text-gray-700 mb-6">
+                        Tu donación de <span class="font-bold text-green-600">${{ donacion.cantidad|floatformat:0 }} CLP</span> ha sido procesada exitosamente
+                    </p>
+                {% elif donacion.estado == 'fallida' %}
+                    <h1 class="text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-500 mb-6">
+                        ¡Oops!
+                    </h1>
+                    <p class="text-2xl text-gray-700 mb-6">
+                        Tu donación de <span class="font-bold text-red-600">${{ donacion.cantidad|floatformat:0 }} CLP</span> no pudo ser procesada
+                    </p>
+                {% else %}
+                    <h1 class="text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-orange-600 mb-6">
+                        ¡Procesando!
+                    </h1>
+                    <p class="text-2xl text-gray-700 mb-6">
+                        Tu donación de <span class="font-bold text-yellow-600">${{ donacion.cantidad|floatformat:0 }} CLP</span> está siendo procesada
+                    </p>
+                {% endif %}
+                
+                <!-- Estado de la donación -->
+                {% if donacion.estado == 'completada' %}
+                    <div class="bg-gradient-to-r from-green-100 to-emerald-100 border border-green-300 rounded-2xl p-6 mb-6 shadow-lg">
+                        <div class="flex items-center justify-center">
+                            <i class="fas fa-check-circle text-3xl text-green-600 mr-4"></i>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold text-green-800">¡Pago Confirmado!</h3>
+                                <p class="text-green-700">Tu donación se procesó exitosamente.</p>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% elif donacion.estado == 'fallida' %}
+                    <div class="bg-gradient-to-r from-red-100 to-pink-100 border border-red-300 rounded-2xl p-6 mb-6 shadow-lg">
+                        <div class="flex items-center justify-center">
+                            <i class="fas fa-exclamation-circle text-3xl text-red-600 mr-4"></i>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold text-red-800">Pago No Procesado</h3>
+                                <p class="text-red-700">Hubo un problema con el procesamiento del pago.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Botón para intentar nuevamente -->
+                    <div class="mb-6">
+                        <a href="{% url 'donaciones:donar' %}" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center">
+                            <i class="fas fa-redo mr-3"></i>
+                            Intentar Nuevamente
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="bg-gradient-to-r from-yellow-100 to-orange-100 border border-yellow-300 rounded-2xl p-6 mb-6 shadow-lg">
+                        <div class="flex items-center justify-center">
+                            <i class="fas fa-clock text-3xl text-yellow-600 mr-4"></i>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold text-yellow-800">Pago Pendiente</h3>
+                                <p class="text-yellow-700">Tu donación está siendo procesada.</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                
+                {% if donacion.estado == 'completada' %}
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Gracias a tu generosidad, podemos seguir rescatando y cuidando perros abandonados.
+                    </p>
+                {% elif donacion.estado == 'fallida' %}
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        No te preocupes, puedes intentar nuevamente o contactarnos si necesitas ayuda. Tu intención de ayudar ya significa mucho para nosotros.
+                    </p>
+                {% else %}
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Tu donación está siendo verificada. Te notificaremos cuando esté confirmada.
+                    </p>
+                {% endif %}
             </div>
+        </div>
 
-            <!-- Impacto de la donación -->
-            <div class="card mb-5 border-info">
-                <div class="card-header bg-info text-white">
-                    <h4 class="mb-0"><i class="fas fa-paw"></i> El Impacto de tu Donación</h4>
-                </div>
-                <div class="card-body">
-                    <p class="text-start">Con tu donación de <strong>${{ donacion.cantidad|floatformat:0 }} CLP</strong> podremos:</p>
-                    <div class="row">
-                        {% if donacion.cantidad >= 10000 and donacion.cantidad < 25000 %}
-                        <div class="col-md-6">
-                            <ul class="text-start">
-                                <li>Alimentar a un perro durante 1 semana</li>
-                                <li>Comprar juguetes y accesorios básicos</li>
-                            </ul>
+        <!-- Detalles de la donación -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-12">
+            <div class="bg-gradient-to-r from-green-500 to-emerald-500 p-6">
+                <h2 class="text-2xl font-bold text-white flex items-center">
+                    <i class="fas fa-receipt mr-3"></i>
+                    Detalles de tu Donación
+                </h2>
+            </div>
+            <div class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-tag text-blue-500 mr-3"></i>
+                            <div>
+                                <span class="text-gray-600">Tipo de donación:</span>
+                                <p class="font-semibold text-gray-800">{{ donacion.tipo_donacion.nombre }}</p>
+                            </div>
                         </div>
-                        {% elif donacion.cantidad >= 25000 and donacion.cantidad < 50000 %}
-                        <div class="col-md-6">
-                            <ul class="text-start">
-                                <li>Alimentar a un perro durante 1 mes</li>
-                                <li>Desparasitación completa</li>
-                                <li>Medicamentos básicos</li>
-                            </ul>
+                        <div class="flex items-center">
+                            <i class="fas fa-dollar-sign text-green-500 mr-3"></i>
+                            <div>
+                                <span class="text-gray-600">Cantidad:</span>
+                                <p class="font-semibold text-gray-800">${{ donacion.cantidad|floatformat:0 }} CLP</p>
+                            </div>
                         </div>
-                        {% elif donacion.cantidad >= 50000 and donacion.cantidad < 100000 %}
-                        <div class="col-md-6">
-                            <ul class="text-start">
-                                <li>Vacunación completa de un perro</li>
-                                <li>Alimentación por 2 meses</li>
-                                <li>Tratamiento veterinario básico</li>
-                            </ul>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar text-purple-500 mr-3"></i>
+                            <div>
+                                <span class="text-gray-600">Fecha:</span>
+                                <p class="font-semibold text-gray-800">{{ donacion.fecha_donacion|date:"d/m/Y H:i" }}</p>
+                            </div>
                         </div>
-                        {% elif donacion.cantidad >= 100000 %}
-                        <div class="col-md-6">
-                            <ul class="text-start">
-                                <li>Esterilización de un perro</li>
-                                <li>Alimentación por 4 meses</li>
-                                <li>Tratamiento médico especializado</li>
-                            </ul>
+                        {% if donacion.authorization_code %}
+                        <div class="flex items-center">
+                            <i class="fas fa-key text-yellow-500 mr-3"></i>
+                            <div>
+                                <span class="text-gray-600">Código de autorización:</span>
+                                <p class="font-semibold text-gray-800">{{ donacion.authorization_code }}</p>
+                            </div>
                         </div>
                         {% endif %}
-                        <div class="col-md-6">
-                            <p class="text-muted fst-italic">
-                                "Cada peso cuenta y hace la diferencia en la vida de nuestros rescatados. 
-                                Gracias por ser parte de nuestra familia."
-                            </p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-user text-indigo-500 mr-3"></i>
+                            <div>
+                                <span class="text-gray-600">Donante:</span>
+                                <p class="font-semibold text-gray-800">
+                                    {% if not donacion.anonimo %}{{ donacion.nombre_donante }}{% else %}Anónimo{% endif %}
+                                </p>
+                            </div>
                         </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            <div>
+                                <span class="text-gray-600">Estado:</span>
+                                <p class="font-semibold">
+                                    {% if donacion.estado == 'completada' %}
+                                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">{{ donacion.get_estado_display }}</span>
+                                    {% elif donacion.estado == 'fallida' %}
+                                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">{{ donacion.get_estado_display }}</span>
+                                    {% else %}
+                                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">{{ donacion.get_estado_display }}</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        {% if donacion.buy_order %}
+                        <div class="flex items-center">
+                            <i class="fas fa-shopping-cart text-orange-500 mr-3"></i>
+                            <div>
+                                <span class="text-gray-600">Orden de compra:</span>
+                                <p class="font-semibold text-gray-800">{{ donacion.buy_order }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% if donacion.mensaje %}
+                <div class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+                    <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                        <i class="fas fa-comment-alt text-blue-500 mr-2"></i>
+                        Tu mensaje:
+                    </h3>
+                    <p class="text-gray-700 italic">"{{ donacion.mensaje }}"</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ¿Qué pasa ahora? -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-12">
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-500 p-6">
+                <h2 class="text-2xl font-bold text-white flex items-center">
+                    <i class="fas fa-question-circle mr-3"></i>
+                    ¿Qué pasa ahora?
+                </h2>
+            </div>
+            <div class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Confirmación por Email -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-envelope text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Confirmación por Email</h3>
+                        <p class="text-gray-600">Recibirás un recibo detallado en tu correo electrónico.</p>
+                    </div>
+                    
+                    <!-- Procesamiento -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-credit-card text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Procesamiento</h3>
+                        <p class="text-gray-600">Tu donación será procesada en las próximas 24-48 horas.</p>
+                    </div>
+                    
+                    <!-- Ayuda Directa -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-dog text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Ayuda Directa</h3>
+                        <p class="text-gray-600">Tu <span class="text-gray-800 font-semibold">contribución</span> se utilizará inmediatamente para el cuidado de nuestros perros.</p>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Acciones adicionales -->
-            <div class="row">
-                <div class="col-12">
-                    <h3 class="mb-4">¿Quieres seguir ayudando?</h3>
-                    <div class="d-flex flex-wrap gap-3 justify-content-center">
-                        <a href="{% url 'adopciones:lista_perros' %}" class="btn btn-primary">
-                            <i class="fas fa-heart"></i> Adoptar un Perro
-                        </a>
-                        <a href="{% url 'core:voluntariado' %}" class="btn btn-outline-primary">
-                            <i class="fas fa-hands-helping"></i> Ser Voluntario
-                        </a>
-                        <a href="{% url 'donaciones:donar' %}" class="btn btn-success">
-                            <i class="fas fa-donate"></i> Donar Nuevamente
-                        </a>
+        <!-- Impacto de tu donación -->
+        <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl shadow-xl p-8 mb-12">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-heart text-purple-500 mr-3"></i>
+                    Con tu donación de <span class="text-purple-600">${{ donacion.cantidad|floatformat:0 }} CLP</span> podremos:
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    <div class="text-center">
+                        <i class="fas fa-syringe text-4xl text-blue-500 mb-4"></i>
+                        <h3 class="font-bold text-gray-800 mb-2">Esterilización de un perro</h3>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    <div class="text-center">
+                        <i class="fas fa-utensils text-4xl text-green-500 mb-4"></i>
+                        <h3 class="font-bold text-gray-800 mb-2">Alimentación por 4 meses</h3>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    <div class="text-center">
+                        <i class="fas fa-stethoscope text-4xl text-red-500 mb-4"></i>
+                        <h3 class="font-bold text-gray-800 mb-2">Tratamiento médico especializado</h3>
                     </div>
                 </div>
             </div>
+            
+            <div class="text-center p-6 bg-white rounded-xl shadow-md">
+                <p class="text-lg text-gray-700 italic">
+                    "Cada peso cuenta y hace la diferencia en la vida de nuestros rescatados. Gracias por ser parte de nuestra familia."
+                </p>
+            </div>
+        </div>
 
-            <!-- Redes sociales -->
-            <div class="mt-5">
-                <h4>Comparte nuestra causa</h4>
-                <p class="text-muted">Ayúdanos a llegar a más personas compartiendo nuestro trabajo en redes sociales.</p>
-                <div class="d-flex gap-3 justify-content-center">
-                    <a href="#" class="btn btn-outline-primary">
-                        <i class="fab fa-facebook"></i> Facebook
+        <!-- ¿Quieres seguir ayudando? -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-12">
+            <div class="bg-gradient-to-r from-emerald-500 to-green-500 p-6">
+                <h2 class="text-2xl font-bold text-white flex items-center">
+                    <i class="fas fa-hands-helping mr-3"></i>
+                    ¿Quieres seguir ayudando?
+                </h2>
+            </div>
+            <div class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <a href="{% url 'adopciones:lista_perros' %}" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center min-h-[60px]">
+                        <i class="fas fa-heart mr-3"></i>
+                        Adoptar un Perro
                     </a>
-                    <a href="#" class="btn btn-outline-danger">
-                        <i class="fab fa-instagram"></i> Instagram
+                    <a href="{% url 'core:voluntariado' %}" class="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center min-h-[60px]">
+                        <i class="fas fa-hands-helping mr-3"></i>
+                        Ser Voluntario
                     </a>
-                    <a href="#" class="btn btn-outline-success">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    <a href="{% url 'donaciones:donar' %}" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center min-h-[60px]">
+                        <i class="fas fa-donate mr-3"></i>
+                        Donar Nuevamente
                     </a>
                 </div>
             </div>
         </div>
+
+        <!-- Redes sociales -->
+        <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl shadow-xl p-8 text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Comparte nuestra causa</h2>
+            <p class="text-gray-600 mb-8">Ayúdanos a llegar a más personas compartiendo nuestro trabajo en redes sociales.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-lg mx-auto">
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center min-h-[48px]">
+                    <i class="fab fa-facebook mr-2"></i>
+                    Facebook
+                </a>
+                <a href="#" class="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center min-h-[48px]">
+                    <i class="fab fa-instagram mr-2"></i>
+                    Instagram
+                </a>
+                <a href="#" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center min-h-[48px]">
+                    <i class="fab fa-whatsapp mr-2"></i>
+                    WhatsApp
+                </a>
+            </div>
+        </div>
     </div>
 </div>
+
+
 {% endblock %}
