@@ -285,11 +285,12 @@
 
                                 <!-- Botón de envío -->
                                 <div class="pt-4">
-                                    <button type="submit" 
-                                            class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-lg">
-                                        <i class="fas fa-heart mr-3"></i>
-                                        Realizar Donación Segura
-                                        <i class="fas fa-shield-alt ml-3"></i>
+                                    <button type="submit" id="btn-donar" 
+                                            class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-lg flex items-center justify-center gap-2">
+                                        <span class="icono-btn"><i class="fas fa-heart mr-3"></i></span>
+                                        <span class="texto-btn">Realizar Donación Segura</span>
+                                        <span class="spinner-btn hidden"><svg class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg></span>
+                                        <span class="icono-shield"><i class="fas fa-shield-alt ml-3"></i></span>
                                     </button>
                                 </div>
                             </form>
@@ -461,17 +462,14 @@ document.addEventListener('DOMContentLoaded', function() {
     donationButtons.forEach(button => {
         button.addEventListener('click', function() {
             const amount = this.dataset.amount;
-            
             // Remover clase active de todos los botones
             donationButtons.forEach(btn => {
                 btn.classList.remove('bg-gradient-to-r', 'from-green-600', 'to-emerald-700', 'text-white', 'border-green-700');
                 btn.classList.add('bg-gradient-to-r', 'from-green-100', 'to-emerald-100', 'text-green-800', 'border-green-200');
             });
-            
             // Agregar clase active al botón clickeado
             this.classList.remove('bg-gradient-to-r', 'from-green-100', 'to-emerald-100', 'text-green-800', 'border-green-200');
             this.classList.add('bg-gradient-to-r', 'from-green-600', 'to-emerald-700', 'text-white', 'border-green-700');
-            
             if (amountInput && amount !== 'custom') {
                 amountInput.value = amount;
             } else if (amountInput && amount === 'custom') {
@@ -479,6 +477,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Feedback visual en el botón de donación
+    const form = document.querySelector('.donation-form form');
+    const btnDonar = document.getElementById('btn-donar');
+    if (form && btnDonar) {
+        form.addEventListener('submit', function() {
+            btnDonar.disabled = true;
+            btnDonar.classList.add('opacity-70', 'cursor-not-allowed');
+            btnDonar.querySelector('.texto-btn').textContent = 'Enviando...';
+            btnDonar.querySelector('.spinner-btn').classList.remove('hidden');
+            btnDonar.querySelector('.icono-btn').classList.add('hidden');
+            btnDonar.querySelector('.icono-shield').classList.add('hidden');
+        });
+    }
 });
 </script>
 {% endblock %}

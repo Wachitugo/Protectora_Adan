@@ -59,7 +59,7 @@ class InformacionAlbergueAdmin(admin.ModelAdmin):
 
 @admin.register(Voluntario)
 class VoluntarioAdmin(admin.ModelAdmin):
-    list_display = ['voluntario_info', 'contacto', 'estado_badges', 'fecha_solicitud']
+    list_display = ['voluntario_info', 'contacto', 'direccion', 'fecha_nacimiento', 'experiencia', 'disponibilidad', 'motivacion', 'estado_badges', 'fecha_solicitud']
     list_filter = ['aprobado', 'activo', 'fecha_solicitud']
     search_fields = ['nombre', 'apellidos', 'email', 'telefono']
     readonly_fields = ['fecha_solicitud']
@@ -69,7 +69,10 @@ class VoluntarioAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('👤 Información Personal', {
-            'fields': ('nombre', 'apellidos', 'email', 'telefono')
+            'fields': ('nombre', 'apellidos', 'email', 'telefono', 'direccion', 'fecha_nacimiento')
+        }),
+        ('💼 Experiencia y Disponibilidad', {
+            'fields': ('experiencia', 'disponibilidad')
         }),
         ('📝 Motivación', {
             'fields': ('motivacion',)

@@ -79,10 +79,12 @@ def gracias(request, donacion_id):
     except Donacion.DoesNotExist:
         return redirect('donaciones:donar')
     
+    from core.models import InformacionAlbergue
+    info_albergue = InformacionAlbergue.objects.first()
     context = {
         'donacion': donacion,
+        'info_albergue': info_albergue,
     }
-    
     return render(request, 'donaciones/gracias.html', context)
 
 def avisos(request):

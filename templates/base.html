@@ -7,6 +7,7 @@
     
     <!-- Favicon -->
     {% load static %}
+    {% now 'Y' as current_year %}
     <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'img/icon.png' %}">
     <link rel="apple-touch-icon" href="{% static 'img/icon.png' %}">
@@ -88,15 +89,21 @@
                 
                 <!-- Social Links -->
                 <div class="hidden md:flex items-center space-x-3">
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-300 transform hover:scale-110">
+                    {% if info_albergue.facebook_url %}
+                    <a href="{{ info_albergue.facebook_url }}" target="_blank" class="text-gray-600 hover:text-blue-600 transition-colors duration-300 transform hover:scale-110">
                         <i class="fab fa-facebook text-lg"></i>
                     </a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-300 transform hover:scale-110">
+                    {% endif %}
+                    {% if info_albergue.instagram_url %}
+                    <a href="{{ info_albergue.instagram_url }}" target="_blank" class="text-gray-600 hover:text-blue-600 transition-colors duration-300 transform hover:scale-110">
                         <i class="fab fa-instagram text-lg"></i>
                     </a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-300 transform hover:scale-110">
+                    {% endif %}
+                    {% if info_albergue.whatsapp %}
+                    <a href="https://wa.me/{{ info_albergue.whatsapp }}" target="_blank" class="text-gray-600 hover:text-blue-600 transition-colors duration-300 transform hover:scale-110">
                         <i class="fab fa-whatsapp text-lg"></i>
                     </a>
+                    {% endif %}
                 </div>
                 
                 <!-- Mobile menu button -->
@@ -109,7 +116,7 @@
         </div>
         
         <!-- Mobile Navigation -->
-        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 shadow-lg max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+    <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 shadow-lg max-h-0 overflow-hidden transition-all duration-300 ease-in-out z-50">
             <div class="px-2 pt-2 pb-3 space-y-1">
                 <a href="{% url 'core:home' %}" class="text-gray-700 hover:bg-gray-100 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300">
                     <i class="fas fa-home mr-2"></i>Inicio
@@ -127,15 +134,21 @@
                     <i class="fas fa-hands-helping mr-2"></i>Voluntariado
                 </a>
                 <div class="flex space-x-4 px-3 py-2">
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">
+                    {% if info_albergue.facebook_url %}
+                    <a href="{{ info_albergue.facebook_url }}" target="_blank" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">
                         <i class="fab fa-facebook text-lg"></i>
                     </a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">
+                    {% endif %}
+                    {% if info_albergue.instagram_url %}
+                    <a href="{{ info_albergue.instagram_url }}" target="_blank" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">
                         <i class="fab fa-instagram text-lg"></i>
                     </a>
-                    <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">
+                    {% endif %}
+                    {% if info_albergue.whatsapp %}
+                    <a href="https://wa.me/{{ info_albergue.whatsapp }}" target="_blank" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">
                         <i class="fab fa-whatsapp text-lg"></i>
                     </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -178,99 +191,6 @@
         {% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Información de la organización -->
-                <div class="col-span-1 lg:col-span-2 ">
-                    <div class="flex items-center space-x-2 mb-4">
-                        <img src="{% static 'img/icon.png' %}" alt="Protectora Adán" class="w-12 h-12 object-contain">
-                        <h3 class="text-2xl font-bold">Protectora Adán</h3>
-                    </div>
-                    <p class="text-gray-300 mb-6 leading-relaxed">
-                        Contribuyendo al bienestar animal desde hace años. Nuestra misión es rescatar, 
-                        cuidar y encontrar hogares amorosos para perros abandonados que necesitan una segunda oportunidad.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="bg-blue-600 hover:bg-blue-500 p-3 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg">
-                            <i class="fab fa-facebook text-xl"></i>
-                        </a>
-                        <a href="#" class="bg-pink-600 hover:bg-pink-500 p-3 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg">
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
-                        <a href="#" class="bg-green-600 hover:bg-green-500 p-3 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg">
-                            <i class="fab fa-whatsapp text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Contacto -->
-                <div class="" style="animation-delay: 0.2s;">
-                    <h4 class="text-xl font-semibold mb-4 text-yellow-400">Contacto</h4>
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-300">
-                            <i class="fas fa-map-marker-alt text-red-400"></i>
-                            <span>Dirección del albergue</span>
-                        </div>
-                        <div class="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-300">
-                            <i class="fas fa-phone text-green-400"></i>
-                            <span>+34 XXX XXX XXX</span>
-                        </div>
-                        <div class="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-300">
-                            <i class="fas fa-envelope text-blue-400"></i>
-                            <span>contacto@protectoraadan.es</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Enlaces rápidos -->
-                <div class="" style="animation-delay: 0.4s;">
-                    <h4 class="text-xl font-semibold mb-4 text-yellow-400">Enlaces Rápidos</h4>
-                    <div class="space-y-2">
-                        <a href="{% url 'core:home' %}" class="block text-gray-300 hover:text-yellow-400 transition-colors duration-300 transform hover:translate-x-1">
-                            <i class="fas fa-chevron-right mr-2 text-xs"></i>Inicio
-                        </a>
-                        <a href="{% url 'adopciones:lista_perros' %}" class="block text-gray-300 hover:text-yellow-400 transition-colors duration-300 transform hover:translate-x-1">
-                            <i class="fas fa-chevron-right mr-2 text-xs"></i>Adoptar
-                        </a>
-                        <a href="{% url 'donaciones:donar' %}" class="block text-gray-300 hover:text-yellow-400 transition-colors duration-300 transform hover:translate-x-1">
-                            <i class="fas fa-chevron-right mr-2 text-xs"></i>Donar
-                        </a>
-                        <a href="{% url 'core:voluntariado' %}" class="block text-gray-300 hover:text-yellow-400 transition-colors duration-300 transform hover:translate-x-1">
-                            <i class="fas fa-chevron-right mr-2 text-xs"></i>Voluntariado
-                        </a>
-                        <a href="#" class="block text-gray-300 hover:text-yellow-400 transition-colors duration-300 transform hover:translate-x-1">
-                            <i class="fas fa-chevron-right mr-2 text-xs"></i>Política de Privacidad
-                        </a>
-                    </div>
-                    
-                    <div class="mt-6">
-                        <a href="{% url 'donaciones:donar' %}" class="inline-flex items-center bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-gray-900 px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-                            <i class="fas fa-heart mr-2"></i>
-                            Donar Ahora
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-700 mt-8 pt-8">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <p class="text-gray-400 text-sm">
-                        &copy; <span id="current-year"></span> Protectora Adán. Todos los derechos reservados.
-                    </p>
-                    <div class="flex space-x-6 mt-4 md:mt-0">
-                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition-colors duration-300">
-                            Política de Privacidad
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-yellow-400 text-sm transition-colors duration-300">
-                            Términos de Uso
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <!-- JavaScript -->
     <script>
@@ -373,6 +293,57 @@
         // Observer deshabilitado - animaciones removidas
     </script>
     
+    <!-- Footer principal único -->
+    <footer class="bg-gray-900 text-gray-200 py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="{% static 'img/icon.png' %}" alt="Protectora Adán" class="w-10 h-10 object-contain">
+                    <span class="font-bold text-2xl">Protectora Adán</span>
+                </div>
+                <p class="mb-6 text-gray-300">Contribuyendo al bienestar animal desde hace años. Nuestra misión es rescatar, cuidar y encontrar hogares amorosos para perros abandonados que necesitan una segunda oportunidad.</p>
+                <div class="flex gap-4">
+                    {% if info_albergue.facebook_url %}
+                    <a href="{{ info_albergue.facebook_url }}" target="_blank" class="bg-[#1877f3] hover:bg-[#145dc2] text-white rounded-full w-14 h-14 flex items-center justify-center text-2xl shadow-md transition-all duration-200">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    {% endif %}
+                    {% if info_albergue.instagram_url %}
+                    <a href="{{ info_albergue.instagram_url }}" target="_blank" style="background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);" class="hover:opacity-90 text-white rounded-full w-14 h-14 flex items-center justify-center text-2xl shadow-md transition-all duration-200">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    {% endif %}
+                    {% if info_albergue.whatsapp %}
+                    <a href="https://wa.me/{{ info_albergue.whatsapp }}" target="_blank" class="bg-[#25d366] hover:bg-[#1da851] text-white rounded-full w-14 h-14 flex items-center justify-center text-2xl shadow-md transition-all duration-200">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mt-8 md:mt-0">
+                <h4 class="text-lg font-bold text-yellow-400 mb-4">Contacto</h4>
+                <ul class="space-y-2 text-gray-300">
+                    <!-- Dirección oculta por privacidad -->
+                    <li><i class="fas fa-phone mr-2 text-green-400"></i> {{ info_albergue.telefono|default:'+34 XXX XXX XXX' }}</li>
+                    <li><i class="fas fa-envelope mr-2 text-blue-400"></i> {{ info_albergue.email|default:'contacto@protectoraadan.es' }}</li>
+                </ul>
+            </div>
+            <div class="mt-8 md:mt-0">
+                <h4 class="text-lg font-bold text-yellow-400 mb-4">Enlaces Rápidos</h4>
+                <ul class="space-y-2">
+                    <li><a href="/" class="hover:underline text-gray-300"><i class="fas fa-angle-right mr-2"></i>Inicio</a></li>
+                    <li><a href="{% url 'adopciones:lista_perros' %}" class="hover:underline text-gray-300"><i class="fas fa-angle-right mr-2"></i>Adoptar</a></li>
+                    <li><a href="{% url 'donaciones:donar' %}" class="hover:underline text-gray-300"><i class="fas fa-angle-right mr-2"></i>Donar</a></li>
+                    <li><a href="{% url 'core:voluntariado' %}" class="hover:underline text-gray-300"><i class="fas fa-angle-right mr-2"></i>Voluntariado</a></li>
+                </ul>
+                <a href="{% url 'donaciones:donar' %}" class="mt-6 inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold px-6 py-3 rounded-full shadow-lg transition-all duration-200 text-lg"><i class="fas fa-heart mr-2"></i>Donar Ahora</a>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400 text-sm">
+            &copy; {{ current_year }} Protectora Adán. Todos los derechos reservados.
+        </div>
+    </footer>
+
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}"></script>
     

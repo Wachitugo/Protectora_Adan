@@ -69,61 +69,59 @@
 
 <!-- Avisos Importantes -->
 {% if avisos %}
-<section class="bg-gradient-to-r from-orange-50 to-yellow-50 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="relative">
-            <div id="avisos-carousel" class="overflow-hidden">
-                <div id="avisos-track" class="flex transition-transform duration-500 ease-in-out">
+<section class="py-8" style="background:#3b5cff;">
+    <div class="max-w-4xl mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-8 text-center drop-shadow-lg tracking-tight">
+            <i class="fas fa-bullhorn mr-2"></i>
+            Avisos importantes
+        </h2>
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl" style="background:rgba(0,0,0,0.08);">
+            <div id="avisos-carousel" class="relative">
+                <div id="avisos-track" class="flex transition-transform duration-500 ease-in-out" style="min-height:340px;">
                     {% for aviso in avisos %}
-                    <div class="w-full flex-shrink-0">
-                        <div class="{% if aviso.tipo == 'urgente' %}bg-gradient-to-r from-red-500 to-red-600 text-white{% elif aviso.tipo == 'importante' %}bg-gradient-to-r from-amber-500 to-orange-500 text-white{% elif aviso.tipo == 'evento' %}bg-gradient-to-r from-blue-500 to-indigo-600 text-white{% else %}bg-gradient-to-r from-green-500 to-emerald-600 text-white{% endif %} rounded-2xl shadow-lg p-6">
-                            <div class="flex flex-col lg:flex-row items-start lg:items-center gap-6">
-                                {% if aviso.imagen %}
-                                <div class="flex-shrink-0">
-                                    <img src="{{ aviso.imagen.url }}" alt="{{ aviso.titulo }}" 
-                                         class="w-20 h-20 lg:w-24 lg:h-24 rounded-xl object-cover shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <div class="w-full flex-shrink-0 flex items-center justify-center">
+                        <div class="relative w-full h-[340px] flex items-center justify-center 
+                            {% if not aviso.imagen %}
+                                {% if aviso.tipo == 'urgente' %}bg-gradient-to-r from-red-500 to-red-600
+                                {% elif aviso.tipo == 'importante' %}bg-gradient-to-r from-amber-500 to-orange-500
+                                {% elif aviso.tipo == 'evento' %}bg-gradient-to-r from-blue-500 to-indigo-600
+                                {% else %}bg-gradient-to-r from-green-500 to-emerald-600
+                                {% endif %}
+                            {% else %}bg-black/10{% endif %}">
+                            {% if aviso.imagen %}
+                            <img src="{{ aviso.imagen.url }}" alt="{{ aviso.titulo }}" class="absolute inset-0 w-full h-full object-cover object-center opacity-80"/>
+                            {% endif %}
+                            <div class="relative z-10 flex flex-col items-center justify-center w-full h-full px-8">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <i class="fas fa-info-circle text-white text-xl"></i>
+                                    <span class="bg-white/80 text-gray-900 font-bold px-3 py-1 rounded text-sm tracking-wide shadow">{% if aviso.tipo == 'urgente' %}🚨 URGENTE{% elif aviso.tipo == 'importante' %}⚠️ IMPORTANTE{% elif aviso.tipo == 'evento' %}📅 EVENTO{% else %}ℹ️ INFORMACIÓN{% endif %}</span>
+                                </div>
+                                <h3 class="text-3xl font-bold text-white text-center drop-shadow mb-2">{{ aviso.titulo }}</h3>
+                                <p class="text-white/90 text-lg text-center drop-shadow mb-4">{{ aviso.contenido|truncatewords:25 }}</p>
+                                {% if aviso.fecha_vencimiento %}
+                                <div class="flex items-center justify-center text-white/80">
+                                    <i class="fas fa-clock mr-2"></i>
+                                    <span class="text-sm">Válido hasta el {{ aviso.fecha_vencimiento|date:"d/m/Y" }}</span>
                                 </div>
                                 {% endif %}
-                                
-                                <div class="flex-1">
-                                    <div class="flex flex-wrap items-center gap-3 mb-3">
-                                        <div class="flex items-center">
-                                            {% if aviso.tipo == 'urgente' %}
-                                            <i class="fas fa-exclamation-triangle text-2xl mr-3"></i>
-                                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold">🚨 URGENTE</span>
-                                            {% elif aviso.tipo == 'importante' %}
-                                            <i class="fas fa-info-circle text-2xl mr-3"></i>
-                                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold">⚠️ IMPORTANTE</span>
-                                            {% elif aviso.tipo == 'evento' %}
-                                            <i class="fas fa-calendar-alt text-2xl mr-3"></i>
-                                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold">📅 EVENTO</span>
-                                            {% else %}
-                                            <i class="fas fa-bullhorn text-2xl mr-3"></i>
-                                            <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold">ℹ️ INFORMACIÓN</span>
-                                            {% endif %}
-                                        </div>
-                                        <h3 class="text-xl lg:text-2xl font-bold">{{ aviso.titulo }}</h3>
-                                    </div>
-                                    
-                                    <p class="text-white/90 text-lg mb-3 leading-relaxed">{{ aviso.contenido|truncatewords:25 }}</p>
-                                    
-                                    {% if aviso.fecha_vencimiento %}
-                                    <div class="flex items-center text-white/80">
-                                        <i class="fas fa-clock mr-2"></i>
-                                        <span class="text-sm">Válido hasta el {{ aviso.fecha_vencimiento|date:"d/m/Y" }}</span>
-                                    </div>
-                                    {% endif %}
-                                </div>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
+                {% if avisos|length > 1 %}
+                <button id="aviso-prev" class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-5xl font-bold bg-transparent border-none p-0 m-0 z-20 hover:scale-125 transition-transform duration-200 focus:outline-none">
+                    <span class="sr-only">Anterior</span>
+                    &#10094;
+                </button>
+                <button id="aviso-next" class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-5xl font-bold bg-transparent border-none p-0 m-0 z-20 hover:scale-125 transition-transform duration-200 focus:outline-none">
+                    <span class="sr-only">Siguiente</span>
+                    &#10095;
+                </button>
+                {% endif %}
             </div>
-            
-            <!-- Indicadores -->
             {% if avisos|length > 1 %}
-            <div class="flex justify-center mt-6 space-x-2">
+            <div class="flex justify-center mt-6 space-x-2 pb-4">
                 {% for aviso in avisos %}
                 <button class="aviso-indicator w-3 h-3 rounded-full transition-all duration-300 {% if forloop.first %}bg-gray-600{% else %}bg-gray-300{% endif %}" 
                         data-slide="{{ forloop.counter0 }}"></button>
@@ -471,36 +469,51 @@
 </section>
 
 <script>
-// Avisos Carousel
+</script>
+<script>
+// Avisos Carousel estilo slider visual
 document.addEventListener('DOMContentLoaded', function() {
     const avisosTrack = document.getElementById('avisos-track');
     const indicators = document.querySelectorAll('.aviso-indicator');
-    
+    const btnPrev = document.getElementById('aviso-prev');
+    const btnNext = document.getElementById('aviso-next');
+    let currentSlide = 0;
+    const totalSlides = indicators.length;
+    function goToSlide(slideIndex) {
+        currentSlide = (slideIndex + totalSlides) % totalSlides;
+        const translateX = -currentSlide * 100;
+        avisosTrack.style.transform = `translateX(${translateX}%)`;
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('bg-gray-600', index === currentSlide);
+            indicator.classList.toggle('bg-gray-300', index !== currentSlide);
+        });
+    }
     if (avisosTrack && indicators.length > 1) {
-        let currentSlide = 0;
-        const totalSlides = indicators.length;
-        
-        function goToSlide(slideIndex) {
-            currentSlide = slideIndex;
-            const translateX = -slideIndex * 100;
-            avisosTrack.style.transform = `translateX(${translateX}%)`;
-            
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('bg-gray-600', index === slideIndex);
-                indicator.classList.toggle('bg-gray-300', index !== slideIndex);
-            });
-        }
-        
         // Auto advance
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            goToSlide(currentSlide);
+        let interval = setInterval(() => {
+            goToSlide(currentSlide + 1);
         }, 6000);
-        
         // Indicator clicks
         indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => goToSlide(index));
+            indicator.addEventListener('click', () => {
+                goToSlide(index);
+                clearInterval(interval);
+                interval = setInterval(() => goToSlide(currentSlide + 1), 6000);
+            });
         });
+        // Prev/Next buttons
+        if (btnPrev && btnNext) {
+            btnPrev.addEventListener('click', () => {
+                goToSlide(currentSlide - 1);
+                clearInterval(interval);
+                interval = setInterval(() => goToSlide(currentSlide + 1), 6000);
+            });
+            btnNext.addEventListener('click', () => {
+                goToSlide(currentSlide + 1);
+                clearInterval(interval);
+                interval = setInterval(() => goToSlide(currentSlide + 1), 6000);
+            });
+        }
     }
 });
 </script>
