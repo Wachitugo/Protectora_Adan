@@ -71,6 +71,21 @@ DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL)
 }
 
+# Optimizaciones para SQLite en producción
+if 'sqlite' in DATABASES['default']['ENGINE']:
+    DATABASES['default']['OPTIONS'] = {
+        'timeout': 30,  # Timeout para conexiones
+        'init_command': '''
+            PRAGMA foreign_keys=ON;
+            PRAGMA journal_mode=WAL;
+            PRAGMA synchronous=NORMAL;
+            PRAGMA temp_store=MEMORY;
+            PRAGMA cache_size=8000;
+            PRAGMA mmap_size=268435456;
+        ''',
+        'check_same_thread': False,
+    }
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {

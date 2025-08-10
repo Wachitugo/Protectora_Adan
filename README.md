@@ -1,6 +1,24 @@
 # 🐕 Protectora Adán - Landing Page
 
-Una landing page completa para el albergue de perros "Protectora Adán", desarrollada con Django y Docker, con sistema de donaciones WebPay integrado.
+Una landing page completa para el albergue de perros "Protectora Adán", desarrollada con Django y Docker, con siste## 🔧 Configuración
+
+### 🗄️ Base de Datos SQLite
+
+La aplicación utiliza **SQLite optimizada para producción** con las siguientes ventajas:
+- **Simplicidad**: Sin servidor de BD separado
+- **Rendimiento**: Optimizada para aplicaciones medianas
+- **Backup**: Simple copia de archivo
+- **Costo**: Sin gastos adicionales de hosting
+
+#### Optimizaciones Implementadas:
+- **WAL Mode**: Mejor concurrencia para lecturas
+- **Cache optimizado**: 8MB de cache para mejor rendimiento
+- **Memory mapping**: 256MB para acceso rápido
+- **Timeouts configurados**: Evita bloqueos
+
+> 📚 Ver documentación completa en `docs/SQLITE_PRODUCTION.md`
+
+### Variables de Entornode donaciones WebPay integrado.
 
 ## 🌟 Características
 
@@ -24,7 +42,7 @@ Una landing page completa para el albergue de perros "Protectora Adán", desarro
 ### Tecnologías Utilizadas
 - **Backend**: Django 4.2.7
 - **Pagos**: WebPay de Transbank (transbank-sdk 6.1.0)
-- **Base de Datos**: PostgreSQL / SQLite (desarrollo)
+- **Base de Datos**: SQLite (optimizada para producción)
 - **Frontend**: Bootstrap 5, HTML5, CSS3, JavaScript
 - **Formularios**: Django Crispy Forms con Bootstrap 5
 - **Contenedores**: Docker y Docker Compose
