@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const animatedElements = document.querySelectorAll('.card, .alert, .btn-lg');
     animatedElements.forEach(el => observer.observe(el));
 
-    // Auto-hide alerts después de 5 segundos
-    const alerts = document.querySelectorAll('.alert:not(.alert-permanent)');
+    // Auto-hide alerts después de 5 segundos (excepto las del carrusel)
+    const alerts = document.querySelectorAll('.alert:not(.alert-permanent):not(#carouselAvisos .alert)');
     alerts.forEach(alert => {
         setTimeout(() => {
             if (alert.parentNode) {
@@ -49,6 +49,93 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 5000);
     });
+
+    // Inicializar carrusel de avisos - SIEMPRE VISIBLE
+    const avisoCarousel = document.querySelector('#carouselAvisos');
+    if (avisoCarousel) {
+        // Asegurar que el carrusel SIEMPRE esté visible
+        avisoCarousel.style.display = 'block !important';
+        avisoCarousel.style.visibility = 'visible !important';
+        avisoCarousel.style.opacity = '1 !important';
+        
+        // Remover todos los botones de cerrar del carrusel
+        const closeButtons = avisoCarousel.querySelectorAll('.btn-close, [data-bs-dismiss="alert"]');
+        closeButtons.forEach(btn => btn.remove());
+        
+        // Asegurar que todas las alertas del carrusel sean permanentes
+        const carouselAlerts = avisoCarousel.querySelectorAll('.alert');
+        carouselAlerts.forEach(alert => {
+            alert.classList.remove('alert-dismissible');
+            alert.classList.add('show');
+            alert.style.display = 'block !important';
+            alert.style.opacity = '1 !important';
+            
+            // Prevenir cualquier evento de cierre
+            alert.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+        
+        // Inicializar Bootstrap carousel con configuración mejorada
+        const carousel = new bootstrap.Carousel(avisoCarousel, {
+            interval: 6000,  // 6 segundos entre slides
+            wrap: true,
+            pause: 'hover',
+            touch: true,
+            keyboard: true
+        });
+
+        // Controles táctiles para móvil
+        let startX = 0;
+        let endX = 0;
+        
+        avisoCarousel.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+        });
+        
+        avisoCarousel.addEventListener('touchend', function(e) {
+            endX = e.changedTouches[0].clientX;
+            const threshold = 50;
+            
+            if (startX - endX > threshold) {
+                carousel.next();
+            } else if (endX - startX > threshold) {
+                carousel.prev();
+            }
+        });
+
+        // Pausar solo en desktop al hacer hover
+        if (window.innerWidth > 768) {
+            avisoCarousel.addEventListener('mouseenter', function() {
+                carousel.pause();
+            });
+
+            avisoCarousel.addEventListener('mouseleave', function() {
+                carousel.cycle();
+            });
+        }
+        
+        // Asegurar que el carrusel no se pueda ocultar por JavaScript
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && 
+                    (mutation.attributeName === 'style' || mutation.attributeName === 'class')) {
+                    if (avisoCarousel.style.display === 'none' || 
+                        avisoCarousel.style.visibility === 'hidden' ||
+                        avisoCarousel.style.opacity === '0') {
+                        avisoCarousel.style.display = 'block';
+                        avisoCarousel.style.visibility = 'visible';
+                        avisoCarousel.style.opacity = '1';
+                    }
+                }
+            });
+        });
+        
+        observer.observe(avisoCarousel, {
+            attributes: true,
+            attributeFilter: ['style', 'class']
+        });
+    }
 
     // Form validation feedback
     const forms = document.querySelectorAll('form');

@@ -205,6 +205,23 @@ http://localhost:8000/donaciones/webpay/test/
 http://localhost:8000/donaciones/donar/
 ```
 
+### 🛠️ Mantenimiento de SQLite
+
+Para optimizar y mantener la base de datos:
+
+```bash
+# Ejecutar mantenimiento (backup + optimización)
+python scripts/sqlite_maintenance.py
+
+# El script automáticamente:
+# - Crea backup con timestamp
+# - Verifica integridad
+# - Optimiza la base de datos (VACUUM + ANALYZE)
+# - Muestra estadísticas
+```
+
+**Recomendación**: Ejecutar mensualmente o cuando la BD supere 100MB.
+
 ## 📊 Modelos de Datos
 
 ### Perro

@@ -30,6 +30,20 @@
         flex-basis: 100% !important;
     }
 }
+
+/* Mejorar botones de redes sociales en pantallas pequeñas */
+@media (max-width: 576px) {
+    .d-flex.flex-wrap.gap-2 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    
+    .d-flex.flex-wrap.gap-2 .btn {
+        width: 100% !important;
+        margin-bottom: 0.5rem !important;
+        justify-content: flex-start !important;
+    }
+}
 </style>
 {% endblock %}
 
@@ -137,27 +151,21 @@
                     
                     <div class="mb-3">
                         <h6><i class="fas fa-share-alt"></i> Síguenos en Redes</h6>
-                        <div class="d-flex gap-3">
+                        <div class="d-flex flex-wrap gap-2">
                             {% if info_albergue.facebook_url %}
-                            <a href="{{ info_albergue.facebook_url }}" target="_blank" class="btn btn-outline-primary">
+                            <a href="{{ info_albergue.facebook_url }}" target="_blank" class="btn btn-outline-primary btn-sm">
                                 <i class="fab fa-facebook"></i> Facebook
                             </a>
                             {% endif %}
                             
                             {% if info_albergue.instagram_url %}
-                            <a href="{{ info_albergue.instagram_url }}" target="_blank" class="btn btn-outline-danger">
+                            <a href="{{ info_albergue.instagram_url }}" target="_blank" class="btn btn-outline-danger btn-sm">
                                 <i class="fab fa-instagram"></i> Instagram
                             </a>
                             {% endif %}
                             
-                            {% if info_albergue.twitter_url %}
-                            <a href="{{ info_albergue.twitter_url }}" target="_blank" class="btn btn-outline-info">
-                                <i class="fab fa-twitter"></i> Twitter
-                            </a>
-                            {% endif %}
-                            
                             {% if info_albergue.whatsapp %}
-                            <a href="https://wa.me/{{ info_albergue.whatsapp }}" target="_blank" class="btn btn-outline-success">
+                            <a href="https://wa.me/{{ info_albergue.whatsapp }}" target="_blank" class="btn btn-outline-success btn-sm">
                                 <i class="fab fa-whatsapp"></i> WhatsApp
                             </a>
                             {% endif %}
