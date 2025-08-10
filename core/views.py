@@ -52,11 +52,17 @@ def about(request):
 def voluntariado(request):
     """Vista para el formulario de voluntariado"""
     if request.method == 'POST':
+        print(f"=== POST REQUEST RECEIVED ===")
+        print(f"POST data: {dict(request.POST)}")
         form = VoluntarioForm(request.POST)
         if form.is_valid():
-            form.save()
+            volunteer = form.save()
+            print(f"SUCCESS: Volunteer saved with ID {volunteer.id}")
             messages.success(request, '¡Gracias por tu interés! Hemos recibido tu solicitud de voluntariado.')
             return redirect('core:voluntariado')
+        else:
+            print(f"FORM ERRORS: {form.errors}")
+            messages.error(request, 'Por favor corrige los errores en el formulario.')
     else:
         form = VoluntarioForm()
     

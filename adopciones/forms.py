@@ -31,6 +31,17 @@ class SolicitudAdopcionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+        # Configurar el campo vivienda_tipo
+        self.fields['vivienda_tipo'].choices = [('', 'Selecciona tipo de vivienda')] + list(SolicitudAdopcion.VIVIENDA_TIPO_CHOICES)
+        
+        # Configurar el campo patio
+        self.fields['patio'].choices = [('', 'Selecciona una opción')] + list(SolicitudAdopcion.PATIO_CHOICES)
+        
+        # Asegurar que los campos son requeridos
+        self.fields['vivienda_tipo'].required = True
+        self.fields['patio'].required = True
+        
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'nombre_solicitante',
@@ -44,6 +55,26 @@ class SolicitudAdopcionForm(forms.ModelForm):
             'otros_animales',
             Submit('submit', 'Enviar Solicitud', css_class='btn btn-primary w-full')
         )
+
+    def clean_patio(self):
+        """Validar que el campo patio tenga un valor válido"""
+        patio = self.cleaned_data.get('patio')
+        valid_choices = [choice[0] for choice in SolicitudAdopcion.PATIO_CHOICES]
+        
+        if patio and patio not in valid_choices:
+            raise forms.ValidationError('Por favor, selecciona una opción válida para el patio.')
+        
+        return patio
+
+    def clean_vivienda_tipo(self):
+        """Validar que el campo vivienda_tipo tenga un valor válido"""
+        vivienda_tipo = self.cleaned_data.get('vivienda_tipo')
+        valid_choices = [choice[0] for choice in SolicitudAdopcion.VIVIENDA_TIPO_CHOICES]
+        
+        if vivienda_tipo and vivienda_tipo not in valid_choices:
+            raise forms.ValidationError('Por favor, selecciona un tipo de vivienda válido.')
+        
+        return vivienda_tipo
 
 class FiltroPerrosForm(forms.Form):
     TAMANO_CHOICES = [('', 'Todos')] + Perro.TAMANO_CHOICES

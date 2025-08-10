@@ -58,13 +58,14 @@
                     </p>
                 </div>
                 
-                <div class="bg-white rounded-2xl shadow-xl p-8">
-                    <h4 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-                        <i class="fas fa-file-alt text-pink-500"></i>
-                        Formulario de Solicitud
-                    </h4>
-                    {% load crispy_forms_tags %}
-                    <div class="adoption-form">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div class="bg-gradient-to-r from-pink-500 to-orange-500 p-6">
+                        <h2 class="text-2xl font-bold text-white flex items-center">
+                            <i class="fas fa-heart mr-3"></i>
+                            Formulario de Solicitud de Adopción
+                        </h2>
+                    </div>
+                    <div class="p-8">
                         <form method="post" class="space-y-6">
                             {% csrf_token %}
                             
@@ -74,29 +75,84 @@
                                     <i class="fas fa-user text-blue-500"></i>
                                     Información Personal
                                 </h5>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="form-group">
-                                        {{ form.nombre_solicitante.label_tag }}
-                                        {{ form.nombre_solicitante }}
+                                
+                                <!-- Nombre y Email -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="space-y-2">
+                                        <label for="{{ form.nombre_solicitante.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                            <i class="fas fa-user mr-2 text-blue-500"></i>
+                                            {{ form.nombre_solicitante.label }}
+                                        </label>
+                                        <input type="text" name="{{ form.nombre_solicitante.name }}" id="{{ form.nombre_solicitante.id_for_label }}" 
+                                               value="{{ form.nombre_solicitante.value|default:'' }}"
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white shadow-sm transition-all duration-200 hover:border-pink-400"
+                                               placeholder="Tu nombre completo" required>
+                                        {% if form.nombre_solicitante.errors %}
+                                            <div class="text-red-500 text-sm">{{ form.nombre_solicitante.errors.0 }}</div>
+                                        {% endif %}
                                     </div>
-                                    <div class="form-group">
-                                        {{ form.email.label_tag }}
-                                        {{ form.email }}
+                                    
+                                    <div class="space-y-2">
+                                        <label for="{{ form.email.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                            <i class="fas fa-envelope mr-2 text-purple-500"></i>
+                                            {{ form.email.label }}
+                                        </label>
+                                        <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" 
+                                               value="{{ form.email.value|default:'' }}"
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white shadow-sm transition-all duration-200 hover:border-pink-400"
+                                               placeholder="tucorreo@ejemplo.com" required>
+                                        {% if form.email.errors %}
+                                            <div class="text-red-500 text-sm">{{ form.email.errors.0 }}</div>
+                                        {% endif %}
                                     </div>
                                 </div>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="form-group">
-                                        {{ form.telefono.label_tag }}
-                                        {{ form.telefono }}
+                                
+                                <!-- Teléfono y Tipo de Vivienda -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="space-y-2">
+                                        <label for="{{ form.telefono.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                            <i class="fas fa-phone mr-2 text-green-500"></i>
+                                            {{ form.telefono.label }}
+                                        </label>
+                                        <input type="tel" name="{{ form.telefono.name }}" id="{{ form.telefono.id_for_label }}" 
+                                               value="{{ form.telefono.value|default:'' }}"
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white shadow-sm transition-all duration-200 hover:border-pink-400"
+                                               placeholder="+56 9 1234 5678" required>
+                                        {% if form.telefono.errors %}
+                                            <div class="text-red-500 text-sm">{{ form.telefono.errors.0 }}</div>
+                                        {% endif %}
                                     </div>
-                                    <div class="form-group">
-                                        {{ form.vivienda_tipo.label_tag }}
-                                        {{ form.vivienda_tipo }}
+                                    
+                                    <div class="space-y-2">
+                                        <label for="{{ form.vivienda_tipo.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                            <i class="fas fa-home mr-2 text-indigo-500"></i>
+                                            {{ form.vivienda_tipo.label }}
+                                        </label>
+                                        <select name="{{ form.vivienda_tipo.name }}" id="{{ form.vivienda_tipo.id_for_label }}" 
+                                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white shadow-sm transition-all duration-200 hover:border-pink-400"
+                                                required>
+                                            {% for value, label in form.vivienda_tipo.field.choices %}
+                                                <option value="{{ value }}" {% if form.vivienda_tipo.value == value %}selected{% endif %}>{{ label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {% if form.vivienda_tipo.errors %}
+                                            <div class="text-red-500 text-sm">{{ form.vivienda_tipo.errors.0 }}</div>
+                                        {% endif %}
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    {{ form.direccion.label_tag }}
-                                    {{ form.direccion }}
+                                
+                                <!-- Dirección -->
+                                <div class="space-y-2">
+                                    <label for="{{ form.direccion.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                        <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>
+                                        {{ form.direccion.label }}
+                                    </label>
+                                    <textarea name="{{ form.direccion.name }}" id="{{ form.direccion.id_for_label }}" rows="3"
+                                              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white shadow-sm transition-all duration-200 hover:border-pink-400 resize-none"
+                                              placeholder="Tu dirección completa" required>{{ form.direccion.value|default:'' }}</textarea>
+                                    {% if form.direccion.errors %}
+                                        <div class="text-red-500 text-sm">{{ form.direccion.errors.0 }}</div>
+                                    {% endif %}
                                 </div>
                             </div>
 
@@ -106,29 +162,77 @@
                                     <i class="fas fa-paw text-orange-500"></i>
                                     Información sobre la Mascota
                                 </h5>
-                                <div class="form-group">
-                                    {{ form.patio.label_tag }}
-                                    {{ form.patio }}
+                                
+                                <!-- ¿Tienes patio? -->
+                                <div class="space-y-2">
+                                    <label for="{{ form.patio.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                        <i class="fas fa-tree mr-2 text-green-500"></i>
+                                        {{ form.patio.label }}
+                                    </label>
+                                    <select name="{{ form.patio.name }}" id="{{ form.patio.id_for_label }}" 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white shadow-sm transition-all duration-200 hover:border-pink-400"
+                                            required>
+                                        <option value="">Selecciona una opción</option>
+                                        <option value="si" {% if form.patio.value == 'si' %}selected{% endif %}>Sí, tengo patio</option>
+                                        <option value="no" {% if form.patio.value == 'no' %}selected{% endif %}>No tengo patio</option>
+                                        <option value="pequeño" {% if form.patio.value == 'pequeño' %}selected{% endif %}>Tengo un patio pequeño</option>
+                                        <option value="grande" {% if form.patio.value == 'grande' %}selected{% endif %}>Tengo un patio grande</option>
+                                    </select>
+                                    {% if form.patio.errors %}
+                                        <div class="text-red-500 text-sm">{{ form.patio.errors.0 }}</div>
+                                    {% endif %}
                                 </div>
-                                <div class="form-group">
-                                    {{ form.experiencia_mascotas.label_tag }}
-                                    {{ form.experiencia_mascotas }}
+                                
+                                <!-- Experiencia con mascotas -->
+                                <div class="space-y-2">
+                                    <label for="{{ form.experiencia_mascotas.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                        <i class="fas fa-award mr-2 text-yellow-500"></i>
+                                        {{ form.experiencia_mascotas.label }}
+                                    </label>
+                                    <textarea name="{{ form.experiencia_mascotas.name }}" id="{{ form.experiencia_mascotas.id_for_label }}" rows="4"
+                                              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white shadow-sm transition-all duration-200 hover:border-pink-400 resize-none"
+                                              placeholder="Describe tu experiencia previa con mascotas..." required>{{ form.experiencia_mascotas.value|default:'' }}</textarea>
+                                    {% if form.experiencia_mascotas.errors %}
+                                        <div class="text-red-500 text-sm">{{ form.experiencia_mascotas.errors.0 }}</div>
+                                    {% endif %}
                                 </div>
-                                <div class="form-group">
-                                    {{ form.motivo_adopcion.label_tag }}
-                                    {{ form.motivo_adopcion }}
+                                
+                                <!-- Motivo de adopción -->
+                                <div class="space-y-2">
+                                    <label for="{{ form.motivo_adopcion.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                        <i class="fas fa-heart mr-2 text-pink-500"></i>
+                                        {{ form.motivo_adopcion.label }}
+                                    </label>
+                                    <textarea name="{{ form.motivo_adopcion.name }}" id="{{ form.motivo_adopcion.id_for_label }}" rows="4"
+                                              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white shadow-sm transition-all duration-200 hover:border-pink-400 resize-none"
+                                              placeholder="¿Por qué quieres adoptar a {{ perro.nombre }}?" required>{{ form.motivo_adopcion.value|default:'' }}</textarea>
+                                    {% if form.motivo_adopcion.errors %}
+                                        <div class="text-red-500 text-sm">{{ form.motivo_adopcion.errors.0 }}</div>
+                                    {% endif %}
                                 </div>
-                                <div class="form-group">
-                                    {{ form.otros_animales.label_tag }}
-                                    {{ form.otros_animales }}
+                                
+                                <!-- Otros animales -->
+                                <div class="space-y-2">
+                                    <label for="{{ form.otros_animales.id_for_label }}" class="block text-sm font-semibold text-gray-700">
+                                        <i class="fas fa-paw mr-2 text-blue-500"></i>
+                                        {{ form.otros_animales.label }}
+                                    </label>
+                                    <textarea name="{{ form.otros_animales.name }}" id="{{ form.otros_animales.id_for_label }}" rows="3"
+                                              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white shadow-sm transition-all duration-200 hover:border-pink-400 resize-none"
+                                              placeholder="¿Tienes otras mascotas? Describe su edad, raza y carácter">{{ form.otros_animales.value|default:'' }}</textarea>
+                                    {% if form.otros_animales.errors %}
+                                        <div class="text-red-500 text-sm">{{ form.otros_animales.errors.0 }}</div>
+                                    {% endif %}
                                 </div>
                             </div>
 
                             <!-- Botón de envío -->
-                            <div class="text-center pt-6">
-                                <button type="submit" class="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                            <div class="pt-6">
+                                <button type="submit" 
+                                        class="w-full bg-gradient-to-r from-pink-600 to-orange-600 hover:from-pink-700 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 text-lg">
                                     <i class="fas fa-heart mr-3"></i>
-                                    Enviar Solicitud de Adopción
+                                    Enviar Solicitud de Adopción para {{ perro.nombre }}
+                                    <i class="fas fa-paper-plane ml-3"></i>
                                 </button>
                             </div>
                         </form>
@@ -228,119 +332,4 @@
         </div>
     </div>
 </div>
-
-<style>
-/* Estilos personalizados para el formulario de adopción */
-.adoption-form .form-group {
-    margin-bottom: 1.5rem;
-    width: 100%;
-}
-
-.adoption-form label {
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 0.5rem;
-    display: block;
-    font-size: 0.95rem;
-    width: 100%;
-}
-
-.adoption-form input,
-.adoption-form textarea,
-.adoption-form select {
-    width: 100% !important;
-    max-width: 100%;
-    padding: 0.75rem 1rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 0.75rem;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background-color: white;
-    font-family: inherit;
-    line-height: 1.5;
-    min-height: 48px;
-    box-sizing: border-box;
-    display: block;
-}
-
-/* Asegurar que los divs contenedores también tengan ancho completo */
-.adoption-form .form-group,
-.adoption-form .controls,
-.adoption-form .field-wrapper {
-    width: 100% !important;
-    max-width: 100%;
-}
-
-/* Eliminar cualquier columna de Bootstrap que pueda estar afectando */
-.adoption-form .col-md-6,
-.adoption-form .col-sm-6,
-.adoption-form [class*="col-"] {
-    width: 100% !important;
-    flex: none !important;
-    max-width: 100% !important;
-}
-
-.adoption-form input:focus,
-.adoption-form textarea:focus,
-.adoption-form select:focus {
-    outline: none;
-    border-color: #f59e0b;
-    background-color: white;
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
-}
-
-.adoption-form textarea {
-    resize: vertical;
-    min-height: 120px;
-    line-height: 1.6;
-}
-
-.adoption-form select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.75rem center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-    padding-right: 2.5rem;
-    cursor: pointer;
-}
-
-/* Estilos para campos de tipo específico */
-.adoption-form input[type="email"],
-.adoption-form input[type="tel"],
-.adoption-form input[type="text"] {
-    height: 48px;
-}
-
-.adoption-form input[type="checkbox"] {
-    width: auto;
-    height: auto;
-    min-height: auto;
-    margin-right: 0.5rem;
-    transform: scale(1.2);
-}
-
-/* Mejoras para elementos de error */
-.adoption-form .errorlist {
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 0 0;
-}
-
-.adoption-form .errorlist li {
-    color: #ef4444;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-}
-
-/* Estilos para campos requeridos */
-.adoption-form label[for] {
-    position: relative;
-}
-
-.adoption-form .required label::after {
-    content: ' *';
-    color: #ef4444;
-    font-weight: bold;
-}
-</style>
 {% endblock %}

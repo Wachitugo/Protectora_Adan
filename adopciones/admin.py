@@ -119,8 +119,8 @@ class PerroAdmin(admin.ModelAdmin):
 
 @admin.register(SolicitudAdopcion)
 class SolicitudAdopcionAdmin(admin.ModelAdmin):
-    list_display = ['solicitante_info', 'perro_link', 'contacto', 'vivienda_info', 'estado_badge', 'fecha_solicitud']
-    list_filter = ['estado', 'fecha_solicitud', 'patio', 'otros_animales']
+    list_display = ['solicitante_info', 'perro_link', 'perro_estado', 'contacto', 'vivienda_info', 'patio_info', 'estado_badge', 'fecha_solicitud']
+    list_filter = ['estado', 'fecha_solicitud', 'vivienda_tipo', 'patio', 'perro__estado']
     search_fields = ['nombre_solicitante', 'email', 'perro__nombre', 'telefono']
     readonly_fields = ['fecha_solicitud']
     actions = ['aprobar_solicitudes', 'rechazar_solicitudes', 'marcar_en_revision']
@@ -163,6 +163,21 @@ class SolicitudAdopcionAdmin(admin.ModelAdmin):
     perro_link.short_description = "Perro"
     perro_link.admin_order_field = 'perro__nombre'
     
+    def perro_estado(self, obj):
+        colors = {
+            'disponible': '#10b981',
+            'adoptado': '#3b82f6', 
+            'en_proceso': '#f59e0b',
+        }
+        color = colors.get(obj.perro.estado, '#6b7280')
+        return format_html(
+            '<span style="background: {}; color: white; padding: 2px 6px; border-radius: 8px; font-size: 11px; font-weight: 500;">{}</span>',
+            color,
+            obj.perro.get_estado_display()
+        )
+    perro_estado.short_description = "Estado del Perro"
+    perro_estado.admin_order_field = 'perro__estado'
+    
     def contacto(self, obj):
         return format_html(
             '<div style="font-size: 12px;">'
@@ -175,23 +190,105 @@ class SolicitudAdopcionAdmin(admin.ModelAdmin):
     contacto.short_description = "Contacto"
     
     def vivienda_info(self, obj):
-        patio_icon = "🏡" if obj.patio else "🏢"
-        # Usar try/except para compatibilidad con datos existentes
         try:
-            vivienda_display = obj.get_vivienda_tipo_display()
+            vivienda_display = obj.get_vivienda_tipo_display() if obj.vivienda_tipo else "No especificado"
         except:
-            vivienda_display = obj.vivienda_tipo
+            vivienda_display = obj.vivienda_tipo or "No especificado"
+        
+        otros_animales = "Sí" if obj.otros_animales and obj.otros_animales.strip() else "No"
+        
+        return format_html(
+            '<div style="font-size: 12px;">'
+            '<div>🏠 {}</div>'
+            '<div>🐕 Otros: {}</div>'
+            '</div>',
+            vivienda_display,
+            otros_animales
+        )
+    vivienda_info.short_description = "Vivienda"
+    
+    def patio_info(self, obj):
+        # Determinar icono del patio basado en la opción seleccionada
+        patio_icons = {
+            'si': '🏡',
+            'no': '🏢', 
+            'pequeño': '🏘️',
+            'grande': '🏞️'
+        }
+        patio_icon = patio_icons.get(obj.patio, '❓')
+        
+        # Usar get_patio_display() que obtiene directamente del modelo
+        if obj.patio:
+            try:
+                patio_display = obj.get_patio_display()
+            except:
+                # Mapeo manual de opciones de patio (coincide exactamente con PATIO_CHOICES)
+                patio_mapping = {
+                    'si': 'Sí, tengo patio',
+                    'no': 'No tengo patio',
+                    'pequeño': 'Tengo un patio pequeño',
+                    'grande': 'Tengo un patio grande'
+                }
+                patio_display = patio_mapping.get(obj.patio, obj.patio)
+        else:
+            patio_display = "No especificado"
         
         return format_html(
             '<div style="font-size: 12px;">'
             '<div>{} {}</div>'
-            '<div>Otros animales: {}</div>'
             '</div>',
             patio_icon,
-            vivienda_display,
-            "Sí" if obj.otros_animales else "No"
+            patio_display
         )
-    vivienda_info.short_description = "Vivienda"
+    patio_info.short_description = "Patio"
+
+    def vivienda_patio_info(self, obj):
+        # Determinar icono del patio basado en la opción seleccionada
+        patio_icons = {
+            'si': '🏡',
+            'no': '🏢', 
+            'pequeño': '🏘️',
+            'grande': '🏞️'
+        }
+        patio_icon = patio_icons.get(obj.patio, '❓')
+        
+        # Mostrar información de vivienda
+        try:
+            vivienda_display = obj.get_vivienda_tipo_display() if obj.vivienda_tipo else "No especificado"
+        except:
+            vivienda_display = obj.vivienda_tipo or "No especificado"
+        
+        # Mostrar información de patio
+        if obj.patio:
+            try:
+                patio_display = obj.get_patio_display()
+            except:
+                # Mapeo manual de opciones de patio (coincide exactamente con PATIO_CHOICES)
+                patio_mapping = {
+                    'si': 'Sí, tengo patio',
+                    'no': 'No tengo patio',
+                    'pequeño': 'Tengo un patio pequeño',
+                    'grande': 'Tengo un patio grande'
+                }
+                patio_display = patio_mapping.get(obj.patio, obj.patio)
+        else:
+            patio_display = "No especificado"
+        
+        # Verificar otros animales
+        otros_animales = "Sí" if obj.otros_animales and obj.otros_animales.strip() else "No"
+        
+        return format_html(
+            '<div style="font-size: 12px;">'
+            '<div>🏠 <strong>Vivienda:</strong> {}</div>'
+            '<div>{} <strong>Patio:</strong> {}</div>'
+            '<div>🐕 <strong>Otros animales:</strong> {}</div>'
+            '</div>',
+            vivienda_display,
+            patio_icon,
+            patio_display,
+            otros_animales
+        )
+    vivienda_patio_info.short_description = "Vivienda y Patio"
     
     def estado_badge(self, obj):
         colors = {
@@ -210,9 +307,25 @@ class SolicitudAdopcionAdmin(admin.ModelAdmin):
     estado_badge.admin_order_field = 'estado'
     
     def aprobar_solicitudes(self, request, queryset):
-        updated = queryset.update(estado='aprobada')
-        self.message_user(request, f'✅ {updated} solicitud(es) aprobada(s).')
-    aprobar_solicitudes.short_description = "✅ Aprobar solicitudes"
+        aprobadas = 0
+        perros_adoptados = []
+        
+        for solicitud in queryset:
+            if solicitud.estado != 'aprobada':
+                solicitud.estado = 'aprobada'
+                solicitud.save()  # Esto activará la señal automáticamente
+                aprobadas += 1
+                perros_adoptados.append(solicitud.perro.nombre)
+        
+        if aprobadas > 0:
+            mensaje = f'✅ {aprobadas} solicitud(es) aprobada(s).'
+            if perros_adoptados:
+                mensaje += f' Los perros {", ".join(perros_adoptados)} han sido marcados como adoptados automáticamente.'
+            self.message_user(request, mensaje)
+        else:
+            self.message_user(request, 'No había solicitudes pendientes para aprobar.')
+            
+    aprobar_solicitudes.short_description = "✅ Aprobar solicitudes (marca perro como adoptado)"
     
     def rechazar_solicitudes(self, request, queryset):
         updated = queryset.update(estado='rechazada')

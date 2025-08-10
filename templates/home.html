@@ -10,7 +10,7 @@
     
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="text-center lg:text-left animate-fade-in-up">
+            <div class="text-center lg:text-left">
                 <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
                     <span class="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
                         Protectora
@@ -39,18 +39,18 @@
                     </a>
                 </div>
             </div>
-            <div class="text-center lg:text-right animate-fade-in-right">
+            <div class="text-center lg:text-right">
                 <div class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-3xl transform rotate-3 scale-105 opacity-20 animate-pulse-slow"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-3xl transform rotate-3 scale-105 opacity-20"></div>
                     <img src="{% static 'img/hero-dog.jpg' %}" 
                          alt="Perro feliz" 
                          class="relative rounded-3xl shadow-2xl max-w-full h-auto transform hover:scale-105 transition-transform duration-500 hover:shadow-3xl">
                 </div>
                 <!-- Floating Elements -->
-                <div class="absolute top-10 right-10 bg-yellow-400 text-gray-900 p-3 rounded-full shadow-lg animate-float">
+                <div class="absolute top-10 right-10 bg-yellow-400 text-gray-900 p-3 rounded-full shadow-lg">
                     <i class="fas fa-paw text-2xl"></i>
                 </div>
-                <div class="absolute bottom-10 left-10 bg-pink-500 text-white p-3 rounded-full shadow-lg animate-float" style="animation-delay: 1s;">
+                <div class="absolute bottom-10 left-10 bg-pink-500 text-white p-3 rounded-full shadow-lg">
                     <i class="fas fa-heart text-xl"></i>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                 <div id="avisos-track" class="flex transition-transform duration-500 ease-in-out">
                     {% for aviso in avisos %}
                     <div class="w-full flex-shrink-0">
-                        <div class="{% if aviso.tipo == 'urgente' %}bg-gradient-to-r from-red-500 to-red-600 text-white{% elif aviso.tipo == 'importante' %}bg-gradient-to-r from-amber-500 to-orange-500 text-white{% elif aviso.tipo == 'evento' %}bg-gradient-to-r from-blue-500 to-indigo-600 text-white{% else %}bg-gradient-to-r from-green-500 to-emerald-600 text-white{% endif %} rounded-2xl shadow-lg p-6 animate-fade-in">
+                        <div class="{% if aviso.tipo == 'urgente' %}bg-gradient-to-r from-red-500 to-red-600 text-white{% elif aviso.tipo == 'importante' %}bg-gradient-to-r from-amber-500 to-orange-500 text-white{% elif aviso.tipo == 'evento' %}bg-gradient-to-r from-blue-500 to-indigo-600 text-white{% else %}bg-gradient-to-r from-green-500 to-emerald-600 text-white{% endif %} rounded-2xl shadow-lg p-6">
                             <div class="flex flex-col lg:flex-row items-start lg:items-center gap-6">
                                 {% if aviso.imagen %}
                                 <div class="flex-shrink-0">
@@ -89,7 +89,7 @@
                                     <div class="flex flex-wrap items-center gap-3 mb-3">
                                         <div class="flex items-center">
                                             {% if aviso.tipo == 'urgente' %}
-                                            <i class="fas fa-exclamation-triangle text-2xl mr-3 animate-pulse"></i>
+                                            <i class="fas fa-exclamation-triangle text-2xl mr-3"></i>
                                             <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold">🚨 URGENTE</span>
                                             {% elif aviso.tipo == 'importante' %}
                                             <i class="fas fa-info-circle text-2xl mr-3"></i>
@@ -138,7 +138,7 @@
 <!-- Perros Destacados -->
 <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16 animate-fade-in-up">
+        <div class="text-center mb-16">
             <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                 Adopciones 
                 <span class="bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">Recientes</span>
@@ -150,7 +150,7 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for perro in perros_destacados %}
-            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-fade-in-up overflow-hidden" style="animation-delay: {{ forloop.counter0|add:'0' }}00ms;">
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden">
                 <div class="relative overflow-hidden">
                     {% if perro.imagen %}
                     <img src="{{ perro.imagen.url }}" 
@@ -164,7 +164,7 @@
                     
                     <!-- Status Badge -->
                     <div class="absolute top-4 right-4">
-                        <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg animate-pulse">
+                        <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
                             {{ perro.get_estado_display }}
                         </span>
                     </div>
@@ -219,7 +219,7 @@
             {% endfor %}
         </div>
         
-        <div class="text-center mt-12 animate-fade-in-up" style="animation-delay: 600ms;">
+        <div class="text-center mt-12">
             <a href="{% url 'adopciones:lista_perros' %}" 
                class="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                 <i class="fas fa-heart mr-3"></i>

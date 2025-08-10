@@ -132,11 +132,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Loading state for buttons (exclude filter forms and donation forms)
+    // Loading state for buttons (exclude filter forms, donation forms, and volunteer forms)
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     submitButtons.forEach(button => {
         button.addEventListener('click', function() {
             const form = this.closest('form');
+            
+            // Skip volunteer forms entirely - they have special class
+            if (form && form.classList.contains('volunteer-form')) {
+                return; // Don't interfere with volunteer forms at all
+            }
+            
             // Skip filter forms - they should submit immediately
             if (form && form.action && form.action.includes('adopciones')) {
                 return; // Don't interfere with adoption filter forms
@@ -144,6 +150,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Skip donation forms - they need to redirect to WebPay
             if (form && form.action && form.action.includes('donaciones')) {
                 return; // Don't interfere with donation forms
+            }
+            // Skip volunteer forms - they need to submit normally (backup check)
+            if (form && form.action && form.action.includes('voluntariado')) {
+                return; // Don't interfere with volunteer forms
             }
             if (form && form.checkValidity()) {
                 this.disabled = true;
@@ -316,10 +326,17 @@ const initFormAnimations = () => {
         }
     });
     
-    // Animación para botones de submit
+    // Animación para botones de submit (exclude volunteer forms)
     const submitButtons = document.querySelectorAll('button[type="submit"], input[type="submit"]');
     submitButtons.forEach(button => {
         button.addEventListener('click', function() {
+            const form = this.closest('form');
+            
+            // Skip volunteer forms entirely - they have special class
+            if (form && form.classList.contains('volunteer-form')) {
+                return; // Don't add animations to volunteer forms
+            }
+            
             if (!this.disabled) {
                 this.classList.add('btn-loading');
                 

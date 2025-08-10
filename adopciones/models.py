@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
 
 class Perro(models.Model):
     TAMANO_CHOICES = [
@@ -61,6 +63,21 @@ class SolicitudAdopcion(models.Model):
         ('rechazada', 'Rechazada'),
     ]
     
+    VIVIENDA_TIPO_CHOICES = [
+        ('casa', 'Casa'),
+        ('apartamento', 'Apartamento'),
+        ('duplex', 'Dúplex'),
+        ('parcela', 'Parcela'),
+        ('otro', 'Otro'),
+    ]
+    
+    PATIO_CHOICES = [
+        ('si', 'Sí, tengo patio'),
+        ('no', 'No tengo patio'),
+        ('pequeño', 'Tengo un patio pequeño'),
+        ('grande', 'Tengo un patio grande'),
+    ]
+    
     perro = models.ForeignKey(Perro, on_delete=models.CASCADE, related_name='solicitudes')
     nombre_solicitante = models.CharField(max_length=100)
     email = models.EmailField()
@@ -68,9 +85,9 @@ class SolicitudAdopcion(models.Model):
     direccion = models.TextField()
     experiencia_mascotas = models.TextField()
     motivo_adopcion = models.TextField()
-    vivienda_tipo = models.CharField(max_length=100)
-    patio = models.BooleanField(default=False)
-    otros_animales = models.BooleanField(default=False, help_text="¿Tiene otros animales en casa?")
+    vivienda_tipo = models.CharField(max_length=20, choices=VIVIENDA_TIPO_CHOICES)
+    patio = models.CharField(max_length=20, choices=PATIO_CHOICES)
+    otros_animales = models.TextField(blank=True, help_text="Describe otros animales en casa")
     estado = models.CharField(max_length=15, choices=ESTADO_SOLICITUD_CHOICES, default='pendiente')
     fecha_solicitud = models.DateTimeField(auto_now_add=True)
     notas_admin = models.TextField(blank=True)
@@ -96,3 +113,46 @@ class FiltroAdopcion(models.Model):
     class Meta:
         verbose_name = "Filtro de adopción"
         verbose_name_plural = "Filtros de adopción"
+
+
+# Señales para actualizar automáticamente el estado del perro
+@receiver(post_save, sender=SolicitudAdopcion)
+def actualizar_estado_perro(sender, instance, created, **kwargs):
+    """
+    Actualiza automáticamente el estado del perro cuando se aprueba una solicitud de adopción
+    """
+    if instance.estado == 'aprobada':
+        # Marcar el perro como adoptado
+        perro = instance.perro
+        if perro.estado != 'adoptado':
+            perro.estado = 'adoptado'
+            perro.save()
+            
+        # Rechazar automáticamente otras solicitudes pendientes para el mismo perro
+        otras_solicitudes = SolicitudAdopcion.objects.filter(
+            perro=perro,
+            estado__in=['pendiente', 'en_revision']
+        ).exclude(id=instance.id)
+        
+        if otras_solicitudes.exists():
+            otras_solicitudes.update(estado='rechazada')
+    
+    elif instance.estado in ['pendiente', 'en_revision']:
+        # Si la solicitud vuelve a pendiente o revisión, marcar perro como en proceso
+        perro = instance.perro
+        if perro.estado == 'disponible':
+            perro.estado = 'en_proceso'
+            perro.save()
+    
+    elif instance.estado == 'rechazada':
+        # Si se rechaza esta solicitud, verificar si hay otras solicitudes activas
+        perro = instance.perro
+        solicitudes_activas = SolicitudAdopcion.objects.filter(
+            perro=perro,
+            estado__in=['pendiente', 'en_revision', 'aprobada']
+        ).exclude(id=instance.id)
+        
+        # Si no hay otras solicitudes activas, marcar perro como disponible
+        if not solicitudes_activas.exists():
+            perro.estado = 'disponible'
+            perro.save()

@@ -76,13 +76,31 @@ def solicitar_adopcion(request, perro_id):
     perro = get_object_or_404(Perro, id=perro_id, estado='disponible')
     
     if request.method == 'POST':
+        # Debug: imprimir datos POST
+        print("=== DEBUG POST DATA ===")
+        for key, value in request.POST.items():
+            print(f"{key}: {value}")
+        print("=========================")
+        
         form = SolicitudAdopcionForm(request.POST)
         if form.is_valid():
             solicitud = form.save(commit=False)
             solicitud.perro = perro
             solicitud.save()
+            
+            # Debug: imprimir datos guardados
+            print("=== DEBUG DATOS GUARDADOS ===")
+            print(f"Vivienda tipo: {solicitud.vivienda_tipo}")
+            print(f"Patio: {solicitud.patio}")
+            print("==============================")
+            
             messages.success(request, f'¡Hemos recibido tu solicitud para adoptar a {perro.nombre}! Te contactaremos pronto.')
             return redirect('adopciones:detalle_perro', perro_id=perro.id)
+        else:
+            # Debug: imprimir errores del formulario
+            print("=== DEBUG ERRORES FORMULARIO ===")
+            print(form.errors)
+            print("=================================")
     else:
         form = SolicitudAdopcionForm()
     
